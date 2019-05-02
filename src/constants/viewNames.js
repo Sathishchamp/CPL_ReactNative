@@ -1,0 +1,12 @@
+export const VIEW_NAV_HOME = 'homeNavigator';
+export const VIEW_NAV_MATCHES = 'matchesNavigator';
+export const VIEW_NAV_NEWS = 'newsNavigator';
+export const VIEW_NAV_VIDEOS = 'videosNavigator';
+export const VIEW_NAV_MORE = 'moreNavigator';
+export const VIEW_HOME = 'home';
+export const VIEW_MATCHES = 'matches';
+export const VIEW_NEWS = 'news';
+export const VIEW_VIDEOS = 'videos';
+export const VIEW_MORE = 'more';
+export const VIEW_HOME_NEWS_VIEW = 'homeNewsView';
+export const VIEW_NEWS_NEWS_VIEW = 'newsNewsView';

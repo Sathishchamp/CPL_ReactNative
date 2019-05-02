@@ -1,0 +1,1 @@
+export const NEWS_URL = 'https://www.cplt20.com/news/rss.xml';
