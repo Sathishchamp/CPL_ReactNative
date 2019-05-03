@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, RefreshControl } from 'react-native';
 import { Container, Content, Text } from 'native-base';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -18,26 +18,31 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      spinner: false
+      spinner: false,
+      refreshing: false
     };
   }
 
   componentDidMount() {
     if (isNullOrEmpty(this.props.news)) {
       this.setState({ spinner: true }, () => {
-        APIService.getNewsFeed(xmlData => {
-          XMLParser.parseString(xmlData, (err, jsonData) => {
-            let newsItems = jsonData.rss.channel[0].item;
-            newsItems = newsItems.map(item => ({
-              title: item.title[0],
-              pubDate: item.pubDate[0],
-              description: item.description[0]
-            }));
-            this._createNewsData(newsItems);
-          });
-        });
+        this._fetchData();
       });
     }
+  }
+
+  _fetchData() {
+    APIService.getNewsFeed(xmlData => {
+      XMLParser.parseString(xmlData, (err, jsonData) => {
+        let newsItems = jsonData.rss.channel[0].item;
+        newsItems = newsItems.map(item => ({
+          title: item.title[0],
+          pubDate: item.pubDate[0],
+          description: item.description[0]
+        }));
+        this._createNewsData(newsItems);
+      });
+    });
   }
 
   _createNewsData(newsItems) {
@@ -56,7 +61,7 @@ class Home extends React.Component {
       };
     });
     this.props.setNewsData(newsData);
-    this.setState({ spinner: false });
+    this.setState({ spinner: false, refreshing: false });
   }
 
   _renderSpinner() {
@@ -65,11 +70,22 @@ class Home extends React.Component {
     );
   }
 
+  _onRefresh() {
+    this.setState({ refreshing: true }, () => this._fetchData());
+  }
+
   render() {
     return (
       <Container>
         <Header title={HOME} />
-        <Content>
+        <Content
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={() => this._onRefresh()}
+            />
+          }
+        >
           <View>
             <NewsCoverList
               data={this.props.news.slice(0, 5)}
