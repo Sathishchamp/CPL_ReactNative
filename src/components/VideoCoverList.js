@@ -9,9 +9,10 @@ export default props => (
       showsHorizontalScrollIndicator={false}
       renderItem={({ item }) => (
         <VideoCover
-          image={item.image}
-          text={item.text}
-          onPress={() => props.onItemPress(item.id)}
+          thumbnail={item.thumbnail}
+          title={item.title}
+          publishedAt={item.publishedAt}
+          onPress={() => props.onItemPress(item.videoId)}
         />
       )}
       keyExtractor={(item, index) => index}

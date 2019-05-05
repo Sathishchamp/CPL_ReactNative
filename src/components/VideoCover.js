@@ -8,27 +8,42 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { Icon } from 'native-base';
+import { SHADOW_COLOR } from '../config/colors';
+import moment from 'moment';
 
 const SCREEN_W = Dimensions.get('screen').width;
 
 export default props => {
+  const { thumbnail, onPress, videoId, title, publishedAt } = props;
+  const pubDateString = moment(new Date(props.publishedAt)).format(
+    'ddd, DD MMM YYYY HH:mm:ss'
+  );
   return (
-    <TouchableOpacity onPress={() => props.onPress()}>
+    <TouchableOpacity onPress={() => onPress(videoId)}>
       <View style={[styles.videoCover, styles.coverFullWidth]}>
         <ImageBackground
-          source={{ uri: props.image }}
-          resizeMode='cover'
+          source={{ uri: thumbnail }}
+          resizeMode="cover"
           style={[styles.image, styles.imageFullWidth]}
         >
           <Icon
-            name='youtube'
-            type='MaterialCommunityIcons'
+            name="youtube"
+            type="MaterialCommunityIcons"
             style={styles.youtubeIcon}
           />
         </ImageBackground>
-        <Text style={styles.videoText} numberOfLines={1} ellipsizeMode='tail'>
-          {props.text}
-        </Text>
+        <View style={{ flex: 2, flexDirection: 'column' }}>
+          <Text style={styles.videoText} numberOfLines={1} ellipsizeMode="tail">
+            {title}
+          </Text>
+          <Text
+            style={styles.pubDateText}
+            numberOfLines={1}
+            ellipsizeMode="tail"
+          >
+            {pubDateString}
+          </Text>
+        </View>
       </View>
     </TouchableOpacity>
   );
@@ -46,14 +61,19 @@ const styles = StyleSheet.create({
     elevation: 4,
     shadowOffset: { height: 4, width: 4 },
     shadowOpacity: 0.8,
-    shadowColor: 'grey'
+    shadowColor: SHADOW_COLOR
   },
   image: {
     flex: 5,
-    borderTopLeftRadius: 5,
-    borderTopRightRadius: 5
+    borderRadius: 5,
+    overflow: 'hidden'
   },
   videoText: {
+    flex: 1,
+    margin: 5,
+    fontSize: 12
+  },
+  pubDateText: {
     flex: 1,
     margin: 5,
     fontSize: 12
@@ -68,7 +88,7 @@ const styles = StyleSheet.create({
   },
   youtubeIcon: {
     flex: 1,
-    color: 'white',
+    color: '#c4302b',
     alignSelf: 'center',
     fontSize: 60,
     marginTop: SCREEN_W * 0.124

@@ -8,3 +8,5 @@ export const BACKGROUND = '#F5FDFB';
 export const GREY_1 = '#616161';
 export const ICON_ACTIVE = '#0AB59A';
 export const ICON_INACTIVE = '#bdbdbd';
+
+export const SHADOW_COLOR = 'lightgrey';

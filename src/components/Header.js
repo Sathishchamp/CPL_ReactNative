@@ -5,7 +5,7 @@ import { PRIMARY, WHITE } from '../config/colors';
 
 export default props => (
   <Header style={styles.header}>
-    <StatusBar backgroundColor={PRIMARY} />
+    <StatusBar backgroundColor={PRIMARY} barStyle='light-content' />
     <Left />
     <Body style={styles.body}>
       <Title style={styles.title}>{props.title}</Title>

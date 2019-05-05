@@ -1,1 +1,2 @@
 export const ACTION_SET_NEWS_DATA = 'SET_NEWS_DATA';
+export const ACTION_SET_VIDEO_DATA = 'SET_VIDEO_DATA';

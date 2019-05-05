@@ -24,7 +24,7 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
-    if (isNullOrEmpty(this.props.news)) {
+    if (isNullOrEmpty(this.props.news) || isNullOrEmpty(this.props.videos)) {
       this.setState({ spinner: true }, () => {
         this._fetchData();
       });
@@ -32,36 +32,53 @@ class Home extends React.Component {
   }
 
   _fetchData() {
-    APIService.getNewsFeed(xmlData => {
-      XMLParser.parseString(xmlData, (err, jsonData) => {
-        let newsItems = jsonData.rss.channel[0].item;
-        newsItems = newsItems.map(item => ({
-          title: item.title[0],
-          pubDate: item.pubDate[0],
-          description: item.description[0]
-        }));
-        this._createNewsData(newsItems);
+    const newsPromise = new Promise((resolve, reject) => {
+      APIService.getNewsFeed(xmlData => {
+        XMLParser.parseString(xmlData, (err, jsonData) => {
+          let newsItems = jsonData.rss.channel[0].item;
+          newsItems = newsItems.map(item => ({
+            title: item.title[0],
+            pubDate: item.pubDate[0],
+            description: item.description[0]
+          }));
+          const newsData = newsItems.map(item => {
+            const { title, pubDate, description } = item;
+            return {
+              image: description
+                .match('src="(.*?)"')[0]
+                .slice(4)
+                .replace(/"/g, ''),
+              title,
+              pubDate,
+              description
+            };
+          });
+          resolve(newsData);
+        });
       });
     });
-  }
 
-  _createNewsData(newsItems) {
-    //title, pubDate, image, description
-    let image = newsItems[0];
-    const newsData = newsItems.map(item => {
-      const { title, pubDate, description } = item;
-      return {
-        image: description
-          .match('src="(.*?)"')[0]
-          .slice(4)
-          .replace(/"/g, ''),
-        title,
-        pubDate,
-        description
-      };
+    const videosPromise = new Promise((resolve, reject) => {
+      APIService.getVideosFeed(playlistData => {
+        const items = playlistData.items;
+        const videoData = items.map(item => {
+          const { publishedAt, resourceId, thumbnails, title } = item.snippet;
+          return {
+            title,
+            publishedAt,
+            videoId: resourceId.videoId,
+            thumbnail: thumbnails.high.url
+          };
+        });
+        resolve(videoData);
+      });
     });
-    this.props.setNewsData(newsData);
-    this.setState({ spinner: false, refreshing: false });
+
+    Promise.all([newsPromise, videosPromise]).then(data => {
+      this.props.setNewsData(data[0]);
+      this.props.setVideoData(data[1]);
+      this.setState({ spinner: false, refreshing: false });
+    });
   }
 
   _renderSpinner() {
@@ -98,8 +115,8 @@ class Home extends React.Component {
             />
             <Text style={{ margin: 10, fontWeight: '500' }}>Top Stories</Text>
             <VideoCoverList
-              data={this.state.news}
-              onItemPress={id => alert(id)}
+              data={this.props.videos}
+              onItemPress={videoId => {}}
             />
           </View>
           {this._renderSpinner()}
@@ -111,7 +128,8 @@ class Home extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  news: state.news
+  news: state.news,
+  videos: state.videos
 });
 
 export default connect(

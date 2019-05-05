@@ -8,6 +8,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 import moment from 'moment';
+import { SHADOW_COLOR } from '../config/colors';
 
 const SCREEN_W = Dimensions.get('screen').width;
 
@@ -18,18 +19,20 @@ export default props => {
     coverWidth = styles.coverFullWidth;
     imageWidth = styles.imageFullWidth;
   }
-  let pubDateString = moment(new Date(props.pubDate)).format(
+  const pubDateString = moment(new Date(props.pubDate)).format(
     'ddd, DD MMM YYYY HH:mm:ss'
   );
   return (
     <TouchableOpacity onPress={() => props.onPress()}>
       <View style={[styles.newsCover, coverWidth]}>
-        <Image
-          source={{ uri: props.image }}
-          resizeMode='cover'
-          style={[styles.image, imageWidth]}
-        />
-        <Text style={styles.newsText} numberOfLines={2} ellipsizeMode='tail'>
+        <View style={styles.imageView}>
+          <Image
+            source={{ uri: props.image }}
+            resizeMode="cover"
+            style={[imageWidth, styles.image]}
+          />
+        </View>
+        <Text style={styles.newsText} numberOfLines={2} ellipsizeMode="tail">
           {props.title}
         </Text>
         <Text style={styles.pubDateText}>{pubDateString}</Text>
@@ -50,10 +53,15 @@ const styles = StyleSheet.create({
     elevation: 4,
     shadowOffset: { height: 4, width: 4 },
     shadowOpacity: 0.8,
-    shadowColor: 'grey'
+    shadowColor: SHADOW_COLOR
+  },
+  imageView: {
+    borderRadius: 5,
+    flex: 9,
+    overflow: 'hidden'
   },
   image: {
-    flex: 9,
+    flex: 1,
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5
   },
