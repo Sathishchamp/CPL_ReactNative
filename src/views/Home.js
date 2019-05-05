@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import * as Actions from '../actions';
 import { isNullOrEmpty } from '../utils';
 import Spinner from 'react-native-loading-spinner-overlay';
+import { YouTubeStandaloneIOS } from 'react-native-youtube';
 
 class Home extends React.Component {
   constructor(props) {
@@ -115,8 +116,12 @@ class Home extends React.Component {
             />
             <Text style={{ margin: 10, fontWeight: '500' }}>Top Stories</Text>
             <VideoCoverList
-              data={this.props.videos}
-              onItemPress={videoId => {}}
+              data={this.props.videos.slice(0, 5)}
+              onItemPress={videoId => {
+                YouTubeStandaloneIOS.playVideo(videoId)
+                  .then(() => console.log('Standalone Player Exited'))
+                  .catch(errorMessage => console.error(errorMessage));
+              }}
             />
           </View>
           {this._renderSpinner()}

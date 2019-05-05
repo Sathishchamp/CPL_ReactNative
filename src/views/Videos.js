@@ -3,11 +3,12 @@ import { View, StyleSheet, RefreshControl } from 'react-native';
 import { Container, Content, Text } from 'native-base';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { VIEW_VIDEOS } from '../constants/viewNames';
+import { VIEW_VIDEOS, VIEW_VIDEOS_VIDEOS_VIEW } from '../constants/viewNames';
 import { VIDEOS } from '../constants/strings';
 import VideoCoverList from '../components/VideoCoverList';
 import { connect } from 'react-redux';
 import * as Actions from '../actions';
+import { YouTubeStandaloneIOS } from 'react-native-youtube';
 
 class Videos extends React.Component {
   constructor(props) {
@@ -51,7 +52,11 @@ class Videos extends React.Component {
           <View>
             <VideoCoverList
               data={this.props.videos}
-              onItemPress={videoId => alert(videoId)}
+              onItemPress={videoId => {
+                YouTubeStandaloneIOS.playVideo(videoId)
+                  .then(() => console.log('Standalone Player Exited'))
+                  .catch(errorMessage => console.error(errorMessage));
+              }}
             />
           </View>
         </Content>
