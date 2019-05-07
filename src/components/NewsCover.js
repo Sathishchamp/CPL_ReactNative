@@ -8,7 +8,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 import moment from 'moment';
-import { SHADOW_COLOR } from '../config/colors';
+import { SHADOW_COLOR, CARD_BG_COLOR, CARD_TEXT_COLOR } from '../config/colors';
 
 const SCREEN_W = Dimensions.get('screen').width;
 
@@ -32,10 +32,12 @@ export default props => {
             style={[imageWidth, styles.image]}
           />
         </View>
-        <Text style={styles.newsText} numberOfLines={2} ellipsizeMode="tail">
-          {props.title}
-        </Text>
-        <Text style={styles.pubDateText}>{pubDateString}</Text>
+        <View style={{ flex: 3, justifyContent: 'center', paddingTop: 5 }}>
+          <Text style={styles.newsText} numberOfLines={2} ellipsizeMode="tail">
+            {props.title}
+          </Text>
+          <Text style={styles.pubDateText}>{pubDateString}</Text>
+        </View>
       </View>
     </TouchableOpacity>
   );
@@ -48,12 +50,12 @@ const styles = StyleSheet.create({
     margin: 15,
     marginLeft: 8,
     marginRight: 8,
-    backgroundColor: 'white',
+    backgroundColor: CARD_BG_COLOR,
     borderRadius: 5,
     elevation: 4,
     shadowOffset: { height: 4, width: 4 },
-    shadowOpacity: 0.8,
-    shadowColor: SHADOW_COLOR
+    shadowOpacity: 0.8
+    // shadowColor: SHADOW_COLOR
   },
   imageView: {
     borderRadius: 5,
@@ -66,19 +68,21 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 5
   },
   newsText: {
-    flex: 2,
+    flex: 1,
     marginLeft: 5,
     marginRight: 5,
-    fontSize: 12
+    fontSize: 12,
+    color: CARD_TEXT_COLOR
   },
   pubDateText: {
     flex: 1,
     margin: 5,
-    fontSize: 12
+    fontSize: 12,
+    color: CARD_TEXT_COLOR
   },
   coverFullWidth: {
     width: SCREEN_W * 0.955,
-    height: SCREEN_W * 0.53
+    height: SCREEN_W * 0.5
   },
   imageFullWidth: {
     height: SCREEN_W * 0.5,

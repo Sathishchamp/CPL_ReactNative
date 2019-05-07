@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import * as Actions from '../actions';
 import APIService from '../services/APIService';
 import XMLParser from 'react-native-xml2js';
+import commonStyles from '../commons/styles';
 
 class News extends React.Component {
   constructor(props) {
@@ -60,7 +61,7 @@ class News extends React.Component {
     return (
       <Container>
         <Header title={NEWS} />
-        <Content
+        <Content style={commonStyles.content}
           refreshControl={
             <RefreshControl
               refreshing={this.state.refreshing}

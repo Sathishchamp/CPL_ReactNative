@@ -14,6 +14,7 @@ import * as Actions from '../actions';
 import { isNullOrEmpty } from '../utils';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { YouTubeStandaloneIOS } from 'react-native-youtube';
+import commonStyles from '../commons/styles';
 
 class Home extends React.Component {
   constructor(props) {
@@ -97,6 +98,7 @@ class Home extends React.Component {
       <Container>
         <Header title={HOME} />
         <Content
+          style={commonStyles.content}
           refreshControl={
             <RefreshControl
               refreshing={this.state.refreshing}
@@ -105,23 +107,26 @@ class Home extends React.Component {
           }
         >
           <View>
-            <NewsCoverList
-              data={this.props.news.slice(0, 5)}
-              onItemPress={description => {
-                this.props.navigation.navigate(VIEW_HOME_NEWS_VIEW, {
-                  description
-                });
-              }}
-              horizontal={true}
-            />
-            <Text style={{ margin: 10, fontWeight: '500' }}>Top Stories</Text>
             <VideoCoverList
-              data={this.props.videos.slice(0, 5)}
+              data={this.props.videos.slice(0, 10)}
+              horizontal={true}
               onItemPress={videoId => {
                 YouTubeStandaloneIOS.playVideo(videoId)
                   .then(() => console.log('Standalone Player Exited'))
                   .catch(errorMessage => console.error(errorMessage));
               }}
+            />
+            <Text style={{ margin: 10, fontWeight: '500', color: 'white' }}>
+              Top Stories
+            </Text>
+            <NewsCoverList
+              data={this.props.news.slice(0, 10)}
+              onItemPress={description => {
+                this.props.navigation.navigate(VIEW_HOME_NEWS_VIEW, {
+                  description
+                });
+              }}
+              horizontal={false}
             />
           </View>
           {this._renderSpinner()}

@@ -5,13 +5,14 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { VIEW_MORE } from '../constants/viewNames';
 import { MORE } from '../constants/strings';
+import commonStyles from '../commons/styles';
 
 class More extends React.Component {
   render() {
     return (
       <Container>
         <Header title={MORE} />
-        <Content>
+        <Content style={commonStyles.content}>
           <View />
         </Content>
         <Footer activeButton={VIEW_MORE} {...this.props} />

@@ -9,6 +9,7 @@ import VideoCoverList from '../components/VideoCoverList';
 import { connect } from 'react-redux';
 import * as Actions from '../actions';
 import { YouTubeStandaloneIOS } from 'react-native-youtube';
+import commonStyles from '../commons/styles';
 
 class Videos extends React.Component {
   constructor(props) {
@@ -42,6 +43,7 @@ class Videos extends React.Component {
       <Container>
         <Header title={VIDEOS} />
         <Content
+        style={commonStyles.content}
           refreshControl={
             <RefreshControl
               refreshing={this.state.refreshing}
@@ -52,6 +54,7 @@ class Videos extends React.Component {
           <View>
             <VideoCoverList
               data={this.props.videos}
+              horizontal={false}
               onItemPress={videoId => {
                 YouTubeStandaloneIOS.playVideo(videoId)
                   .then(() => console.log('Standalone Player Exited'))
