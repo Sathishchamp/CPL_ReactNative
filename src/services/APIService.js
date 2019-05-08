@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { NEWS_URL, VIDEOS_URL, DATA_URL } from '../config/server';
+import { NEWS_URL, VIDEOS_URL, CONFIG_URL } from '../config/server';
 
 export default (APIService = {
   getNewsFeed(callback) {
@@ -20,9 +20,18 @@ export default (APIService = {
       .catch(err => console.log(err));
   },
 
-  getMatchData(callback) {
+  getConfigurationData(callback) {
     axios
-      .get(DATA_URL)
+      .get(CONFIG_URL)
+      .then(res => {
+        callback(res.data);
+      })
+      .catch(err => console.log(err));
+  },
+
+  getCompData(url, callback) {
+    axios
+      .get(url)
       .then(res => {
         callback(res.data);
       })

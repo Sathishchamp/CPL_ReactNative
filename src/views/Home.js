@@ -15,6 +15,7 @@ import { isNullOrEmpty } from '../utils';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { YouTubeStandaloneIOS } from 'react-native-youtube';
 import commonStyles from '../commons/styles';
+import { translateArrayToJSON } from '../utils/CompDataParser';
 
 class Home extends React.Component {
   constructor(props) {
@@ -76,9 +77,29 @@ class Home extends React.Component {
       });
     });
 
-    Promise.all([newsPromise, videosPromise]).then(data => {
+    const matchDataPromise = new Promise((resolve, reject) => {
+      APIService.getConfigurationData(config => {
+        const { CurrentCompID, UpcomingCompID, Servarlink, upcoming } = config;
+        let compId = CurrentCompID;
+        if (!isNullOrEmpty(upcoming)) {
+          compId = UpcomingCompID;
+        }
+        const compUrl = Servarlink + compId + '/Competition.json';
+        APIService.getCompData(compUrl, compData => {
+          resolve({
+            matchData: compData,
+            liveMatchData: translateArrayToJSON(compData.LtFixtures).filter(
+              fixture => fixture['KKRFlag'] === '1'
+            )[0]
+          });
+        });
+      });
+    });
+
+    Promise.all([newsPromise, videosPromise, matchDataPromise]).then(data => {
       this.props.setNewsData(data[0]);
       this.props.setVideoData(data[1]);
+      this.props.setLiveMatchData(data[2].liveMatchData);
       this.setState({ spinner: false, refreshing: false });
     });
   }
@@ -91,6 +112,26 @@ class Home extends React.Component {
 
   _onRefresh() {
     this.setState({ refreshing: true }, () => this._fetchData());
+  }
+
+  _renderLiveMatchCard() {
+    const {
+      starttimeGMT,
+      status,
+      teamaRR,
+      teamawkts,
+      teamaRuns,
+      teamaovers,
+      teamatotalovers,
+      teamaimage,
+      teambRR,
+      teambwkts,
+      teambRuns,
+      teambovers,
+      teambtotalovers,
+      teambimage
+    } = this.props.liveMatchData;
+    
   }
 
   render() {
@@ -106,6 +147,7 @@ class Home extends React.Component {
             />
           }
         >
+          {this._renderLiveMatchCard()}
           <View>
             <VideoCoverList
               data={this.props.videos.slice(0, 10)}
@@ -139,7 +181,8 @@ class Home extends React.Component {
 
 const mapStateToProps = state => ({
   news: state.news,
-  videos: state.videos
+  videos: state.videos,
+  liveMatchData: state.liveMatchData
 });
 
 export default connect(
