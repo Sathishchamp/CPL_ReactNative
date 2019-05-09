@@ -1,7 +1,9 @@
 import React from 'react';
 import { View, StyleSheet, Text, Image, Dimensions } from 'react-native';
+import { isEqual } from '../utils';
 
 const SCREEN_W = Dimensions.get('screen').width;
+const LIVE_STR = 'Live';
 
 export default props => {
   const {
@@ -19,7 +21,8 @@ export default props => {
     teambovers,
     teambtotalovers,
     teambimage,
-    knockOut
+    knockOut,
+    state
   } = props.data;
   console.log(props);
   return (
@@ -37,41 +40,46 @@ export default props => {
           <Image
             source={{ uri: teamaimage }}
             style={styles.teamImage}
-            resizeMode='contain'
+            resizeMode="contain"
           />
         </View>
-        <View style={styles.scoreView}>
-          <View style={styles.flexRow1}>
-            <Text style={styles.runsText}>{teamaRuns + '/' + teamawkts}</Text>
+        {isEqual(state, LIVE_STR) && (
+          <View style={styles.scoreView}>
+            <View style={styles.flexRow1}>
+              <Text style={styles.runsText}>{teamaRuns + '/' + teamawkts}</Text>
+            </View>
+            <View style={styles.flexRow1}>
+              <Text>{'RR ' + teamaRR}</Text>
+            </View>
+            <View style={styles.flexRow1}>
+              <Text>{teamaovers + '/' + teamatotalovers}</Text>
+            </View>
           </View>
-          <View style={styles.flexRow1}>
-            <Text>{'RR ' + teamaRR}</Text>
-          </View>
-          <View style={styles.flexRow1}>
-            <Text>{teamaovers + '/' + teamatotalovers}</Text>
-          </View>
-        </View>
+        )}
         <View style={styles.vsView}>
           <View style={styles.vsInnerView}>
             <Text style={styles.vsText}>VS</Text>
           </View>
         </View>
-        <View style={styles.scoreView}>
-          <View style={styles.flexRow1}>
-            <Text style={styles.runsText}>{teambRuns + '/' + teambwkts}</Text>
+        {isEqual(state, LIVE_STR) && (
+          <View style={styles.scoreView}>
+            <View style={styles.flexRow1}>
+              <Text style={styles.runsText}>{teambRuns + '/' + teambwkts}</Text>
+            </View>
+            <View style={styles.flexRow1}>
+              <Text>{'RR ' + teambRR}</Text>
+            </View>
+            <View style={styles.flexRow1}>
+              <Text>{teambovers + '/' + teambtotalovers}</Text>
+            </View>
           </View>
-          <View style={styles.flexRow1}>
-            <Text>{'RR ' + teambRR}</Text>
-          </View>
-          <View style={styles.flexRow1}>
-            <Text>{teambovers + '/' + teambtotalovers}</Text>
-          </View>
-        </View>
+        )}
+
         <View style={styles.teamImageView}>
           <Image
             source={{ uri: teambimage }}
             style={styles.teamImage}
-            resizeMode='contain'
+            resizeMode="contain"
           />
         </View>
       </View>
