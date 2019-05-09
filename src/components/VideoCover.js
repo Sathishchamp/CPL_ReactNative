@@ -31,25 +31,30 @@ export default props => {
       <View style={[styles.videoCover, coverWidth]}>
         <ImageBackground
           source={{ uri: thumbnail }}
-          resizeMode="cover"
+          resizeMode='cover'
           style={[styles.image, imageWidth]}
         >
           <Icon
-            name="youtube"
-            type="MaterialCommunityIcons"
+            name='youtube'
+            type='MaterialCommunityIcons'
             style={styles.youtubeIcon}
           />
         </ImageBackground>
         <View
           style={{ flex: 2, flexDirection: 'column', justifyContent: 'center' }}
         >
-          <Text style={styles.videoText} numberOfLines={1} ellipsizeMode="tail">
+          <Text
+            style={styles.videoText}
+            numberOfLines={2}
+            ellipsizeMode='tail'
+            allowFontScaling={true}
+          >
             {title}
           </Text>
           <Text
             style={styles.pubDateText}
             numberOfLines={1}
-            ellipsizeMode="tail"
+            ellipsizeMode='tail'
           >
             {pubDateString}
           </Text>
@@ -74,20 +79,20 @@ const styles = StyleSheet.create({
     // shadowColor: SHADOW_COLOR
   },
   image: {
-    flex: 5,
+    flex: 4,
     borderRadius: 5,
     overflow: 'hidden'
   },
   videoText: {
     flex: 1,
     margin: 5,
-    fontSize: 12,
+    fontSize: 11,
     color: CARD_TEXT_COLOR
   },
   pubDateText: {
     flex: 1,
     margin: 5,
-    fontSize: 12,
+    fontSize: 11,
     color: CARD_TEXT_COLOR
   },
   coverSmallWidth: {

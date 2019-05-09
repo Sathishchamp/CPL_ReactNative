@@ -18,16 +18,18 @@ export default props => {
     teambRuns,
     teambovers,
     teambtotalovers,
-    teambimage
+    teambimage,
+    knockOut
   } = props.data;
+  console.log(props);
   return (
     <View style={styles.mainView}>
       <View style={styles.firstRow}>
         <View style={styles.matchTimeView}>
-          <Text styles={styles.matchTimeText}>{starttimeGMT}</Text>
+          <Text style={styles.matchTimeText}>{starttimeGMT}</Text>
         </View>
         <View style={styles.matchNameView}>
-          <Text style={styles.matchNameText}>Test</Text>
+          <Text style={styles.matchNameText}>{knockOut}</Text>
         </View>
       </View>
       <View style={styles.secondRow}>
@@ -40,7 +42,7 @@ export default props => {
         </View>
         <View style={styles.scoreView}>
           <View style={styles.flexRow1}>
-            <Text>{teamaRuns + '/' + teamawkts}</Text>
+            <Text style={styles.runsText}>{teamaRuns + '/' + teamawkts}</Text>
           </View>
           <View style={styles.flexRow1}>
             <Text>{'RR ' + teamaRR}</Text>
@@ -50,11 +52,13 @@ export default props => {
           </View>
         </View>
         <View style={styles.vsView}>
-          <Text style={styles.vsText}>Vs</Text>
+          <View style={styles.vsInnerView}>
+            <Text style={styles.vsText}>VS</Text>
+          </View>
         </View>
         <View style={styles.scoreView}>
           <View style={styles.flexRow1}>
-            <Text>{teambRuns + '/' + teambwkts}</Text>
+            <Text style={styles.runsText}>{teambRuns + '/' + teambwkts}</Text>
           </View>
           <View style={styles.flexRow1}>
             <Text>{'RR ' + teambRR}</Text>
@@ -72,7 +76,9 @@ export default props => {
         </View>
       </View>
       <View style={styles.thirdRow}>
-        <Text style={{fontSize: 16, fontWeight: '500'}} numberOfLines={2}>{status}</Text>
+        <Text style={styles.statusText} numberOfLines={2}>
+          {status}
+        </Text>
       </View>
     </View>
   );
@@ -85,7 +91,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     margin: 10,
     padding: 10,
-    height: SCREEN_W * 0.4,
+    height: SCREEN_W * 0.5,
     borderRadius: 10
   },
   firstRow: {
@@ -107,17 +113,26 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start'
   },
-  matchTimeText: {},
+  matchTimeText: {
+    fontSize: 12,
+    fontWeight: '600'
+  },
   matchNameView: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-end'
   },
-  matchNameText: {},
+  matchNameText: {
+    fontSize: 12,
+    fontWeight: '600'
+  },
   teamImageView: {
     flex: 3,
     flexDirection: 'row',
     justifyContent: 'center'
+  },
+  runsText: {
+    fontWeight: '700'
   },
   flexRow1: {
     flex: 1,
@@ -129,7 +144,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  vsText: {},
+  vsInnerView: {
+    backgroundColor: '#424242',
+    borderColor: 'grey',
+    borderWidth: 2,
+    borderRadius: 99,
+    padding: 3
+  },
+  vsText: {
+    fontSize: 11,
+    color: 'white'
+  },
   teamImage: {
     height: 60,
     width: 60
@@ -139,5 +164,10 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  statusText: {
+    fontSize: 14,
+    fontWeight: '500',
+    textAlign: 'justify'
   }
 });

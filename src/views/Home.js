@@ -23,7 +23,8 @@ class Home extends React.Component {
     super(props);
     this.state = {
       spinner: false,
-      refreshing: false
+      refreshing: false,
+      displayLiveCard: false
     };
   }
 
@@ -101,7 +102,11 @@ class Home extends React.Component {
       this.props.setNewsData(data[0]);
       this.props.setVideoData(data[1]);
       this.props.setLiveMatchData(data[2].liveMatchData);
-      this.setState({ spinner: false, refreshing: false });
+      this.setState({
+        spinner: false,
+        refreshing: false,
+        displayLiveCard: true
+      });
     });
   }
 
@@ -132,7 +137,7 @@ class Home extends React.Component {
             />
           }
         >
-          {this._renderLiveMatchCard()}
+          {this.state.displayLiveCard && this._renderLiveMatchCard()}
           <View>
             <VideoCoverList
               data={this.props.videos.slice(0, 10)}
