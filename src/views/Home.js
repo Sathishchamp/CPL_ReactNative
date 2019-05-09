@@ -16,6 +16,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import { YouTubeStandaloneIOS } from 'react-native-youtube';
 import commonStyles from '../commons/styles';
 import { translateArrayToJSON } from '../utils/CompDataParser';
+import LiveMatchCard from '../components/LiveMatchCard';
 
 class Home extends React.Component {
   constructor(props) {
@@ -115,23 +116,7 @@ class Home extends React.Component {
   }
 
   _renderLiveMatchCard() {
-    const {
-      starttimeGMT,
-      status,
-      teamaRR,
-      teamawkts,
-      teamaRuns,
-      teamaovers,
-      teamatotalovers,
-      teamaimage,
-      teambRR,
-      teambwkts,
-      teambRuns,
-      teambovers,
-      teambtotalovers,
-      teambimage
-    } = this.props.liveMatchData;
-    
+    return <LiveMatchCard data={this.props.liveMatchData} />;
   }
 
   render() {
