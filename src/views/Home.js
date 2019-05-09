@@ -11,7 +11,7 @@ import XMLParser from 'react-native-xml2js';
 import VideoCoverList from '../components/VideoCoverList';
 import { connect } from 'react-redux';
 import * as Actions from '../actions';
-import { isNullOrEmpty } from '../utils';
+import { isNullOrEmpty, isEqual } from '../utils';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { YouTubeStandaloneIOS } from 'react-native-youtube';
 import commonStyles from '../commons/styles';
@@ -26,6 +26,7 @@ class Home extends React.Component {
       refreshing: false,
       displayLiveCard: false
     };
+    this._interval = null;
   }
 
   componentDidMount() {
@@ -87,16 +88,17 @@ class Home extends React.Component {
       APIService.getConfigurationData(config => {
         const { CurrentCompID, UpcomingCompID, Servarlink, upcoming } = config;
         let compId = CurrentCompID;
-        if (!isNullOrEmpty(upcoming)) {
+        if (!isNullOrEmpty(upcoming) && upcoming.includes('home')) {
           compId = UpcomingCompID;
         }
-        const compUrl = Servarlink + compId + '/Competition.json';
-        APIService.getCompData(compUrl, compData => {
+        const competitionUrl = Servarlink + compId + '/Competition.json';
+        APIService.getCompData(competitionUrl, compData => {
           resolve({
             matchData: compData,
             liveMatchData: translateArrayToJSON(compData.LtFixtures).filter(
-              fixture => fixture['KKRFlag'] === '1'
-            )[0]
+              fixture => isEqual(fixture['KKRFlag'], '1')
+            )[0],
+            competitionUrl
           });
         });
       });
@@ -106,13 +108,37 @@ class Home extends React.Component {
       this.props.setNewsData(data[0]);
       this.props.setVideoData(data[1]);
       this.props.setLiveMatchData(data[2].liveMatchData);
-      this.setState({
-        spinner: false,
-        refreshing: false,
-        displayLiveCard: true
-      });
+      this.props.setCompetitionUrl(data[2].competitionUrl);
+      console.log(data[2].liveMatchData);
+      this.setState(
+        {
+          spinner: false,
+          refreshing: false,
+          displayLiveCard: true
+        },
+        this._initiateInterval
+      );
     });
   }
+
+  _initiateInterval = () => {
+    console.log('interval initiated');
+    if (isEqual(this.props.liveMatchData.state, 'Live')) {
+      this._interval = setInterval(() => {
+        console.log('refreshing live data');
+        APIService.getCompData(this.props.competitionUrl, compData => {
+          const liveMatchData = translateArrayToJSON(
+            compData.LtFixtures
+          ).filter(fixture => isEqual(fixture['KKRFlag'], '1'))[0];
+          this.props.setLiveMatchData(liveMatchData);
+          console.log('live data refresh complete');
+          console.log(liveMatchData);
+        });
+      }, 20000);
+    } else if (!isNullOrEmpty(this._interval)) {
+      clearInterval(this._interval);
+    }
+  };
 
   _renderSpinner() {
     return (
@@ -187,7 +213,8 @@ class Home extends React.Component {
 const mapStateToProps = state => ({
   news: state.news,
   videos: state.videos,
-  liveMatchData: state.liveMatchData
+  liveMatchData: state.liveMatchData,
+  competitionUrl: state.competitionUrl
 });
 
 export default connect(

@@ -24,7 +24,6 @@ export default props => {
     knockOut,
     state
   } = props.data;
-  console.log(props);
   return (
     <View style={styles.mainView}>
       <View style={styles.firstRow}>
