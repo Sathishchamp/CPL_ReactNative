@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, RefreshControl } from 'react-native';
+import { View, StyleSheet, RefreshControl, Image } from 'react-native';
 import { Container, Content, Text } from 'native-base';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -29,10 +29,14 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
-    if (isNullOrEmpty(this.props.news) || isNullOrEmpty(this.props.videos)) {
+    const { news, videos, liveMatchData } = this.props;
+    if (isNullOrEmpty(news) || isNullOrEmpty(videos)) {
       this.setState({ spinner: true }, () => {
         this._fetchData();
       });
+    }
+    if (!isNullOrEmpty(liveMatchData)) {
+      this.setState({ displayLiveCard: true });
     }
   }
 
@@ -124,6 +128,16 @@ class Home extends React.Component {
     return <LiveMatchCard data={this.props.liveMatchData} />;
   }
 
+  _renderBanner() {
+    return (
+      <Image
+        source={require('../images/header.png')}
+        style={{ height: 50, width: '100%' }}
+        resizeMode="contain"
+      />
+    );
+  }
+
   render() {
     return (
       <Container>
@@ -137,6 +151,7 @@ class Home extends React.Component {
             />
           }
         >
+          {this._renderBanner()}
           {this.state.displayLiveCard && this._renderLiveMatchCard()}
           <View>
             <VideoCoverList
