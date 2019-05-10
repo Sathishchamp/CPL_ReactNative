@@ -1,9 +1,10 @@
 import React from 'react';
 import { View, StyleSheet, Text, Image, Dimensions } from 'react-native';
-import { isEqual } from '../utils';
+import { isEqual, isNullOrEmpty } from '../utils';
 
 const SCREEN_W = Dimensions.get('screen').width;
 const LIVE_STR = 'Live';
+const YET_TO_BEGIN = 'Yet To begin';
 
 export default props => {
   const {
@@ -22,8 +23,26 @@ export default props => {
     teambtotalovers,
     teambimage,
     knockOut,
-    state
+    state,
+    venue
   } = props.data;
+  const secondInningStatus = props.data['2innstatus'];
+
+  let statusText = status;
+  if (isEqual(state, YET_TO_BEGIN)) {
+    statusText = venue;
+  }
+
+  let showTeamAScores = false;
+  let showTeamBScores = false;
+  if (!isNullOrEmpty(teamaovers)) {
+    showTeamAScores = true;
+  }
+  if (!isNullOrEmpty(teambovers)) {
+    showTeamBScores = true;
+    statusText = secondInningStatus;
+  }
+
   return (
     <View style={styles.mainView}>
       <View style={styles.firstRow}>
@@ -42,7 +61,7 @@ export default props => {
             resizeMode="contain"
           />
         </View>
-        {isEqual(state, LIVE_STR) && (
+        {showTeamAScores && (
           <View style={styles.scoreView}>
             <View style={styles.flexRow1}>
               <Text style={styles.runsText}>{teamaRuns + '/' + teamawkts}</Text>
@@ -60,7 +79,7 @@ export default props => {
             <Text style={styles.vsText}>VS</Text>
           </View>
         </View>
-        {isEqual(state, LIVE_STR) && (
+        {showTeamBScores && (
           <View style={styles.scoreView}>
             <View style={styles.flexRow1}>
               <Text style={styles.runsText}>{teambRuns + '/' + teambwkts}</Text>
@@ -84,7 +103,7 @@ export default props => {
       </View>
       <View style={styles.thirdRow}>
         <Text style={styles.statusText} numberOfLines={2}>
-          {status}
+          {statusText}
         </Text>
       </View>
     </View>
@@ -173,8 +192,8 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   statusText: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: '500',
-    textAlign: 'justify'
+    textAlign: 'center'
   }
 });
