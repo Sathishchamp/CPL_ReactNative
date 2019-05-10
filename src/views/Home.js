@@ -42,6 +42,10 @@ class Home extends React.Component {
   }
 
   _fetchData() {
+    if (!isNullOrEmpty(this._interval)) {
+      clearInterval(this._interval);
+    }
+
     const newsPromise = new Promise((resolve, reject) => {
       APIService.getNewsFeed(xmlData => {
         XMLParser.parseString(xmlData, (err, jsonData) => {
@@ -122,7 +126,6 @@ class Home extends React.Component {
   }
 
   _initiateInterval = () => {
-    console.log('interval initiated');
     if (isEqual(this.props.liveMatchData.state, 'Live')) {
       this._interval = setInterval(() => {
         console.log('refreshing live data');

@@ -67,10 +67,12 @@ export default props => {
               <Text style={styles.runsText}>{teamaRuns + '/' + teamawkts}</Text>
             </View>
             <View style={styles.flexRow1}>
-              <Text>{'RR ' + teamaRR}</Text>
+              <Text style={styles.rrText}>{'RR ' + teamaRR}</Text>
             </View>
             <View style={styles.flexRow1}>
-              <Text>{teamaovers + '/' + teamatotalovers}</Text>
+              <Text style={styles.oversText}>
+                {teamaovers + '/' + teamatotalovers}
+              </Text>
             </View>
           </View>
         )}
@@ -85,10 +87,12 @@ export default props => {
               <Text style={styles.runsText}>{teambRuns + '/' + teambwkts}</Text>
             </View>
             <View style={styles.flexRow1}>
-              <Text>{'RR ' + teambRR}</Text>
+              <Text style={styles.rrText}>{'RR ' + teambRR}</Text>
             </View>
             <View style={styles.flexRow1}>
-              <Text>{teambovers + '/' + teambtotalovers}</Text>
+              <Text style={styles.oversText}>
+                {teambovers + '/' + teambtotalovers}
+              </Text>
             </View>
           </View>
         )}
@@ -125,14 +129,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   secondRow: {
-    flex: 1,
+    flex: 2,
     flexDirection: 'row'
   },
   thirdRow: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'flex-end'
+    alignItems: 'center'
   },
   matchTimeView: {
     flex: 1,
@@ -158,7 +162,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   runsText: {
-    fontWeight: '700'
+    fontWeight: '700',
+    fontSize: SCREEN_W * 0.05
+  },
+  rrText: {
+    fontSize: SCREEN_W * 0.05
+  },
+  oversText: {
+    fontSize: SCREEN_W * 0.05
   },
   flexRow1: {
     flex: 1,
@@ -186,7 +197,7 @@ const styles = StyleSheet.create({
     width: 60
   },
   scoreView: {
-    flex: 3,
+    flex: 2,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center'
