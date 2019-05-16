@@ -7,5 +7,7 @@ target 'cpl' do
 
   # Pods for cpl
   pod 'XCDYouTubeKit', '~> 2.5'
+  pod 'Firebase/Core'
+  pod 'Firebase/Messaging'
 
 end

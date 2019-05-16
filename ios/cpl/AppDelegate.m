@@ -7,6 +7,10 @@
 
 #import "AppDelegate.h"
 
+@import Firebase;
+#import "RNFirebaseNotifications.h"
+#import "RNFirebaseMessaging.h"
+
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
@@ -15,6 +19,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  
+  
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"cpl"
@@ -27,6 +33,11 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+  
+  [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
+  [RNFirebaseNotifications configure];
+  [FIRApp configure];
+  
   return YES;
 }
 
