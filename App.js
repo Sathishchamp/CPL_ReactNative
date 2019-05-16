@@ -12,6 +12,12 @@ console.disableYellowBox = true;
 class App extends Component {
   async componentDidMount() {
     this.checkPermission();
+    this.createNotificationListeners();
+  }
+
+  componentWillUnmount() {
+    this.notificationListener();
+    this.notificationOpenedListener();
   }
 
   async checkPermission() {
