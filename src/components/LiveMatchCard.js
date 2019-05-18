@@ -157,19 +157,19 @@ const styles = StyleSheet.create({
     fontWeight: '600'
   },
   teamImageView: {
-    flex: 3,
+    flex: 2,
     flexDirection: 'row',
     justifyContent: 'center'
   },
   runsText: {
     fontWeight: '700',
-    fontSize: SCREEN_W * 0.05
+    fontSize: SCREEN_W * 0.045
   },
   rrText: {
-    fontSize: SCREEN_W * 0.05
+    fontSize: SCREEN_W * 0.042
   },
   oversText: {
-    fontSize: SCREEN_W * 0.05
+    fontSize: SCREEN_W * 0.042
   },
   flexRow1: {
     flex: 1,
