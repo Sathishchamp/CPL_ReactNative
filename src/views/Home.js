@@ -17,6 +17,7 @@ import { YouTubeStandaloneIOS } from 'react-native-youtube';
 import commonStyles from '../commons/styles';
 import { translateArrayToJSON } from '../utils/CompDataParser';
 import LiveMatchCard from '../components/LiveMatchCard';
+import AdBanner from '../ads/Banner';
 
 class Home extends React.Component {
   constructor(props) {
@@ -189,7 +190,7 @@ class Home extends React.Component {
               onItemPress={videoId => {
                 YouTubeStandaloneIOS.playVideo(videoId)
                   .then(() => console.log('Standalone Player Exited'))
-                  .catch(errorMessage => console.error(errorMessage));
+                  .catch(errorMessage => console.log(errorMessage));
               }}
             />
             <Text style={{ margin: 10, fontWeight: '500', color: 'white' }}>
@@ -207,6 +208,7 @@ class Home extends React.Component {
           </View>
           {this._renderSpinner()}
         </Content>
+        <AdBanner />
         <Footer activeButton={VIEW_HOME} {...this.props} />
       </Container>
     );

@@ -58,7 +58,7 @@ class Videos extends React.Component {
               onItemPress={videoId => {
                 YouTubeStandaloneIOS.playVideo(videoId)
                   .then(() => console.log('Standalone Player Exited'))
-                  .catch(errorMessage => console.error(errorMessage));
+                  .catch(errorMessage => console.log(errorMessage));
               }}
             />
           </View>
