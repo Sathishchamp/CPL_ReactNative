@@ -3,7 +3,11 @@ import { View, StyleSheet, RefreshControl, Image } from 'react-native';
 import { Container, Content, Text } from 'native-base';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { VIEW_HOME, VIEW_HOME_NEWS_VIEW } from '../constants/viewNames';
+import {
+  VIEW_HOME,
+  VIEW_HOME_NEWS_VIEW,
+  VIEW_MATCH_CENTER
+} from '../constants/viewNames';
 import { HOME } from '../constants/strings';
 import NewsCoverList from '../components/NewsCoverList';
 import APIService from '../services/APIService';
@@ -155,7 +159,12 @@ class Home extends React.Component {
   }
 
   _renderLiveMatchCard() {
-    return <LiveMatchCard data={this.props.liveMatchData} />;
+    return (
+      <LiveMatchCard
+        data={this.props.liveMatchData}
+        onCardPress={() => this.props.navigation.navigate(VIEW_MATCH_CENTER)}
+      />
+    );
   }
 
   _renderBanner() {

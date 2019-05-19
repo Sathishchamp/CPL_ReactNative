@@ -15,3 +15,5 @@ export const CARD_BG_COLOR = '#0a529a';
 export const VIEW_BG_COLOR = '#001034';
 export const CARD_TEXT_COLOR = 'white';
 export const YOUTUBE_RED = '#c4302b';
+
+export const TAB_BG = '#2661b5';
