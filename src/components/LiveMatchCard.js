@@ -1,5 +1,12 @@
 import React from 'react';
-import { View, StyleSheet, Text, Image, Dimensions } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Text,
+  Image,
+  Dimensions,
+  TouchableOpacity
+} from 'react-native';
 import { isEqual, isNullOrEmpty } from '../utils';
 
 const SCREEN_W = Dimensions.get('screen').width;
@@ -44,7 +51,7 @@ export default props => {
   }
 
   return (
-    <View style={styles.mainView}>
+    <TouchableOpacity style={styles.mainView} onPress={() => props.onCardPress()}>
       <View style={styles.firstRow}>
         <View style={styles.matchTimeView}>
           <Text style={styles.matchTimeText}>{starttimeGMT}</Text>
@@ -110,7 +117,7 @@ export default props => {
           {statusText}
         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
