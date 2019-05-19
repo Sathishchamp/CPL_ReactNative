@@ -61,7 +61,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     // margin: 10,
     padding: 10,
-    height: SCREEN_W * 0.35
+    height: SCREEN_W * 0.35,
+    margin: 10
   },
   firstRow: {
     flex: 3,

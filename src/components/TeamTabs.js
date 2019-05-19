@@ -55,7 +55,7 @@ const infoStyles = StyleSheet.create({
   teamsTabButtonView: {
     flex: 1,
     flexDirection: 'row',
-    marginBottom: 10
+    margin: 10
   },
   teamsTabButton: {
     flex: 1,

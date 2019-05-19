@@ -13,21 +13,19 @@ import { PRIMARY, TAB_BG } from '../config/colors';
 import { isEqual } from '../utils';
 import MatchInfoCard from '../components/MatchInfoCard';
 import TeamTabs from '../components/TeamTabs';
+import BattingScoreCard from '../components/BattingScoreCard';
 
 class MatchCenter extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeInfoTab: 1
+      activeInfoTab: 1,
+      activeScoreCardTab: 1
     };
   }
 
   _withContent(content) {
-    return (
-      <Content padder style={commonStyles.content}>
-        {content}
-      </Content>
-    );
+    return <Content style={commonStyles.content}>{content}</Content>;
   }
 
   _withTab(heading, content) {
@@ -77,10 +75,10 @@ class MatchCenter extends React.Component {
           teamB="Chennai Super Kings"
           onTabPress={activeInfoTab => this.setState({ activeInfoTab })}
         />
-        <View>
+        <View style={infoStyles.infoListView}>
           <FlatList
             data={playersList}
-            keyExtractor={(index, item) => index}
+            keyExtractor={(item, index) => index}
             renderItem={({ item, index }) => (
               <View style={infoStyles.infoPlayerListItem}>
                 <View style={{ flex: 1 }}>
@@ -100,9 +98,59 @@ class MatchCenter extends React.Component {
   }
 
   _renderScoreCard() {
+    const { activeScoreCardTab } = this.state;
+    const tempAData = [
+      {
+        player: 'RG Sharma',
+        status: 'c Dhoni b Thakur',
+        r: 91,
+        b: 62,
+        fours: 4,
+        sixes: 1,
+        sr: 167.34
+      },
+      {
+        player: 'SA Yadav',
+        status: 'run out',
+        r: 46,
+        b: 30,
+        fours: 2,
+        sixes: 5,
+        sr: 124
+      }
+    ];
+    const tempBData = [
+      {
+        player: 'Dhoni',
+        status: 'c Dhoni b Thakur',
+        r: 58,
+        b: 25,
+        fours: 2,
+        sixes: 4,
+        sr: 200.59
+      },
+      {
+        player: 'KA Pollard',
+        status: 'run out',
+        r: 201,
+        b: 102,
+        fours: 8,
+        sixes: 12,
+        sr: 200.59
+      }
+    ];
     return this._withContent(
       <View style={{ flex: 1 }}>
-        <Text style={{ color: 'white' }}>Scorecard</Text>
+        <TeamTabs
+          teamA="Mumbai Indians"
+          teamB="Chennai Super Kings"
+          onTabPress={activeScoreCardTab =>
+            this.setState({ activeScoreCardTab })
+          }
+        />
+        <BattingScoreCard
+          data={isEqual(activeScoreCardTab, 1) ? tempAData : tempBData}
+        />
       </View>
     );
   }
@@ -176,5 +224,9 @@ const infoStyles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: 'grey',
     padding: 5
+  },
+  infoListView: {
+    marginLeft: 10,
+    marginRight: 10
   }
 });
