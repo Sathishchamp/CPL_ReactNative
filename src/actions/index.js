@@ -2,7 +2,8 @@ import {
   ACTION_SET_NEWS_DATA,
   ACTION_SET_VIDEO_DATA,
   ACTION_SET_LIVE_MATCH_DATA,
-  ACTION_SET_COMPETITION_URL
+  ACTION_SET_COMPETITION_URL,
+  ACTION_SET_COMPETITION_ID
 } from '../constants/actionTypes';
 
 export const setNewsData = newsData => ({
@@ -23,4 +24,9 @@ export const setLiveMatchData = liveMatchData => ({
 export const setCompetitionUrl = competitionUrl => ({
   type: ACTION_SET_COMPETITION_URL,
   competitionUrl
+});
+
+export const setCompetitionId = competitionId => ({
+  type: ACTION_SET_COMPETITION_ID,
+  competitionId
 });

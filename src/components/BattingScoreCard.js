@@ -32,24 +32,24 @@ export default props => {
           <View style={[styles.row, styles.dataRow]}>
             <View style={[styles.colPlayer, styles.colPlayerWithStatus]}>
               <Text style={[styles.rowText, styles.playerText]}>
-                {item.player}
+                {item.Player}
               </Text>
-              <Text style={styles.rowText}>{item.status}</Text>
+              <Text style={styles.rowText}>{item.Dismissal}</Text>
             </View>
             <View style={styles.colValue}>
-              <Text style={styles.rowText}>{item.r}</Text>
+              <Text style={styles.rowText}>{item.Runs}</Text>
             </View>
             <View style={styles.colValue}>
-              <Text style={styles.rowText}>{item.b}</Text>
+              <Text style={styles.rowText}>{item.Balls}</Text>
             </View>
             <View style={styles.colValue}>
-              <Text style={styles.rowText}>{item.fours}</Text>
+              <Text style={styles.rowText}>{item['4s']}</Text>
             </View>
             <View style={styles.colValue}>
-              <Text style={styles.rowText}>{item.sixes}</Text>
+              <Text style={styles.rowText}>{item['6s']}</Text>
             </View>
             <View style={[styles.colValue, { flex: 2 }]}>
-              <Text style={styles.rowText}>{item.sr}</Text>
+              <Text style={styles.rowText}>{item.SR}</Text>
             </View>
           </View>
         )}
@@ -80,7 +80,8 @@ const styles = StyleSheet.create({
   },
   colPlayer: {
     flex: 5,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    paddingLeft: 4
   },
   colPlayerWithStatus: {
     flexDirection: 'column',

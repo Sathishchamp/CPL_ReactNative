@@ -14,14 +14,98 @@ import { isEqual } from '../utils';
 import MatchInfoCard from '../components/MatchInfoCard';
 import TeamTabs from '../components/TeamTabs';
 import BattingScoreCard from '../components/BattingScoreCard';
+import Spinner from 'react-native-loading-spinner-overlay';
+import * as Actions from '../actions';
+import { connect } from 'react-redux';
+import APIService from '../services/APIService';
+import { translateArrayToJSON } from '../utils/CompDataParser';
 
 class MatchCenter extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeInfoTab: 1,
-      activeScoreCardTab: 1
+      spinner: false,
+      activeInfoTeam: 1,
+      activeScoreCardTab: 1,
+      matchDetails: {},
+      teamABattingScores: [],
+      teamBBattingScores: []
     };
+  }
+
+  componentDidMount() {
+    this._fetchData();
+  }
+
+  _fetchData() {
+    const { competitionId, navigation } = this.props;
+    this.setState({ spinner: true }, () =>
+      APIService.getScores(
+        competitionId,
+        navigation.getParam('matchId'),
+        data => {
+          const { scorecard } = data;
+          console.log(scorecard);
+
+          const matchDetails = translateArrayToJSON(scorecard.matches)[0];
+          let teamABattingScores = [];
+          let teamBBattingScores = [];
+
+          //check with innings1
+          if (
+            isEqual(
+              matchDetails.teama,
+              scorecard.innings.innings1.batteam.batteamName
+            )
+          ) {
+            teamABattingScores = translateArrayToJSON(
+              scorecard.innings.innings1.batteam.player
+            );
+          }
+          if (
+            isEqual(
+              matchDetails.teamb,
+              scorecard.innings.innings1.batteam.batteamName
+            )
+          ) {
+            teamBBattingScores = translateArrayToJSON(
+              scorecard.innings.innings1.batteam.player
+            );
+          }
+
+          //check with innings2
+          if (
+            isEqual(
+              matchDetails.teama,
+              scorecard.innings.innings2.batteam.batteamName
+            )
+          ) {
+            teamABattingScores = translateArrayToJSON(
+              scorecard.innings.innings2.batteam.player
+            );
+          }
+          if (
+            isEqual(
+              matchDetails.teamb,
+              scorecard.innings.innings2.batteam.batteamName
+            )
+          ) {
+            teamBBattingScores = translateArrayToJSON(
+              scorecard.innings.innings2.batteam.player
+            );
+          }
+
+          console.log(scorecard.innings);
+
+          this.setState({
+            spinner: false,
+            matchDetails,
+            teamABattingScores,
+            teamBBattingScores
+          });
+        }
+      )
+    );
   }
 
   _withContent(content) {
@@ -43,7 +127,7 @@ class MatchCenter extends React.Component {
   }
 
   _renderInfo() {
-    const { activeInfoTab } = this.state;
+    const { activeInfoTab, matchDetails } = this.state;
 
     const tempPlayersListA = [
       'RG Sharma',
@@ -66,13 +150,13 @@ class MatchCenter extends React.Component {
 
     return this._withContent(
       <View style={infoStyles.mainView}>
-        <MatchInfoCard />
+        <MatchInfoCard data={this.state.matchDetails} />
         <View style={infoStyles.playingXiView}>
           <Text style={infoStyles.playingXiText}>PLAYING XI</Text>
         </View>
         <TeamTabs
-          teamA="Mumbai Indians"
-          teamB="Chennai Super Kings"
+          teamA={matchDetails.teama}
+          teamB={matchDetails.teamb}
           onTabPress={activeInfoTab => this.setState({ activeInfoTab })}
         />
         <View style={infoStyles.infoListView}>
@@ -98,58 +182,28 @@ class MatchCenter extends React.Component {
   }
 
   _renderScoreCard() {
-    const { activeScoreCardTab } = this.state;
-    const tempAData = [
-      {
-        player: 'RG Sharma',
-        status: 'c Dhoni b Thakur',
-        r: 91,
-        b: 62,
-        fours: 4,
-        sixes: 1,
-        sr: 167.34
-      },
-      {
-        player: 'SA Yadav',
-        status: 'run out',
-        r: 46,
-        b: 30,
-        fours: 2,
-        sixes: 5,
-        sr: 124
-      }
-    ];
-    const tempBData = [
-      {
-        player: 'Dhoni',
-        status: 'c Dhoni b Thakur',
-        r: 58,
-        b: 25,
-        fours: 2,
-        sixes: 4,
-        sr: 200.59
-      },
-      {
-        player: 'KA Pollard',
-        status: 'run out',
-        r: 201,
-        b: 102,
-        fours: 8,
-        sixes: 12,
-        sr: 200.59
-      }
-    ];
+    const {
+      activeScoreCardTab,
+      matchDetails,
+      teamABattingScores,
+      teamBBattingScores
+    } = this.state;
+
     return this._withContent(
       <View style={{ flex: 1 }}>
         <TeamTabs
-          teamA="Mumbai Indians"
-          teamB="Chennai Super Kings"
+          teamA={matchDetails.teama}
+          teamB={matchDetails.teamb}
           onTabPress={activeScoreCardTab =>
             this.setState({ activeScoreCardTab })
           }
         />
         <BattingScoreCard
-          data={isEqual(activeScoreCardTab, 1) ? tempAData : tempBData}
+          data={
+            isEqual(activeScoreCardTab, 1)
+              ? teamABattingScores
+              : teamBBattingScores
+          }
         />
       </View>
     );
@@ -171,6 +225,12 @@ class MatchCenter extends React.Component {
     );
   }
 
+  _renderSpinner() {
+    return (
+      <Spinner visible={this.state.spinner} textStyle={{ color: 'white' }} />
+    );
+  }
+
   render() {
     return (
       <Container>
@@ -184,12 +244,17 @@ class MatchCenter extends React.Component {
           {this._withTab('TIMELINE', this._renderTimeline())}
           {this._withTab('FULL COMMENTARY', this._renderFullCommentary())}
         </Tabs>
+        {this._renderSpinner()}
       </Container>
     );
   }
 }
 
-export default MatchCenter;
+const mapStateToProps = state => ({
+  competitionId: state.competitionId
+});
+
+export default connect(mapStateToProps)(MatchCenter);
 
 const styles = StyleSheet.create({
   tabStyle: {

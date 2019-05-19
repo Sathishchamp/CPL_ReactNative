@@ -101,6 +101,7 @@ class Home extends React.Component {
           compId = UpcomingCompID;
         }
         const competitionUrl = Servarlink + compId + '/Competition.json';
+        this.props.setCompetitionId(compId);
         APIService.getCompData(competitionUrl, compData => {
           resolve({
             matchData: compData,
@@ -162,7 +163,9 @@ class Home extends React.Component {
     return (
       <LiveMatchCard
         data={this.props.liveMatchData}
-        onCardPress={() => this.props.navigation.navigate(VIEW_MATCH_CENTER)}
+        onCardPress={matchId =>
+          this.props.navigation.navigate(VIEW_MATCH_CENTER, { matchId })
+        }
       />
     );
   }

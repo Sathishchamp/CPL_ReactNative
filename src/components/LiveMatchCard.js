@@ -10,7 +10,6 @@ import {
 import { isEqual, isNullOrEmpty } from '../utils';
 
 const SCREEN_W = Dimensions.get('screen').width;
-const LIVE_STR = 'Live';
 const YET_TO_BEGIN = 'Yet To begin';
 
 export default props => {
@@ -31,7 +30,9 @@ export default props => {
     teambimage,
     knockOut,
     state,
-    venue
+    venue,
+    matchId,
+    result
   } = props.data;
   const secondInningStatus = props.data['2innstatus'];
 
@@ -50,8 +51,15 @@ export default props => {
     statusText = secondInningStatus;
   }
 
+  if (isEqual(state, 'Completed')) {
+    statusText = result;
+  }
+
   return (
-    <TouchableOpacity style={styles.mainView} onPress={() => props.onCardPress()}>
+    <TouchableOpacity
+      style={styles.mainView}
+      onPress={() => props.onCardPress(matchId)}
+    >
       <View style={styles.firstRow}>
         <View style={styles.matchTimeView}>
           <Text style={styles.matchTimeText}>{starttimeGMT}</Text>

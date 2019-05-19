@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { TAB_BG } from '../config/colors';
-import { isEqual } from '../utils'
+import { isEqual } from '../utils';
 
 export default props => {
   const { teamA, teamB, onTabPress } = props;
