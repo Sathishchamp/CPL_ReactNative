@@ -10,8 +10,9 @@ import {
 import { Container, Content, Tab, Tabs } from 'native-base';
 import commonStyles from '../commons/styles';
 import { PRIMARY, TAB_BG } from '../config/colors';
-import MatchInfoCard from '../components/MatchInfoCard';
 import { isEqual } from '../utils';
+import MatchInfoCard from '../components/MatchInfoCard';
+import TeamTabs from '../components/TeamTabs';
 
 class MatchCenter extends React.Component {
   constructor(props) {
@@ -65,46 +66,17 @@ class MatchCenter extends React.Component {
       ? tempPlayersListA
       : tempPlayersListB;
 
-    const teamAbuttonBg = isEqual(activeInfoTab, 1)
-      ? infoStyles.activeInfoTabView
-      : infoStyles.inactiveInfoTabView;
-
-    const teamBbuttonBg = isEqual(activeInfoTab, 2)
-      ? infoStyles.activeInfoTabView
-      : infoStyles.inactiveInfoTabView;
-
-    const teamATextColor = isEqual(activeInfoTab, 1)
-      ? infoStyles.activeInfoTabText
-      : infoStyles.inactiveInfoTabText;
-
-    const teamBTextColor = isEqual(activeInfoTab, 2)
-      ? infoStyles.activeInfoTabText
-      : infoStyles.inactiveInfoTabText;
-
     return this._withContent(
       <View style={infoStyles.mainView}>
         <MatchInfoCard />
         <View style={infoStyles.playingXiView}>
           <Text style={infoStyles.playingXiText}>PLAYING XI</Text>
         </View>
-        <View style={infoStyles.teamsTabButtonView}>
-          <TouchableOpacity
-            style={[infoStyles.teamsTabButton, teamAbuttonBg]}
-            onPress={() => this.setState({ activeInfoTab: 1 })}
-          >
-            <Text style={[infoStyles.teamsTabButtonText, teamATextColor]}>
-              Mumbai Indians
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[infoStyles.teamsTabButton, teamBbuttonBg]}
-            onPress={() => this.setState({ activeInfoTab: 2 })}
-          >
-            <Text style={[infoStyles.teamsTabButtonText, teamBTextColor]}>
-              Chennai Super Kings
-            </Text>
-          </TouchableOpacity>
-        </View>
+        <TeamTabs
+          teamA="Mumbai Indians"
+          teamB="Chennai Super Kings"
+          onTabPress={activeInfoTab => this.setState({ activeInfoTab })}
+        />
         <View>
           <FlatList
             data={playersList}
@@ -197,29 +169,7 @@ const infoStyles = StyleSheet.create({
     fontSize: 25,
     fontWeight: 'bold'
   },
-  teamsTabButtonView: {
-    flex: 1,
-    flexDirection: 'row',
-    marginBottom: 10
-  },
-  teamsTabButton: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingLeft: 10,
-    paddingRight: 10,
-    paddingTop: 15,
-    paddingBottom: 15
-  },
-  teamsTabButtonText: {
-    fontSize: 14,
-    fontWeight: '600'
-  },
-  activeInfoTabView: { backgroundColor: TAB_BG },
-  inactiveInfoTabView: { backgroundColor: 'white' },
-  activeInfoTabText: { color: 'white' },
-  inactiveInfoTabText: { color: TAB_BG },
+
   infoPlayerListItem: {
     flex: 1,
     flexDirection: 'row',
