@@ -25,32 +25,43 @@ class More extends React.Component {
               iconName="table"
               iconType="AntDesign"
               title="Points Table"
+              onPress={() => {}}
             />
             <MoreItem
               iconName="modern-mic"
               iconType="Entypo"
               title="Podcasts"
+              onPress={() => {}}
             />
             <MoreItem
               iconName="social-delicious"
               iconType="Foundation"
               title="SocialHub"
+              onPress={() => {}}
             />
-            <MoreItem iconName="ios-stats" iconType="Ionicons" title="Stats" />
+            <MoreItem
+              iconName="ios-stats"
+              iconType="Ionicons"
+              title="Stats"
+              onPress={() => {}}
+            />
             <MoreItem
               iconName="md-tennisball"
               iconType="Ionicons"
               title="Matches"
+              onPress={() => {}}
             />
             <MoreItem
               iconName="cash-multiple"
               iconType="MaterialCommunityIcons"
               title="Sponsors"
+              onPress={() => {}}
             />
             <MoreItem
               iconName="ticket-confirmation"
               iconType="MaterialCommunityIcons"
               title="Tickets"
+              onPress={() => {}}
             />
           </View>
         </Content>

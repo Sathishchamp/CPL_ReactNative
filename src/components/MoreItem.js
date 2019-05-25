@@ -4,7 +4,7 @@ import { Icon } from 'native-base';
 import { WHITE, TAB_BG } from '../config/colors';
 
 export default props => (
-  <TouchableOpacity style={styles.mainView}>
+  <TouchableOpacity style={styles.mainView} onPress={() => props.onPress()}>
     <View style={styles.iconView}>
       <Icon name={props.iconName} type={props.iconType} style={styles.icon} />
     </View>
