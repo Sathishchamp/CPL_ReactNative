@@ -9,8 +9,14 @@ import {
 } from 'react-native';
 import { Container, Content, Tab, Tabs } from 'native-base';
 import commonStyles from '../commons/styles';
-import { PRIMARY, TAB_BG } from '../config/colors';
-import { isEqual } from '../utils';
+import {
+  PRIMARY,
+  TAB_BG,
+  WHITE,
+  BACKGROUND,
+  VIEW_BG_COLOR
+} from '../config/colors';
+import { isEqual, isNullOrEmpty } from '../utils';
 import MatchInfoCard from '../components/MatchInfoCard';
 import TeamTabs from '../components/TeamTabs';
 import BattingScoreCard from '../components/BattingScoreCard';
@@ -19,6 +25,11 @@ import * as Actions from '../actions';
 import { connect } from 'react-redux';
 import APIService from '../services/APIService';
 import { translateArrayToJSON } from '../utils/CompDataParser';
+import {
+  STATUS_LIVE,
+  STATUS_COMPLETED,
+  STATUS_CANCELLED
+} from '../constants/matchStatus';
 
 class MatchCenter extends React.Component {
   constructor(props) {
@@ -29,23 +40,38 @@ class MatchCenter extends React.Component {
       activeScoreCardTab: 1,
       matchDetails: {},
       teamABattingScores: [],
-      teamBBattingScores: []
+      teamBBattingScores: [],
+      matchStarted: false,
+      teamAPlayers: [],
+      teamBPlayers: []
     };
   }
 
   componentDidMount() {
-    this._fetchData();
+    this.setState({ spinner: true }, () => this._fetchData());
   }
 
   _fetchData() {
     const { competitionId, navigation } = this.props;
-    this.setState({ spinner: true }, () =>
-      APIService.getScores(
-        competitionId,
-        navigation.getParam('matchId'),
-        data => {
+    const matchId = navigation.getParam('matchId');
+
+    const prematchPromise = new Promise((resolve, reject) => {
+      APIService.getScores(competitionId, matchId, 'prematch', data => {
+        const teamList = translateArrayToJSON(data.prematch.TeamList);
+        resolve(teamList);
+      });
+    });
+
+    let scoresPromise = new Promise((resolve, reject) => {
+      //if match is in Live, Completed or Cancelled state get the scores data
+      const matchState = this.props.navigation.getParam('matchState');
+      if (
+        isEqual(matchState, STATUS_LIVE) ||
+        isEqual(matchState, STATUS_COMPLETED) ||
+        isEqual(matchState, STATUS_CANCELLED)
+      ) {
+        APIService.getScores(competitionId, matchId, 'scores', data => {
           const { scorecard } = data;
-          console.log(scorecard);
 
           const matchDetails = translateArrayToJSON(scorecard.matches)[0];
           let teamABattingScores = [];
@@ -95,17 +121,51 @@ class MatchCenter extends React.Component {
             );
           }
 
-          console.log(scorecard.innings);
-
-          this.setState({
-            spinner: false,
+          resolve({
             matchDetails,
             teamABattingScores,
             teamBBattingScores
           });
+        });
+      } else {
+        resolve(null);
+      }
+    });
+
+    Promise.all([prematchPromise, scoresPromise])
+      .then(data => {
+        const { teama, teamb } = this.props.liveMatchData;
+        const teamList = data[0];
+        const teamAPlayers = teamList
+          .filter(item => isEqual(item.teamname, teama))
+          .map(item => item.player);
+        const teamBPlayers = teamList
+          .filter(item => isEqual(item.teamname, teamb))
+          .map(item => item.player);
+
+        let matchStarted = false;
+        let matchDetails = null;
+        let teamABattingScores = null;
+        let teamBBattingScores = null;
+        if (!isNullOrEmpty(teamList)) {
+          //if teamlist is not null, then the match is in Live, Completed or Cancelled state
+          matchStarted = true;
+          matchDetails = data[1].matchDetails;
+          teamABattingScores = data[1].teamABattingScores;
+          teamBBattingScores = data[1].teamBBattingScores;
         }
-      )
-    );
+
+        this.setState({
+          spinner: false,
+          matchDetails,
+          teamABattingScores,
+          teamBBattingScores,
+          matchStarted,
+          teamAPlayers,
+          teamBPlayers
+        });
+      })
+      .catch(err => console.log(err));
   }
 
   _withContent(content) {
@@ -127,26 +187,9 @@ class MatchCenter extends React.Component {
   }
 
   _renderInfo() {
-    const { activeInfoTab, matchDetails } = this.state;
-
-    const tempPlayersListA = [
-      'RG Sharma',
-      'SA Yadav',
-      'Ishan Kishan',
-      'KH Pandia',
-      'MJ McClenaghan'
-    ];
-    const tempPlayersListB = [
-      'Dhoni',
-      'KA Pollard',
-      'RD Chahar',
-      'JJ Bhumrah',
-      'SL Malinga'
-    ];
-
-    const playersList = isEqual(activeInfoTab, 1)
-      ? tempPlayersListA
-      : tempPlayersListB;
+    const { activeInfoTab, teamAPlayers, teamBPlayers } = this.state;
+    const { teama, teamb } = this.props.liveMatchData;
+    const playersList = isEqual(activeInfoTab, 1) ? teamAPlayers : teamBPlayers;
 
     return this._withContent(
       <View style={infoStyles.mainView}>
@@ -155,8 +198,8 @@ class MatchCenter extends React.Component {
           <Text style={infoStyles.playingXiText}>PLAYING XI</Text>
         </View>
         <TeamTabs
-          teamA={matchDetails.teama}
-          teamB={matchDetails.teamb}
+          teamA={teama}
+          teamB={teamb}
           onTabPress={activeInfoTab => this.setState({ activeInfoTab })}
         />
         <View style={infoStyles.infoListView}>
@@ -189,38 +232,57 @@ class MatchCenter extends React.Component {
       teamBBattingScores
     } = this.state;
 
-    return this._withContent(
-      <View style={{ flex: 1 }}>
-        <TeamTabs
-          teamA={matchDetails.teama}
-          teamB={matchDetails.teamb}
-          onTabPress={activeScoreCardTab =>
-            this.setState({ activeScoreCardTab })
-          }
-        />
-        <BattingScoreCard
-          data={
-            isEqual(activeScoreCardTab, 1)
-              ? teamABattingScores
-              : teamBBattingScores
-          }
-        />
-      </View>
-    );
+    if (this.state.matchStarted) {
+      return this._withContent(
+        <View style={{ flex: 1 }}>
+          <TeamTabs
+            teamA={matchDetails.teama}
+            teamB={matchDetails.teamb}
+            onTabPress={activeScoreCardTab =>
+              this.setState({ activeScoreCardTab })
+            }
+          />
+          <BattingScoreCard
+            data={
+              isEqual(activeScoreCardTab, 1)
+                ? teamABattingScores
+                : teamBBattingScores
+            }
+          />
+        </View>
+      );
+    }
+    return this._renderMatchNotYetStarted();
   }
 
   _renderTimeline() {
-    return this._withContent(
-      <View style={{ flex: 1 }}>
-        <Text style={{ color: 'white' }}>Timeline</Text>
-      </View>
-    );
+    if (this.state.matchStarted) {
+      return this._withContent(
+        <View style={{ flex: 1 }}>
+          <Text style={{ color: 'white' }}>Timeline</Text>
+        </View>
+      );
+    }
+    return this._renderMatchNotYetStarted();
   }
 
   _renderFullCommentary() {
-    return this._withContent(
-      <View style={{ flex: 1 }}>
-        <Text style={{ color: 'white' }}>Full Commentary</Text>
+    if (this.state.matchStarted) {
+      return this._withContent(
+        <View style={{ flex: 1 }}>
+          <Text style={{ color: 'white' }}>Full Commentary</Text>
+        </View>
+      );
+    }
+    return this._renderMatchNotYetStarted();
+  }
+
+  _renderMatchNotYetStarted() {
+    return (
+      <View style={styles.matchNotYetStartedView}>
+        <Text style={styles.matchNotYetStartedText}>
+          Match is not yet started
+        </Text>
       </View>
     );
   }
@@ -251,7 +313,8 @@ class MatchCenter extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  competitionId: state.competitionId
+  competitionId: state.competitionId,
+  liveMatchData: state.liveMatchData
 });
 
 export default connect(mapStateToProps)(MatchCenter);
@@ -266,6 +329,18 @@ const styles = StyleSheet.create({
   textStyle: {
     color: 'white',
     fontSize: 12
+  },
+  matchNotYetStartedView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: VIEW_BG_COLOR
+  },
+  matchNotYetStartedText: {
+    alignSelf: 'center',
+    color: WHITE,
+    fontSize: 18,
+    fontWeight: '500'
   }
 });
 

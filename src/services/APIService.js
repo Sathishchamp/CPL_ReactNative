@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { NEWS_URL, VIDEOS_URL, CONFIG_URL, SCORES_URL } from '../config/server';
+import { isEqual } from '../utils/index';
 
 export default (APIService = {
   getNewsFeed(callback) {
@@ -38,9 +39,15 @@ export default (APIService = {
       .catch(err => console.log(err));
   },
 
-  getScores(compId, matchId, callback) {
+  getScores(compId, matchId, jsonConfig, callback) {
+    let json = '';
+    if (isEqual(jsonConfig, 'scores')) {
+      json = 'Scores';
+    } else if ((jsonConfig, 'prematch')) {
+      json = 'Prematch';
+    }
     axios
-      .get(SCORES_URL + '/' + compId + '/' + matchId + '/Scores.json')
+      .get(SCORES_URL + '/' + compId + '/' + matchId + `/${json}.json`)
       .then(res => callback(res.data))
       .catch(err => console.log(err));
   }

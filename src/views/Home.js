@@ -22,6 +22,7 @@ import commonStyles from '../commons/styles';
 import { translateArrayToJSON } from '../utils/CompDataParser';
 import LiveMatchCard from '../components/LiveMatchCard';
 import AdBanner from '../ads/Banner';
+import { STATUS_LIVE } from '../constants/matchStatus';
 
 class Home extends React.Component {
   constructor(props) {
@@ -29,7 +30,8 @@ class Home extends React.Component {
     this.state = {
       spinner: false,
       refreshing: false,
-      displayLiveCard: false
+      displayLiveCard: false,
+      matchState: ''
     };
     this._interval = null;
   }
@@ -124,7 +126,8 @@ class Home extends React.Component {
         {
           spinner: false,
           refreshing: false,
-          displayLiveCard: true
+          displayLiveCard: true,
+          matchState: data[2].liveMatchData.state
         },
         this._initiateInterval
       );
@@ -132,7 +135,7 @@ class Home extends React.Component {
   }
 
   _initiateInterval = () => {
-    if (isEqual(this.props.liveMatchData.state, 'Live')) {
+    if (isEqual(this.props.liveMatchData.state, STATUS_LIVE)) {
       this._interval = setInterval(() => {
         console.log('refreshing live data');
         APIService.getCompData(this.props.competitionUrl, compData => {
@@ -160,11 +163,15 @@ class Home extends React.Component {
   }
 
   _renderLiveMatchCard() {
+    const { matchState } = this.state;
     return (
       <LiveMatchCard
         data={this.props.liveMatchData}
         onCardPress={matchId =>
-          this.props.navigation.navigate(VIEW_MATCH_CENTER, { matchId })
+          this.props.navigation.navigate(VIEW_MATCH_CENTER, {
+            matchId,
+            matchState
+          })
         }
       />
     );

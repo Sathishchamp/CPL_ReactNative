@@ -8,9 +8,9 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { isEqual, isNullOrEmpty } from '../utils';
+import { STATUS_YET_TO_BEGIN } from '../constants/matchStatus';
 
 const SCREEN_W = Dimensions.get('screen').width;
-const YET_TO_BEGIN = 'Yet To begin';
 
 export default props => {
   const {
@@ -37,7 +37,7 @@ export default props => {
   const secondInningStatus = props.data['2innstatus'];
 
   let statusText = status;
-  if (isEqual(state, YET_TO_BEGIN)) {
+  if (isEqual(state, STATUS_YET_TO_BEGIN)) {
     statusText = venue;
   }
 
