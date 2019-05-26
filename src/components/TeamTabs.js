@@ -5,30 +5,31 @@ import { isEqual } from '../utils';
 
 export default props => {
   const { teamA, teamB, onTabPress } = props;
-  const [activeInfoTab, setActiveInfoTab] = useState(1);
+  const [activeTab, setActiveTab] = useState(1);
 
-  const teamAbuttonBg = isEqual(activeInfoTab, 1)
-    ? infoStyles.activeInfoTabView
-    : infoStyles.inactiveInfoTabView;
+  const teamAbuttonBg = isEqual(activeTab, 1)
+    ? infoStyles.activeTabView
+    : infoStyles.inactiveTabView;
 
-  const teamBbuttonBg = isEqual(activeInfoTab, 2)
-    ? infoStyles.activeInfoTabView
-    : infoStyles.inactiveInfoTabView;
+  const teamBbuttonBg = isEqual(activeTab, 2)
+    ? infoStyles.activeTabView
+    : infoStyles.inactiveTabView;
 
-  const teamATextColor = isEqual(activeInfoTab, 1)
-    ? infoStyles.activeInfoTabText
-    : infoStyles.inactiveInfoTabText;
+  const teamATextColor = isEqual(activeTab, 1)
+    ? infoStyles.activeTabText
+    : infoStyles.inactiveTabText;
 
-  const teamBTextColor = isEqual(activeInfoTab, 2)
-    ? infoStyles.activeInfoTabText
-    : infoStyles.inactiveInfoTabText;
+  const teamBTextColor = isEqual(activeTab, 2)
+    ? infoStyles.activeTabText
+    : infoStyles.inactiveTabText;
 
   return (
     <View style={infoStyles.teamsTabButtonView}>
       <TouchableOpacity
+        disabled={isEqual(activeTab, 1)}
         style={[infoStyles.teamsTabButton, teamAbuttonBg]}
         onPress={() => {
-          setActiveInfoTab(1);
+          setActiveTab(1);
           onTabPress(1);
         }}
       >
@@ -37,9 +38,10 @@ export default props => {
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
+        disabled={isEqual(activeTab, 2)}
         style={[infoStyles.teamsTabButton, teamBbuttonBg]}
         onPress={() => {
-          setActiveInfoTab(2);
+          setActiveTab(2);
           onTabPress(2);
         }}
       >
@@ -71,8 +73,8 @@ const infoStyles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600'
   },
-  activeInfoTabView: { backgroundColor: TAB_BG },
-  inactiveInfoTabView: { backgroundColor: 'white' },
-  activeInfoTabText: { color: 'white' },
-  inactiveInfoTabText: { color: TAB_BG }
+  activeTabView: { backgroundColor: TAB_BG },
+  inactiveTabView: { backgroundColor: 'white' },
+  activeTabText: { color: 'white' },
+  inactiveTabText: { color: TAB_BG }
 });
