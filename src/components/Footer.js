@@ -4,18 +4,18 @@ import { Footer, FooterTab, Button, Icon, Label } from 'native-base';
 import { WHITE, PRIMARY, ICON_ACTIVE, ICON_INACTIVE } from '../config/colors';
 import {
   VIEW_HOME,
-  VIEW_MATCHES,
   VIEW_NEWS,
   VIEW_VIDEOS,
   VIEW_MORE,
   VIEW_NAV_HOME,
-  VIEW_NAV_MATCHES,
   VIEW_NAV_NEWS,
   VIEW_NAV_VIDEOS,
-  VIEW_NAV_MORE
+  VIEW_NAV_MORE,
+  VIEW_TEAMS,
+  VIEW_NAV_TEAMS
 } from '../constants/viewNames';
 import { isEqual } from '../utils/index';
-import { HOME, MATCHES, NEWS, VIDEOS, MORE } from '../constants/strings';
+import { HOME, MATCHES, NEWS, VIDEOS, MORE, TEAMS } from '../constants/strings';
 
 export default class CustomFooter extends PureComponent {
   constructor(props) {
@@ -29,8 +29,8 @@ export default class CustomFooter extends PureComponent {
     return (
       <Button onPress={() => this.props.navigation.navigate(VIEW_NAV_HOME)}>
         <Icon
-          name='home'
-          type='MaterialCommunityIcons'
+          name="home"
+          type="MaterialCommunityIcons"
           style={[iconStyle, styles.iconSize]}
         />
         <Label style={[styles.labelStyle, iconStyle]}>{HOME}</Label>
@@ -38,18 +38,18 @@ export default class CustomFooter extends PureComponent {
     );
   }
 
-  _renderMatchesButton() {
-    const iconStyle = isEqual(this.props.activeButton, VIEW_MATCHES)
+  _renderTeamsButton() {
+    const iconStyle = isEqual(this.props.activeButton, VIEW_TEAMS)
       ? styles.iconActiveStyle
       : styles.iconInActiveStyle;
     return (
-      <Button onPress={() => this.props.navigation.navigate(VIEW_NAV_MATCHES)}>
+      <Button onPress={() => this.props.navigation.navigate(VIEW_NAV_TEAMS)}>
         <Icon
-          name='bar-graph'
-          type='Entypo'
+          name="users"
+          type="Entypo"
           style={[iconStyle, styles.iconSize]}
         />
-        <Label style={[styles.labelStyle, iconStyle]}>{MATCHES}</Label>
+        <Label style={[styles.labelStyle, iconStyle]}>{TEAMS}</Label>
       </Button>
     );
   }
@@ -60,7 +60,7 @@ export default class CustomFooter extends PureComponent {
       : styles.iconInActiveStyle;
     return (
       <Button onPress={() => this.props.navigation.navigate(VIEW_NAV_NEWS)}>
-        <Icon name='news' type='Entypo' style={[iconStyle, styles.iconSize]} />
+        <Icon name="news" type="Entypo" style={[iconStyle, styles.iconSize]} />
         <Label style={[styles.labelStyle, iconStyle]}>{NEWS}</Label>
       </Button>
     );
@@ -72,7 +72,7 @@ export default class CustomFooter extends PureComponent {
       : styles.iconInActiveStyle;
     return (
       <Button onPress={() => this.props.navigation.navigate(VIEW_NAV_VIDEOS)}>
-        <Icon name='video' type='Entypo' style={[iconStyle, styles.iconSize]} />
+        <Icon name="video" type="Entypo" style={[iconStyle, styles.iconSize]} />
         <Label style={[styles.labelStyle, iconStyle]}>{VIDEOS}</Label>
       </Button>
     );
@@ -85,8 +85,8 @@ export default class CustomFooter extends PureComponent {
     return (
       <Button onPress={() => this.props.navigation.navigate(VIEW_NAV_MORE)}>
         <Icon
-          name='dots-vertical'
-          type='MaterialCommunityIcons'
+          name="dots-vertical"
+          type="MaterialCommunityIcons"
           style={[iconStyle, styles.iconSize]}
         />
         <Label style={[styles.labelStyle, iconStyle]}>{MORE}</Label>
@@ -99,7 +99,7 @@ export default class CustomFooter extends PureComponent {
       <Footer>
         <FooterTab style={styles.footerStyle}>
           {this._renderHomeButton()}
-          {this._renderMatchesButton()}
+          {this._renderTeamsButton()}
           {this._renderNewsButton()}
           {this._renderVideosButton()}
           {this._renderMoreButton()}

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet, StatusBar } from 'react-native';
 import { Header, Left, Right, Body, Title } from 'native-base';
-import { PRIMARY, WHITE } from '../config/colors';
+import { PRIMARY, WHITE, TAB_BG } from '../config/colors';
 
 export default props => (
   <Header style={styles.header}>
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     flex: 3
   },
   header: {
-    backgroundColor: PRIMARY
+    backgroundColor: TAB_BG
   },
   title: {
     color: WHITE

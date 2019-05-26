@@ -23,6 +23,14 @@ import { translateArrayToJSON } from '../utils/CompDataParser';
 import LiveMatchCard from '../components/LiveMatchCard';
 import AdBanner from '../ads/Banner';
 import { STATUS_LIVE } from '../constants/matchStatus';
+import {
+  BG_KNIGHT_RIDERS,
+  BG_TALLAWAHS,
+  BG_AMAZON_WARRIORS,
+  BG_STARS,
+  BG_PATRIOTS,
+  BG_TRIDENTS
+} from '../config/colors';
 
 class Home extends React.Component {
   constructor(props) {
@@ -110,7 +118,8 @@ class Home extends React.Component {
             liveMatchData: translateArrayToJSON(compData.LtFixtures).filter(
               fixture => isEqual(fixture['KKRFlag'], '1')
             )[0],
-            competitionUrl
+            competitionUrl,
+            teams: translateArrayToJSON(compData.LtTeam)
           });
         });
       });
@@ -121,7 +130,41 @@ class Home extends React.Component {
       this.props.setVideoData(data[1]);
       this.props.setLiveMatchData(data[2].liveMatchData);
       this.props.setCompetitionUrl(data[2].competitionUrl);
-      console.log(data[2].liveMatchData);
+
+      //add backgroud color to team image
+      const teams = data[2].teams.map(team => {
+        let backgroundColor = '';
+        switch (team.ID) {
+          case '58':
+            backgroundColor = BG_KNIGHT_RIDERS;
+            break;
+          case '90':
+            backgroundColor = BG_TALLAWAHS;
+            break;
+          case '92':
+            backgroundColor = BG_AMAZON_WARRIORS;
+            break;
+          case '94':
+            backgroundColor = BG_TRIDENTS;
+            break;
+          case '264':
+            backgroundColor = BG_STARS;
+            break;
+          case '349':
+            backgroundColor = BG_PATRIOTS;
+            break;
+          default:
+            backgroundColor = BG_KNIGHT_RIDERS;
+            break;
+        }
+        return {
+          ...team,
+          backgroundColor
+        };
+      });
+      this.props.setTeams(teams);
+
+      console.log(data[2].teams);
       this.setState(
         {
           spinner: false,

@@ -17,3 +17,9 @@ export const CARD_TEXT_COLOR = 'white';
 export const YOUTUBE_RED = '#c4302b';
 
 export const TAB_BG = '#2661b5';
+export const BG_KNIGHT_RIDERS = 'purple';
+export const BG_TALLAWAHS = 'yellow';
+export const BG_AMAZON_WARRIORS = 'green';
+export const BG_TRIDENTS = 'darkblue';
+export const BG_STARS = 'lightblue';
+export const BG_PATRIOTS = 'red';

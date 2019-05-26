@@ -4,11 +4,13 @@ import VideoReducer from './VideoReducer';
 import LiveMatchReducer from './LiveMatchReducer';
 import CompetitionUrlReducer from './CompetitionUrlReducer';
 import CompetitionIdReducer from './CompetitionIdReducer';
+import TeamsReducer from './TeamsReducer';
 
 export default combineReducers({
   news: NewsReducer,
   videos: VideoReducer,
   liveMatchData: LiveMatchReducer,
   competitionUrl: CompetitionUrlReducer,
-  competitionId: CompetitionIdReducer
+  competitionId: CompetitionIdReducer,
+  teams: TeamsReducer
 });

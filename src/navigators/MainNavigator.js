@@ -2,7 +2,7 @@ import React from 'react';
 import { createSwitchNavigator, createAppContainer } from 'react-navigation';
 import { VIEW_NAV_HOME } from '../constants/viewNames';
 import HomeNavigator from './HomeNavigator';
-import MatchesNavigator from './MatchesNavigator';
+import TeamsNavigator from './TeamsNavigator';
 import NewsNavigator from './NewsNavigator';
 import VideosNavigator from './VideosNavigator';
 import MoreNavigator from './MoreNavigator';
@@ -15,8 +15,8 @@ const MainNavigator = createSwitchNavigator(
         header: null
       }
     },
-    matchesNavigator: {
-      screen: MatchesNavigator,
+    teamsNavigator: {
+      screen: TeamsNavigator,
       navigationOptions: {
         header: null
       }
