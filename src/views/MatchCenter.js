@@ -36,7 +36,7 @@ class MatchCenter extends React.Component {
     super(props);
     this.state = {
       spinner: false,
-      activeInfoTeam: 1,
+      activeInfoTab: 1,
       activeScoreCardTab: 1,
       matchDetails: {},
       teamABattingScores: [],
@@ -51,18 +51,60 @@ class MatchCenter extends React.Component {
     this.setState({ spinner: true }, () => this._fetchData());
   }
 
-  _fetchData() {
+  async _fetchData() {
     const { competitionId, navigation } = this.props;
     const matchId = navigation.getParam('matchId');
 
-    const prematchPromise = new Promise((resolve, reject) => {
+    try {
+      const prematch = await this._fetchPrematch(competitionId, matchId);
+      const { matchDetails, teamAPlayers, teamBPlayers } = prematch;
+      const { teama, teamb } = prematch.matchDetails;
+      const scoresData = await this._fetchScores(
+        competitionId,
+        matchId,
+        teama,
+        teamb
+      );
+      const {
+        matchStarted,
+        teamABattingScores,
+        teamBBattingScores
+      } = scoresData;
+      this.setState({
+        spinner: false,
+        matchDetails,
+        teamAPlayers,
+        teamBPlayers,
+        matchStarted,
+        teamABattingScores,
+        teamBBattingScores
+      });
+    } catch (err) {
+      this.setState({ spinner: false, matchDetails });
+      console.log(err);
+    }
+  }
+
+  _fetchPrematch(competitionId, matchId) {
+    return new Promise((resolve, reject) => {
       APIService.getScores(competitionId, matchId, 'prematch', data => {
         const teamList = translateArrayToJSON(data.prematch.TeamList);
-        resolve(teamList);
+        const matchDetails = translateArrayToJSON(
+          data.prematch.matchdetails
+        )[0];
+        const teamAPlayers = teamList
+          .filter(item => isEqual(item.teamname, matchDetails.teama))
+          .map(item => item.player);
+        const teamBPlayers = teamList
+          .filter(item => isEqual(item.teamname, matchDetails.teamb))
+          .map(item => item.player);
+        resolve({ teamList, matchDetails, teamAPlayers, teamBPlayers });
       });
     });
+  }
 
-    let scoresPromise = new Promise((resolve, reject) => {
+  _fetchScores(competitionId, matchId, teama, teamb) {
+    return new Promise((resolve, reject) => {
       //if match is in Live, Completed or Cancelled state get the scores data
       const matchState = this.props.navigation.getParam('matchState');
       if (
@@ -73,99 +115,47 @@ class MatchCenter extends React.Component {
         APIService.getScores(competitionId, matchId, 'scores', data => {
           const { scorecard } = data;
 
-          const matchDetails = translateArrayToJSON(scorecard.matches)[0];
           let teamABattingScores = [];
           let teamBBattingScores = [];
 
           //check with innings1
-          if (
-            isEqual(
-              matchDetails.teama,
-              scorecard.innings.innings1.batteam.batteamName
-            )
-          ) {
+          if (isEqual(teama, scorecard.innings.innings1.batteam.batteamName)) {
             teamABattingScores = translateArrayToJSON(
               scorecard.innings.innings1.batteam.player
             );
           }
-          if (
-            isEqual(
-              matchDetails.teamb,
-              scorecard.innings.innings1.batteam.batteamName
-            )
-          ) {
+          if (isEqual(teamb, scorecard.innings.innings1.batteam.batteamName)) {
             teamBBattingScores = translateArrayToJSON(
               scorecard.innings.innings1.batteam.player
             );
           }
 
           //check with innings2
-          if (
-            isEqual(
-              matchDetails.teama,
-              scorecard.innings.innings2.batteam.batteamName
-            )
-          ) {
+          if (isEqual(teama, scorecard.innings.innings2.batteam.batteamName)) {
             teamABattingScores = translateArrayToJSON(
               scorecard.innings.innings2.batteam.player
             );
           }
-          if (
-            isEqual(
-              matchDetails.teamb,
-              scorecard.innings.innings2.batteam.batteamName
-            )
-          ) {
+          if (isEqual(teamb, scorecard.innings.innings2.batteam.batteamName)) {
             teamBBattingScores = translateArrayToJSON(
               scorecard.innings.innings2.batteam.player
             );
           }
 
           resolve({
-            matchDetails,
             teamABattingScores,
-            teamBBattingScores
+            teamBBattingScores,
+            matchStarted: true
           });
         });
       } else {
-        resolve(null);
+        resolve({
+          teamABattingScores: [],
+          teamBBattingScores: [],
+          matchStarted: false
+        });
       }
     });
-
-    Promise.all([prematchPromise, scoresPromise])
-      .then(data => {
-        const { teama, teamb } = this.props.liveMatchData;
-        const teamList = data[0];
-        const teamAPlayers = teamList
-          .filter(item => isEqual(item.teamname, teama))
-          .map(item => item.player);
-        const teamBPlayers = teamList
-          .filter(item => isEqual(item.teamname, teamb))
-          .map(item => item.player);
-
-        let matchStarted = false;
-        let matchDetails = null;
-        let teamABattingScores = null;
-        let teamBBattingScores = null;
-        if (!isNullOrEmpty(teamList)) {
-          //if teamlist is not null, then the match is in Live, Completed or Cancelled state
-          matchStarted = true;
-          matchDetails = data[1].matchDetails;
-          teamABattingScores = data[1].teamABattingScores;
-          teamBBattingScores = data[1].teamBBattingScores;
-        }
-
-        this.setState({
-          spinner: false,
-          matchDetails,
-          teamABattingScores,
-          teamBBattingScores,
-          matchStarted,
-          teamAPlayers,
-          teamBPlayers
-        });
-      })
-      .catch(err => console.log(err));
   }
 
   _withContent(content) {
@@ -187,8 +177,12 @@ class MatchCenter extends React.Component {
   }
 
   _renderInfo() {
-    const { activeInfoTab, teamAPlayers, teamBPlayers } = this.state;
-    const { teama, teamb } = this.props.liveMatchData;
+    const {
+      activeInfoTab,
+      teamAPlayers,
+      teamBPlayers,
+      matchDetails
+    } = this.state;
     const playersList = isEqual(activeInfoTab, 1) ? teamAPlayers : teamBPlayers;
 
     return this._withContent(
@@ -198,8 +192,8 @@ class MatchCenter extends React.Component {
           <Text style={infoStyles.playingXiText}>PLAYING XI</Text>
         </View>
         <TeamTabs
-          teamA={teama}
-          teamB={teamb}
+          teamA={matchDetails.teama}
+          teamB={matchDetails.teamb}
           onTabPress={activeInfoTab => this.setState({ activeInfoTab })}
         />
         <View style={infoStyles.infoListView}>
@@ -227,11 +221,10 @@ class MatchCenter extends React.Component {
   _renderScoreCard() {
     const {
       activeScoreCardTab,
-      matchDetails,
       teamABattingScores,
-      teamBBattingScores
+      teamBBattingScores,
+      matchDetails
     } = this.state;
-
     if (this.state.matchStarted) {
       return this._withContent(
         <View style={{ flex: 1 }}>
