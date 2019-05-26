@@ -81,7 +81,6 @@ class MatchCenter extends React.Component {
       });
     } catch (err) {
       this.setState({ spinner: false, matchDetails });
-      console.log(err);
     }
   }
 
