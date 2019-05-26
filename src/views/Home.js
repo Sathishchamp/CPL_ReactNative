@@ -270,7 +270,7 @@ class Home extends React.Component {
           </View>
           {this._renderSpinner()}
         </Content>
-        <AdBanner />
+        <AdBanner size="fullBanner" />
         <Footer activeButton={VIEW_HOME} {...this.props} />
       </Container>
     );

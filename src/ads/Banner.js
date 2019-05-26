@@ -8,7 +8,7 @@ class Banner extends React.Component {
   }
 
   _bannerErrorHandler = err => {
-    console.log('************')
+    console.log('************');
     console.log(err);
   };
 
@@ -17,7 +17,7 @@ class Banner extends React.Component {
       <View>
         <AdMobBanner
           adUnitID="/6428571/CPL-T20-APP-320x50"
-          bannerSize="fullBanner"
+          bannerSize={this.props.size}
           didFailToReceiveAdWithError={this._bannerErrorHandler}
         />
       </View>
