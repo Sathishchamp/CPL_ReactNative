@@ -110,18 +110,21 @@ class Home extends React.Component {
         if (!isNullOrEmpty(upcoming) && upcoming.includes('home')) {
           compId = UpcomingCompID;
         }
-        const competitionUrl = Servarlink + compId + '/Competition.json';
+        const competitionUrl = Servarlink + compId;
         this.props.setCompetitionId(compId);
-        APIService.getCompData(competitionUrl, compData => {
-          resolve({
-            matchData: compData,
-            liveMatchData: translateArrayToJSON(compData.LtFixtures).filter(
-              fixture => isEqual(fixture['KKRFlag'], '1')
-            )[0],
-            competitionUrl,
-            teams: translateArrayToJSON(compData.LtTeam)
-          });
-        });
+        APIService.getCompData(
+          competitionUrl + '/Competition.json',
+          compData => {
+            resolve({
+              matchData: compData,
+              liveMatchData: translateArrayToJSON(compData.LtFixtures).filter(
+                fixture => isEqual(fixture['KKRFlag'], '1')
+              )[0],
+              competitionUrl,
+              teams: translateArrayToJSON(compData.LtTeam)
+            });
+          }
+        );
       });
     });
 
@@ -130,7 +133,6 @@ class Home extends React.Component {
       this.props.setVideoData(data[1]);
       this.props.setLiveMatchData(data[2].liveMatchData);
       this.props.setCompetitionUrl(data[2].competitionUrl);
-
       //add backgroud color to team image
       const teams = data[2].teams.map(team => {
         let backgroundColor = '';
