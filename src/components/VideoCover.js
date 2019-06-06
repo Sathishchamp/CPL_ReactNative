@@ -77,12 +77,19 @@ export default props => {
   }
 
   return (
-    <View style={[styles.videoCover, coverWidth, styles.readMoreMainView]}>
+    <View
+      style={[
+        styles.videoCover,
+        coverWidth,
+        styles.readMoreWidth,
+        styles.readMoreMainView
+      ]}
+    >
       <TouchableOpacity
         style={styles.readMoreTouchable}
         onPress={() => props.onReadMorePress()}
       >
-        <Text style={{ color: WHITE }}>Read more</Text>
+        <Text style={{ color: WHITE }}>More</Text>
       </TouchableOpacity>
     </View>
   );
@@ -150,5 +157,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  readMoreWidth: {
+    width: 50
   }
 });
