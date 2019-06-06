@@ -77,14 +77,7 @@ export default props => {
   }
 
   return (
-    <View
-      style={[
-        styles.videoCover,
-        coverWidth,
-        styles.readMoreWidth,
-        styles.readMoreMainView
-      ]}
-    >
+    <View style={[coverWidth, styles.readMoreWidth, styles.readMoreMainView]}>
       <TouchableOpacity
         style={styles.readMoreTouchable}
         onPress={() => props.onReadMorePress()}
@@ -150,6 +143,11 @@ const styles = StyleSheet.create({
     marginTop: SCREEN_W * 0.124
   },
   readMoreMainView: {
+    flex: 1,
+    flexDirection: 'column',
+    margin: 15,
+    marginLeft: 8,
+    marginRight: 8,
     backgroundColor: VIEW_BG_COLOR
   },
   readMoreTouchable: {

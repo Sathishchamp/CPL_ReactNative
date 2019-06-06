@@ -57,7 +57,7 @@ export default props => {
 
   return (
     <View
-      style={[styles.newsCover, styles.readMoreWidth, styles.readMoreMainView]}
+      style={[styles.readMoreWidth, styles.readMoreMainView]}
     >
       <TouchableOpacity
         style={styles.readMoreTouchable}
@@ -123,7 +123,11 @@ const styles = StyleSheet.create({
     width: SCREEN_W * 0.65
   },
   readMoreMainView: {
-    backgroundColor: VIEW_BG_COLOR
+    flex: 1,
+    flexDirection: 'column',
+    margin: 15,
+    marginLeft: 8,
+    marginRight: 8,
   },
   readMoreTouchable: {
     flex: 1,
