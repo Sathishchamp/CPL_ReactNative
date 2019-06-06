@@ -6,8 +6,7 @@ import {
   Image,
   Platform
 } from 'react-native';
-import { Container, Content, Text } from 'native-base';
-import Header from '../components/Header';
+import { Container, Content, Text, Header } from 'native-base';
 import Footer from '../components/Footer';
 import {
   VIEW_HOME,
@@ -16,7 +15,6 @@ import {
   VIEW_NAV_NEWS,
   VIEW_NAV_VIDEOS
 } from '../constants/viewNames';
-import { HOME } from '../constants/strings';
 import NewsCoverList from '../components/NewsCoverList';
 import APIService from '../services/APIService';
 import XMLParser from 'react-native-xml2js';
@@ -241,9 +239,10 @@ class Home extends React.Component {
   }
 
   render() {
+    const { spinner, displayLiveCard } = this.state;
     return (
       <Container>
-        <Header title={HOME} />
+        <Header>{this._renderBanner()}</Header>
         <Content
           style={commonStyles.content}
           refreshControl={
@@ -253,41 +252,42 @@ class Home extends React.Component {
             />
           }
         >
-          {this._renderBanner()}
-          {this.state.displayLiveCard && this._renderLiveMatchCard()}
-          <View>
-            <VideoCoverList
-              data={this.props.videos.slice(0, 7)}
-              horizontal={true}
-              onItemPress={videoId => {
-                if (isEqual(Platform.OS, 'ios')) {
-                  YouTubeStandaloneIOS.playVideo(videoId)
-                    .then(() => console.log('Standalone Player Exited'))
-                    .catch(errorMessage => console.log(errorMessage));
-                }
-              }}
-              showReadMore={true}
-              onReadMorePress={() => {
-                this.props.navigation.navigate(VIEW_NAV_VIDEOS);
-              }}
-            />
-            <Text style={{ margin: 10, fontWeight: '500', color: 'white' }}>
-              Top Stories
-            </Text>
-            <NewsCoverList
-              data={this.props.news.slice(0, 7)}
-              onItemPress={description => {
-                this.props.navigation.navigate(VIEW_HOME_NEWS_VIEW, {
-                  description
-                });
-              }}
-              horizontal={false}
-              showReadMore={true}
-              onReadMorePress={() => {
-                this.props.navigation.navigate(VIEW_NAV_NEWS);
-              }}
-            />
-          </View>
+          {!spinner && displayLiveCard && this._renderLiveMatchCard()}
+          {!spinner && (
+            <View>
+              <VideoCoverList
+                data={this.props.videos.slice(0, 7)}
+                horizontal={true}
+                onItemPress={videoId => {
+                  if (isEqual(Platform.OS, 'ios')) {
+                    YouTubeStandaloneIOS.playVideo(videoId)
+                      .then(() => console.log('Standalone Player Exited'))
+                      .catch(errorMessage => console.log(errorMessage));
+                  }
+                }}
+                showReadMore={true}
+                onReadMorePress={() => {
+                  this.props.navigation.navigate(VIEW_NAV_VIDEOS);
+                }}
+              />
+              <Text style={{ margin: 10, fontWeight: '500', color: 'white' }}>
+                Top Stories
+              </Text>
+              <NewsCoverList
+                data={this.props.news.slice(0, 7)}
+                onItemPress={description => {
+                  this.props.navigation.navigate(VIEW_HOME_NEWS_VIEW, {
+                    description
+                  });
+                }}
+                horizontal={false}
+                showReadMore={true}
+                onReadMorePress={() => {
+                  this.props.navigation.navigate(VIEW_NAV_NEWS);
+                }}
+              />
+            </View>
+          )}
           {this._renderSpinner()}
         </Content>
         <AdBanner size="fullBanner" />
