@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, RefreshControl } from 'react-native';
+import { View, StyleSheet, RefreshControl, Platform } from 'react-native';
 import { Container, Content, Text } from 'native-base';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import * as Actions from '../actions';
 import { YouTubeStandaloneIOS } from 'react-native-youtube';
 import commonStyles from '../commons/styles';
+import { isEqual } from '../utils';
 
 class Videos extends React.Component {
   constructor(props) {
@@ -43,7 +44,7 @@ class Videos extends React.Component {
       <Container>
         <Header title={VIDEOS} />
         <Content
-        style={commonStyles.content}
+          style={commonStyles.content}
           refreshControl={
             <RefreshControl
               refreshing={this.state.refreshing}
@@ -56,9 +57,11 @@ class Videos extends React.Component {
               data={this.props.videos}
               horizontal={false}
               onItemPress={videoId => {
-                YouTubeStandaloneIOS.playVideo(videoId)
-                  .then(() => console.log('Standalone Player Exited'))
-                  .catch(errorMessage => console.log(errorMessage));
+                if (isEqual(Platform.OS, 'ios')) {
+                  YouTubeStandaloneIOS.playVideo(videoId)
+                    .then(() => console.log('Standalone Player Exited'))
+                    .catch(errorMessage => console.log(errorMessage));
+                }
               }}
             />
           </View>

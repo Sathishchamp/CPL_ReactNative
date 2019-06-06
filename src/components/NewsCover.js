@@ -8,7 +8,14 @@ import {
   TouchableOpacity
 } from 'react-native';
 import moment from 'moment';
-import { SHADOW_COLOR, CARD_BG_COLOR, CARD_TEXT_COLOR } from '../config/colors';
+import {
+  SHADOW_COLOR,
+  CARD_BG_COLOR,
+  CARD_TEXT_COLOR,
+  BACKGROUND,
+  WHITE,
+  VIEW_BG_COLOR
+} from '../config/colors';
 
 const SCREEN_W = Dimensions.get('screen').width;
 
@@ -19,27 +26,44 @@ export default props => {
     coverWidth = styles.coverFullWidth;
     imageWidth = styles.imageFullWidth;
   }
-  const pubDateString = moment(new Date(props.pubDate)).format(
-    'ddd, DD MMM YYYY HH:mm:ss'
-  );
+  if (props.isReadMore === undefined) {
+    const pubDateString = moment(new Date(props.pubDate)).format(
+      'ddd, DD MMM YYYY HH:mm:ss'
+    );
+    return (
+      <TouchableOpacity onPress={() => props.onPress()}>
+        <View style={[styles.newsCover, coverWidth]}>
+          <View style={styles.imageView}>
+            <Image
+              source={{ uri: props.image }}
+              resizeMode="cover"
+              style={[imageWidth, styles.image]}
+            />
+          </View>
+          <View style={{ flex: 3, justifyContent: 'center', paddingTop: 5 }}>
+            <Text
+              style={styles.newsText}
+              numberOfLines={2}
+              ellipsizeMode="tail"
+            >
+              {props.title}
+            </Text>
+            <Text style={styles.pubDateText}>{pubDateString}</Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  }
+
   return (
-    <TouchableOpacity onPress={() => props.onPress()}>
-      <View style={[styles.newsCover, coverWidth]}>
-        <View style={styles.imageView}>
-          <Image
-            source={{ uri: props.image }}
-            resizeMode="cover"
-            style={[imageWidth, styles.image]}
-          />
-        </View>
-        <View style={{ flex: 3, justifyContent: 'center', paddingTop: 5 }}>
-          <Text style={styles.newsText} numberOfLines={2} ellipsizeMode="tail">
-            {props.title}
-          </Text>
-          <Text style={styles.pubDateText}>{pubDateString}</Text>
-        </View>
-      </View>
-    </TouchableOpacity>
+    <View style={[styles.newsCover, coverWidth, styles.readMoreMainView]}>
+      <TouchableOpacity
+        style={styles.readMoreTouchable}
+        onPress={() => props.onReadMorePress()}
+      >
+        <Text style={{ color: WHITE }}>Read more</Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 
@@ -95,5 +119,14 @@ const styles = StyleSheet.create({
   imageSmallWidth: {
     height: SCREEN_W * 0.35,
     width: SCREEN_W * 0.65
+  },
+  readMoreMainView: {
+    backgroundColor: VIEW_BG_COLOR
+  },
+  readMoreTouchable: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });

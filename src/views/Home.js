@@ -1,12 +1,20 @@
 import React from 'react';
-import { View, StyleSheet, RefreshControl, Image } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  RefreshControl,
+  Image,
+  Platform
+} from 'react-native';
 import { Container, Content, Text } from 'native-base';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import {
   VIEW_HOME,
   VIEW_HOME_NEWS_VIEW,
-  VIEW_MATCH_CENTER
+  VIEW_MATCH_CENTER,
+  VIEW_NAV_NEWS,
+  VIEW_NAV_VIDEOS
 } from '../constants/viewNames';
 import { HOME } from '../constants/strings';
 import NewsCoverList from '../components/NewsCoverList';
@@ -249,25 +257,35 @@ class Home extends React.Component {
           {this.state.displayLiveCard && this._renderLiveMatchCard()}
           <View>
             <VideoCoverList
-              data={this.props.videos.slice(0, 10)}
+              data={this.props.videos.slice(0, 7)}
               horizontal={true}
               onItemPress={videoId => {
-                YouTubeStandaloneIOS.playVideo(videoId)
-                  .then(() => console.log('Standalone Player Exited'))
-                  .catch(errorMessage => console.log(errorMessage));
+                if (isEqual(Platform.OS, 'ios')) {
+                  YouTubeStandaloneIOS.playVideo(videoId)
+                    .then(() => console.log('Standalone Player Exited'))
+                    .catch(errorMessage => console.log(errorMessage));
+                }
+              }}
+              showReadMore={true}
+              onReadMorePress={() => {
+                this.props.navigation.navigate(VIEW_NAV_VIDEOS);
               }}
             />
             <Text style={{ margin: 10, fontWeight: '500', color: 'white' }}>
               Top Stories
             </Text>
             <NewsCoverList
-              data={this.props.news.slice(0, 10)}
+              data={this.props.news.slice(0, 7)}
               onItemPress={description => {
                 this.props.navigation.navigate(VIEW_HOME_NEWS_VIEW, {
                   description
                 });
               }}
               horizontal={false}
+              showReadMore={true}
+              onReadMorePress={() => {
+                this.props.navigation.navigate(VIEW_NAV_NEWS);
+              }}
             />
           </View>
           {this._renderSpinner()}

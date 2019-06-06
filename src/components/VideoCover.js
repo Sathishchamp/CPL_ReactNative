@@ -8,16 +8,19 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { Icon } from 'native-base';
-import { SHADOW_COLOR, CARD_BG_COLOR, CARD_TEXT_COLOR } from '../config/colors';
+import {
+  SHADOW_COLOR,
+  CARD_BG_COLOR,
+  CARD_TEXT_COLOR,
+  VIEW_BG_COLOR,
+  WHITE
+} from '../config/colors';
 import moment from 'moment';
 
 const SCREEN_W = Dimensions.get('screen').width;
 
 export default props => {
   const { thumbnail, onPress, videoId, title, publishedAt } = props;
-  const pubDateString = moment(new Date(publishedAt)).format(
-    'ddd, DD MMM YYYY HH:mm:ss'
-  );
   let coverWidth = styles.coverFullWidth;
   if (props.horizontal) {
     coverWidth = styles.coverSmallWidth;
@@ -26,41 +29,62 @@ export default props => {
   if (props.horizontal) {
     imageWidth = styles.imageSmallWidth;
   }
-  return (
-    <TouchableOpacity onPress={() => onPress(videoId)}>
-      <View style={[styles.videoCover, coverWidth]}>
-        <ImageBackground
-          source={{ uri: thumbnail }}
-          resizeMode='cover'
-          style={[styles.image, imageWidth]}
-        >
-          <Icon
-            name='youtube'
-            type='MaterialCommunityIcons'
-            style={styles.youtubeIcon}
-          />
-        </ImageBackground>
-        <View
-          style={{ flex: 2, flexDirection: 'column', justifyContent: 'center' }}
-        >
-          <Text
-            style={styles.videoText}
-            numberOfLines={2}
-            ellipsizeMode='tail'
-            allowFontScaling={true}
+
+  if (props.isReadMore === undefined) {
+    const pubDateString = moment(new Date(publishedAt)).format(
+      'ddd, DD MMM YYYY HH:mm:ss'
+    );
+    return (
+      <TouchableOpacity onPress={() => onPress(videoId)}>
+        <View style={[styles.videoCover, coverWidth]}>
+          <ImageBackground
+            source={{ uri: thumbnail }}
+            resizeMode="cover"
+            style={[styles.image, imageWidth]}
           >
-            {title}
-          </Text>
-          <Text
-            style={styles.pubDateText}
-            numberOfLines={1}
-            ellipsizeMode='tail'
+            <Icon
+              name="youtube"
+              type="MaterialCommunityIcons"
+              style={styles.youtubeIcon}
+            />
+          </ImageBackground>
+          <View
+            style={{
+              flex: 2,
+              flexDirection: 'column',
+              justifyContent: 'center'
+            }}
           >
-            {pubDateString}
-          </Text>
+            <Text
+              style={styles.videoText}
+              numberOfLines={2}
+              ellipsizeMode="tail"
+              allowFontScaling={true}
+            >
+              {title}
+            </Text>
+            <Text
+              style={styles.pubDateText}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              {pubDateString}
+            </Text>
+          </View>
         </View>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    );
+  }
+
+  return (
+    <View style={[styles.videoCover, coverWidth, styles.readMoreMainView]}>
+      <TouchableOpacity
+        style={styles.readMoreTouchable}
+        onPress={() => props.onReadMorePress()}
+      >
+        <Text style={{ color: WHITE }}>Read more</Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 
@@ -117,5 +141,14 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     fontSize: 60,
     marginTop: SCREEN_W * 0.124
+  },
+  readMoreMainView: {
+    backgroundColor: VIEW_BG_COLOR
+  },
+  readMoreTouchable: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
