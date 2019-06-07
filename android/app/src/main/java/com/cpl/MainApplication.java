@@ -5,6 +5,8 @@ import android.app.Application;
 import com.facebook.react.ReactApplication;
 import com.sbugert.rnadmob.RNAdMobPackage;
 import io.invertase.firebase.RNFirebasePackage;
+import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
+import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 import com.inprogress.reactnativeyoutube.ReactNativeYouTube;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -30,6 +32,8 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
             new RNAdMobPackage(),
             new RNFirebasePackage(),
+              new RNFirebaseMessagingPackage(),
+              new RNFirebaseNotificationsPackage(),
             new ReactNativeYouTube(),
             new RNGestureHandlerPackage(),
             new VectorIconsPackage()

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1006172487659",
+    "firebase_url": "https://cpl-dev.firebaseio.com",
+    "project_id": "cpl-dev",
+    "storage_bucket": "cpl-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1006172487659:android:7b82d330e1185f82",
+        "android_client_info": {
+          "package_name": "com.cpl"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1006172487659-s1klbmcifsifggjoksr7j711hjnusl0e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB99TzVbmqJp5BWfxiKwNF5wEKMv37Vp5I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1006172487659-s1klbmcifsifggjoksr7j711hjnusl0e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1006172487659-da8vgf10bgv7jbeot4oqu8egb7cqmjnb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.justalab.cpl"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
