@@ -4,7 +4,8 @@ import {
   StyleSheet,
   RefreshControl,
   Image,
-  Platform
+  Platform,
+  StatusBar
 } from 'react-native';
 import { Container, Content, Text, Header } from 'native-base';
 import Footer from '../components/Footer';
@@ -35,7 +36,8 @@ import {
   BG_AMAZON_WARRIORS,
   BG_STARS,
   BG_PATRIOTS,
-  BG_TRIDENTS
+  BG_TRIDENTS,
+  VIEW_BG_COLOR
 } from '../config/colors';
 
 class Home extends React.Component {
@@ -230,11 +232,14 @@ class Home extends React.Component {
 
   _renderBanner() {
     return (
-      <Image
-        source={require('../images/header.png')}
-        style={{ height: 50, width: '100%' }}
-        resizeMode="contain"
-      />
+      <View style={styles.navBar}>
+        <StatusBar barStyle="light-content" />
+        <Image
+          source={require('../images/header.png')}
+          style={{ height: 50, width: '100%' }}
+          resizeMode="cover"
+        />
+      </View>
     );
   }
 
@@ -242,9 +247,9 @@ class Home extends React.Component {
     const { spinner, displayLiveCard } = this.state;
     return (
       <Container>
-        <Header>{this._renderBanner()}</Header>
+        {this._renderBanner()}
         <Content
-          style={commonStyles.content}
+          style={[commonStyles.content, { marginTop: NAV_BAR_HEIGHT }]}
           refreshControl={
             <RefreshControl
               refreshing={this.state.refreshing}
@@ -309,4 +314,19 @@ export default connect(
   Actions
 )(Home);
 
-const styles = StyleSheet.create({});
+const NAV_BAR_HEIGHT = 64;
+const STATUS_BAR_HEIGHT = 24;
+
+const styles = StyleSheet.create({
+  navBar: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    paddingTop: STATUS_BAR_HEIGHT,
+    height: NAV_BAR_HEIGHT,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: VIEW_BG_COLOR
+  }
+});
