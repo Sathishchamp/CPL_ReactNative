@@ -114,9 +114,16 @@ class Home extends React.Component {
     const matchDataPromise = new Promise((resolve, reject) => {
       APIService.getConfigurationData(config => {
         const { CurrentCompID, UpcomingCompID, Servarlink, upcoming } = config;
+        console.log(config);
         let compId = CurrentCompID;
         if (!isNullOrEmpty(upcoming) && upcoming.includes('home')) {
           compId = UpcomingCompID;
+        }
+        //if team present, set in redux state
+        if (!isNullOrEmpty(upcoming) && upcoming.includes('team')) {
+          this.props.setPlayerProfileUrl(
+            Servarlink + UpcomingCompID + '/PlayerProfile'
+          );
         }
         const competitionUrl = Servarlink + compId;
         this.props.setCompetitionId(compId);

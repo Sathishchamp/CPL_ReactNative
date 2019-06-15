@@ -15,11 +15,14 @@ import {
 } from '../config/colors';
 import PlayerCard from '../components/PlayerCard';
 import { isEqual } from '../utils';
+import Spinner from 'react-native-loading-spinner-overlay';
+import { isNullOrEmpty } from '../utils';
 
 class TeamPlayers extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
+      spinner: false,
       playerProfiles: [],
       backgroundColor: null
     };
@@ -32,29 +35,34 @@ class TeamPlayers extends React.PureComponent {
   _fetchData() {
     const teamId = this.props.navigation.getParam('teamId');
     const backgroundColor = this._getBackgorundColor(teamId);
-    APIService.getCompData(
-      this.props.competitionUrl + `/PlayerProfile/${teamId}_.json`,
-      data => {
-        let playerProfiles = Object.keys(data.LtPlayerDetails).map(
-          key => data.LtPlayerDetails[key]
-        );
-        playerProfiles = playerProfiles
-          .map(profile => translateArrayToJSON(profile.PlayerDetails)[0])
-          .map(profile => ({
-            playerId: profile.ID,
-            firstName: profile.FirstName,
-            lastName: profile.LastName,
-            playerImage: profile.PlayerImage
-          }));
-        if (isEqual(playerProfiles.length % 2, 1)) {
-          playerProfiles.push({
-            isEmpty: true
-          });
-        }
-        console.log(playerProfiles);
-        this.setState({ playerProfiles, backgroundColor });
-      }
-    );
+    if (!isNullOrEmpty(this.props.playerProfileUrl)) {
+      this.setState({ spinner: true }, () =>
+        APIService.getCompData(
+          this.props.playerProfileUrl + `/${teamId}_.json`,
+          data => {
+            console.log(data);
+            let playerProfiles = Object.keys(data.LtPlayerDetails).map(
+              key => data.LtPlayerDetails[key]
+            );
+            playerProfiles = playerProfiles
+              .map(profile => translateArrayToJSON(profile.PlayerDetails)[0])
+              .map(profile => ({
+                playerId: profile.ID,
+                firstName: profile.FirstName,
+                lastName: profile.LastName,
+                playerImage: profile.PlayerImage
+              }));
+            if (isEqual(playerProfiles.length % 2, 1)) {
+              playerProfiles.push({
+                isEmpty: true
+              });
+            }
+            console.log(playerProfiles);
+            this.setState({ playerProfiles, backgroundColor, spinner: false });
+          }
+        )
+      );
+    }
   }
 
   _getBackgorundColor(teamId) {
@@ -76,6 +84,12 @@ class TeamPlayers extends React.PureComponent {
     }
   }
 
+  _renderSpinner() {
+    return (
+      <Spinner visible={this.state.spinner} textStyle={{ color: 'white' }} />
+    );
+  }
+
   render() {
     return (
       <Container>
@@ -92,6 +106,7 @@ class TeamPlayers extends React.PureComponent {
               numColumns={2}
             />
           </View>
+          {this._renderSpinner()}
         </Content>
       </Container>
     );
@@ -99,7 +114,8 @@ class TeamPlayers extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  competitionUrl: state.competitionUrl
+  competitionUrl: state.competitionUrl,
+  playerProfileUrl: state.playerProfileUrl
 });
 
 export default connect(mapStateToProps)(TeamPlayers);
