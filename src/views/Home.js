@@ -37,7 +37,8 @@ import {
   BG_STARS,
   BG_PATRIOTS,
   BG_TRIDENTS,
-  VIEW_BG_COLOR
+  VIEW_BG_COLOR,
+  TITLE_BG_COLOR
 } from '../config/colors';
 
 class Home extends React.Component {
@@ -198,14 +199,17 @@ class Home extends React.Component {
     if (isEqual(this.props.liveMatchData.state, STATUS_LIVE)) {
       this._interval = setInterval(() => {
         console.log('refreshing live data');
-        APIService.getCompData(this.props.competitionUrl, compData => {
-          const liveMatchData = translateArrayToJSON(
-            compData.LtFixtures
-          ).filter(fixture => isEqual(fixture['KKRFlag'], '1'))[0];
-          this.props.setLiveMatchData(liveMatchData);
-          console.log('live data refresh complete');
-          console.log(liveMatchData);
-        });
+        APIService.getCompData(
+          this.props.competitionUrl + '/Competition.json',
+          compData => {
+            const liveMatchData = translateArrayToJSON(
+              compData.LtFixtures
+            ).filter(fixture => isEqual(fixture['KKRFlag'], '1'))[0];
+            this.props.setLiveMatchData(liveMatchData);
+            console.log('live data refresh complete');
+            console.log(liveMatchData);
+          }
+        );
       }, 20000);
     } else if (!isNullOrEmpty(this._interval)) {
       clearInterval(this._interval);
@@ -250,6 +254,23 @@ class Home extends React.Component {
     );
   }
 
+  _renderListTitle(title) {
+    return (
+      <View style={{ backgroundColor: TITLE_BG_COLOR, padding: 4 }}>
+        <Text
+          style={{
+            margin: 10,
+            fontWeight: '500',
+            color: 'white',
+            fontWeight: 'bold'
+          }}
+        >
+          {title}
+        </Text>
+      </View>
+    );
+  }
+
   render() {
     const { spinner, displayLiveCard } = this.state;
     return (
@@ -267,6 +288,7 @@ class Home extends React.Component {
           {!spinner && displayLiveCard && this._renderLiveMatchCard()}
           {!spinner && (
             <View>
+              {this._renderListTitle('Videos')}
               <VideoCoverList
                 data={this.props.videos.slice(0, 7)}
                 horizontal={true}
@@ -282,9 +304,8 @@ class Home extends React.Component {
                   this.props.navigation.navigate(VIEW_NAV_VIDEOS);
                 }}
               />
-              <Text style={{ margin: 10, fontWeight: '500', color: 'white' }}>
-                Top Stories
-              </Text>
+              {this._renderListTitle('Top Stories')}
+
               <NewsCoverList
                 data={this.props.news.slice(0, 7)}
                 onItemPress={description => {

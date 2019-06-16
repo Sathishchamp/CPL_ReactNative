@@ -5,7 +5,8 @@ import {
   StyleSheet,
   ImageBackground,
   Dimensions,
-  TouchableOpacity
+  TouchableOpacity,
+  Image
 } from 'react-native';
 import { Icon } from 'native-base';
 import {
@@ -31,9 +32,9 @@ export default props => {
   }
 
   if (props.isReadMore === undefined) {
-    const pubDateString = moment(new Date(publishedAt)).format(
-      'ddd, DD MMM YYYY HH:mm:ss'
-    );
+    // const pubDateString = moment(new Date(publishedAt)).format(
+    //   'ddd, DD MMM YYYY HH:mm:ss'
+    // );
     return (
       <TouchableOpacity onPress={() => onPress(videoId)}>
         <View style={[styles.videoCover, coverWidth]}>
@@ -63,13 +64,13 @@ export default props => {
             >
               {title}
             </Text>
-            <Text
+            {/* <Text
               style={styles.pubDateText}
               numberOfLines={1}
               ellipsizeMode="tail"
             >
               {pubDateString}
-            </Text>
+            </Text> */}
           </View>
         </View>
       </TouchableOpacity>
@@ -82,7 +83,11 @@ export default props => {
         style={styles.readMoreTouchable}
         onPress={() => props.onReadMorePress()}
       >
-        <Text style={{ color: WHITE }}>More</Text>
+        <Image
+          source={require('../images/more.png')}
+          resizeMode="contain"
+          style={{ height: 20, width: 20 }}
+        />
       </TouchableOpacity>
     </View>
   );
@@ -97,28 +102,28 @@ const styles = StyleSheet.create({
     marginRight: 8,
     backgroundColor: CARD_BG_COLOR,
     borderRadius: 5,
-    elevation: 4,
-    shadowOffset: { height: 4, width: 4 },
-    shadowOpacity: 0.8
+    // elevation: 4,
+    // shadowOffset: { height: 4, width: 4 },
+    // shadowOpacity: 0.8
     // shadowColor: SHADOW_COLOR
   },
   image: {
-    flex: 4,
+    flex: 6,
     borderRadius: 5,
     overflow: 'hidden'
   },
   videoText: {
     flex: 1,
     margin: 5,
-    fontSize: 11,
+    fontSize: 12,
     color: CARD_TEXT_COLOR
   },
-  pubDateText: {
-    flex: 1,
-    margin: 5,
-    fontSize: 11,
-    color: CARD_TEXT_COLOR
-  },
+  // pubDateText: {
+  //   flex: 1,
+  //   margin: 5,
+  //   fontSize: 11,
+  //   color: CARD_TEXT_COLOR
+  // },
   coverSmallWidth: {
     width: SCREEN_W * 0.65,
     height: SCREEN_W * 0.43
