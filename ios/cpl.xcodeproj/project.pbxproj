@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -50,6 +49,9 @@
 		E2C58BFE75FE42F1A523A057 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FB6D8EFCEF684E999CDD4108 /* Feather.ttf */; };
 		EC0274FCA2EE75A118112D8A /* libPods-cpl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9C0060FF2F1BD6B55D66D2E /* libPods-cpl.a */; };
 		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
+		05F94989A3E04B88B38C07AC /* helvetica-neue-regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC8B758410DA42539F92B5A7 /* helvetica-neue-regular.ttf */; };
+		85D2F67CE39442A58F7C3EDD /* Square 721 Bold Extended.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E69F02FDF284460185254153 /* Square 721 Bold Extended.ttf */; };
+		092FB3F766A748ACB5FBA4C1 /* VAG Rounded Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C13A62D4793A4F21B41D5BEC /* VAG Rounded Bold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -425,6 +427,9 @@
 		FB6D8EFCEF684E999CDD4108 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/native-base/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		FCEC4D0D1E404FC6B458AC33 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/native-base/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		FD90B252ABA24EC9ADFC8EFD /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/native-base/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
+		AC8B758410DA42539F92B5A7 /* helvetica-neue-regular.ttf */ = {isa = PBXFileReference; name = "helvetica-neue-regular.ttf"; path = "../assets/fonts/helvetica-neue-regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		E69F02FDF284460185254153 /* Square 721 Bold Extended.ttf */ = {isa = PBXFileReference; name = "Square 721 Bold Extended.ttf"; path = "../assets/fonts/Square 721 Bold Extended.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C13A62D4793A4F21B41D5BEC /* VAG Rounded Bold.ttf */ = {isa = PBXFileReference; name = "VAG Rounded Bold.ttf"; path = "../assets/fonts/VAG Rounded Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -597,6 +602,9 @@
 				51B7D07875DF4122827CE70D /* rubicon-icon-font.ttf */,
 				F5FD42B0F5CF47A09B6933FF /* SimpleLineIcons.ttf */,
 				583D746A996D494A8CE8E13A /* Zocial.ttf */,
+				AC8B758410DA42539F92B5A7 /* helvetica-neue-regular.ttf */,
+				E69F02FDF284460185254153 /* Square 721 Bold Extended.ttf */,
+				C13A62D4793A4F21B41D5BEC /* VAG Rounded Bold.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1230,6 +1238,9 @@
 				B09420485A2A4136AA1EDFBD /* SimpleLineIcons.ttf in Resources */,
 				43C4BDBB27A54DB6A5E8A3A5 /* Zocial.ttf in Resources */,
 				21C75C45228DAA8900E05EB1 /* GoogleService-Info.plist in Resources */,
+				05F94989A3E04B88B38C07AC /* helvetica-neue-regular.ttf in Resources */,
+				85D2F67CE39442A58F7C3EDD /* Square 721 Bold Extended.ttf in Resources */,
+				092FB3F766A748ACB5FBA4C1 /* VAG Rounded Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
