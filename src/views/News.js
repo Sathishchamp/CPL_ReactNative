@@ -10,7 +10,10 @@ import * as Actions from '../actions';
 import APIService from '../services/APIService';
 import XMLParser from 'react-native-xml2js';
 import commonStyles from '../commons/styles';
-import BannerHeader, { NAV_BAR_HEIGHT } from '../components/BannerHeader';
+import BannerHeader, {
+  NAV_BAR_HEIGHT,
+  CONTENT_MARGIN_TOP
+} from '../components/BannerHeader';
 
 class News extends React.Component {
   constructor(props) {
@@ -62,7 +65,7 @@ class News extends React.Component {
       <Container>
         <BannerHeader title={NEWS} />
         <Content
-          style={[commonStyles.content, { marginTop: NAV_BAR_HEIGHT * 2 }]}
+          style={[commonStyles.content, { marginTop: CONTENT_MARGIN_TOP }]}
           refreshControl={
             <RefreshControl
               refreshing={this.state.refreshing}

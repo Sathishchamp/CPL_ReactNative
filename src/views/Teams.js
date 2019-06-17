@@ -1,7 +1,10 @@
 import React from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import { Container, Content, Text } from 'native-base';
-import BannerHeader, { NAV_BAR_HEIGHT } from '../components/BannerHeader';
+import BannerHeader, {
+  NAV_BAR_HEIGHT,
+  CONTENT_MARGIN_TOP
+} from '../components/BannerHeader';
 import Footer from '../components/Footer';
 import { VIEW_TEAMS, VIEW_TEAM_PLAYERS } from '../constants/viewNames';
 import { TEAMS } from '../constants/strings';
@@ -19,7 +22,7 @@ class Matches extends React.Component {
           style={[
             commonStyles.content,
             {
-              marginTop: NAV_BAR_HEIGHT * 2
+              marginTop: CONTENT_MARGIN_TOP
             }
           ]}
         >

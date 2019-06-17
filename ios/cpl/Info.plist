@@ -59,9 +59,9 @@
 		<string>rubicon-icon-font.ttf</string>
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
-		<string>helvetica-neue-regular.ttf</string>
-		<string>Square 721 Bold Extended.ttf</string>
-		<string>VAG Rounded Bold.ttf</string>
+		<string>HelveticaNeue.ttf</string>
+		<string>Square721BT-BoldExtended.ttf</string>
+		<string>VAGRoundedBold.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

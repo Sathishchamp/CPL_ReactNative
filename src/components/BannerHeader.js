@@ -12,7 +12,11 @@ import { isEqual } from '../utils';
 import { HELVETICA } from '../constants/fonts';
 
 export const NAV_BAR_HEIGHT = 64;
-const STATUS_BAR_HEIGHT = 24;
+export const STATUS_BAR_HEIGHT = 24;
+export const CONTENT_MARGIN_TOP =
+  Platform.OS === 'ios'
+    ? NAV_BAR_HEIGHT * 2 + STATUS_BAR_HEIGHT
+    : NAV_BAR_HEIGHT * 2;
 
 export default props => {
   const statusBar = isEqual(Platform.OS, 'ios')
@@ -21,11 +25,11 @@ export default props => {
   return (
     <View style={[styles.navBar, statusBar]}>
       <View style={styles.banner}>
-        <StatusBar barStyle='light-content' />
+        <StatusBar barStyle="light-content" />
         <Image
           source={require('../../assets/images/header.png')}
           style={styles.bannerImage}
-          resizeMode='stretch'
+          resizeMode="stretch"
         />
       </View>
       {props.title !== undefined && (
@@ -45,10 +49,10 @@ const styles = StyleSheet.create({
     right: 0,
     height: NAV_BAR_HEIGHT * 2,
     backgroundColor: HOME_BG_COLOR,
-    flexDirection: 'column',
+    flexDirection: 'column'
   },
   banner: {
-    height: NAV_BAR_HEIGHT,
+    height: NAV_BAR_HEIGHT
   },
   bannerImage: {
     height: NAV_BAR_HEIGHT,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Icon } from 'native-base';
 import { WHITE, TAB_BG, VIEW_BG_COLOR } from '../config/colors';
 import { SQUARE721 } from '../constants/fonts';
@@ -7,7 +7,11 @@ import { SQUARE721 } from '../constants/fonts';
 export default props => (
   <TouchableOpacity style={styles.mainView} onPress={() => props.onPress()}>
     <View style={styles.iconView}>
-      <Icon name={props.iconName} type={props.iconType} style={styles.icon} />
+      <Image
+        source={props.iconImage}
+        style={{ height: 30, width: 30 }}
+        resizeMode="contain"
+      />
     </View>
     <View style={styles.titleView}>
       <Text style={styles.titleText}>{props.title}</Text>

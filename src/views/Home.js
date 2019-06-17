@@ -34,7 +34,11 @@ import {
   HOME_BG_COLOR
 } from '../config/colors';
 import { SQUARE721 } from '../constants/fonts';
-import BannerHeader, { NAV_BAR_HEIGHT } from '../components/BannerHeader';
+import BannerHeader, {
+  NAV_BAR_HEIGHT,
+  CONTENT_MARGIN_TOP,
+  STATUS_BAR_HEIGHT
+} from '../components/BannerHeader';
 
 class Home extends React.Component {
   constructor(props) {
@@ -252,7 +256,10 @@ class Home extends React.Component {
         <Content
           style={[
             commonStyles.content,
-            { marginTop: NAV_BAR_HEIGHT, backgroundColor: HOME_BG_COLOR }
+            {
+              marginTop: NAV_BAR_HEIGHT + STATUS_BAR_HEIGHT,
+              backgroundColor: HOME_BG_COLOR
+            }
           ]}
           refreshControl={
             <RefreshControl
@@ -299,7 +306,7 @@ class Home extends React.Component {
           )}
           {this._renderSpinner()}
         </Content>
-        <AdBanner size='fullBanner' />
+        <AdBanner size="fullBanner" />
         <Footer activeButton={VIEW_HOME} {...this.props} />
       </Container>
     );

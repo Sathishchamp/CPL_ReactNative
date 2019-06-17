@@ -1,7 +1,10 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { Container, Content } from 'native-base';
-import BannerHeader, { NAV_BAR_HEIGHT } from '../components/BannerHeader';
+import BannerHeader, {
+  NAV_BAR_HEIGHT,
+  CONTENT_MARGIN_TOP
+} from '../components/BannerHeader';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { VIEW_MORE } from '../constants/viewNames';
@@ -18,7 +21,7 @@ class More extends React.Component {
         <Content
           style={{
             backgroundColor: HOME_BG_COLOR,
-            marginTop: NAV_BAR_HEIGHT * 2
+            marginTop: CONTENT_MARGIN_TOP
           }}
         >
           <View
@@ -28,27 +31,23 @@ class More extends React.Component {
             }}
           >
             <MoreItem
-              iconName='md-tennisball'
-              iconType='Ionicons'
-              title='Archives'
+              iconImage={require('../../assets/images/more/archives.png')}
+              title="Archives"
               onPress={() => {}}
             />
             <MoreItem
-              iconName='md-tennisball'
-              iconType='Ionicons'
-              title='Fixtures'
+              iconImage={require('../../assets/images/more/fixtures.png')}
+              title="Fixtures"
               onPress={() => {}}
             />
             <MoreItem
-              iconName='ios-stats'
-              iconType='Ionicons'
-              title='Results'
+              iconImage={require('../../assets/images/more/results.png')}
+              title="Results"
               onPress={() => {}}
             />
             <MoreItem
-              iconName='table'
-              iconType='AntDesign'
-              title='Points Table'
+              iconImage={require('../../assets/images/more/points_table.png')}
+              title="Points Table"
               onPress={() => {}}
             />
           </View>
@@ -60,15 +59,13 @@ class More extends React.Component {
             }}
           >
             <MoreItem
-              iconName='ticket-confirmation'
-              iconType='MaterialCommunityIcons'
-              title='Tickets'
+              iconImage={require('../../assets/images/more/ticket.png')}
+              title="Tickets"
               onPress={() => {}}
             />
             <MoreItem
-              iconName='modern-mic'
-              iconType='Entypo'
-              title='Podcasts'
+              iconImage={require('../../assets/images/more/podocasts.png')}
+              title="Podcasts"
               onPress={() => {}}
             />
           </View>
@@ -80,15 +77,13 @@ class More extends React.Component {
             }}
           >
             <MoreItem
-              iconName='social-delicious'
-              iconType='Foundation'
-              title='SocialHub'
+              iconImage={require('../../assets/images/more/social_hub.png')}
+              title="SocialHub"
               onPress={() => {}}
             />
             <MoreItem
-              iconName='cash-multiple'
-              iconType='MaterialCommunityIcons'
-              title='Sponsors'
+              iconImage={require('../../assets/images/more/sponsors.png')}
+              title="Sponsors"
               onPress={() => {}}
             />
           </View>

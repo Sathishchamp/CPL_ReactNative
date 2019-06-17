@@ -10,7 +10,10 @@ import * as Actions from '../actions';
 import { YouTubeStandaloneIOS } from 'react-native-youtube';
 import commonStyles from '../commons/styles';
 import { isEqual } from '../utils';
-import BannerHeader, { NAV_BAR_HEIGHT } from '../components/BannerHeader';
+import BannerHeader, {
+  NAV_BAR_HEIGHT,
+  CONTENT_MARGIN_TOP
+} from '../components/BannerHeader';
 
 class Videos extends React.Component {
   constructor(props) {
@@ -44,7 +47,7 @@ class Videos extends React.Component {
       <Container>
         <BannerHeader title={VIDEOS} />
         <Content
-          style={[commonStyles.content, { marginTop: NAV_BAR_HEIGHT * 2 }]}
+          style={[commonStyles.content, { marginTop: CONTENT_MARGIN_TOP }]}
           refreshControl={
             <RefreshControl
               refreshing={this.state.refreshing}
