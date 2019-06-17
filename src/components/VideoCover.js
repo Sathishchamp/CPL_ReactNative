@@ -14,7 +14,8 @@ import {
   CARD_BG_COLOR,
   CARD_TEXT_COLOR,
   VIEW_BG_COLOR,
-  WHITE
+  WHITE,
+  HOME_BG_COLOR
 } from '../config/colors';
 import moment from 'moment';
 
@@ -40,12 +41,12 @@ export default props => {
         <View style={[styles.videoCover, coverWidth]}>
           <ImageBackground
             source={{ uri: thumbnail }}
-            resizeMode="cover"
+            resizeMode='cover'
             style={[styles.image, imageWidth]}
           >
             <Icon
-              name="youtube"
-              type="MaterialCommunityIcons"
+              name='youtube'
+              type='MaterialCommunityIcons'
               style={styles.youtubeIcon}
             />
           </ImageBackground>
@@ -59,7 +60,7 @@ export default props => {
             <Text
               style={styles.videoText}
               numberOfLines={2}
-              ellipsizeMode="tail"
+              ellipsizeMode='tail'
               allowFontScaling={true}
             >
               {title}
@@ -85,7 +86,7 @@ export default props => {
       >
         <Image
           source={require('../images/more.png')}
-          resizeMode="contain"
+          resizeMode='contain'
           style={{ height: 20, width: 20 }}
         />
       </TouchableOpacity>
@@ -101,7 +102,7 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     marginRight: 8,
     backgroundColor: CARD_BG_COLOR,
-    borderRadius: 5,
+    borderRadius: 5
     // elevation: 4,
     // shadowOffset: { height: 4, width: 4 },
     // shadowOpacity: 0.8
@@ -152,8 +153,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     margin: 15,
     marginLeft: 8,
-    marginRight: 8,
-    backgroundColor: VIEW_BG_COLOR
+    marginRight: 8
   },
   readMoreTouchable: {
     flex: 1,
