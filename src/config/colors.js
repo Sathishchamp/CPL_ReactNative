@@ -12,8 +12,9 @@ export const ICON_INACTIVE = '#bdbdbd';
 export const SHADOW_COLOR = 'lightgrey';
 
 export const CARD_BG_COLOR = '#ffff00';
-export const VIEW_BG_COLOR = '#0d47a1';
-export const TITLE_BG_COLOR = '#001034'
+export const VIEW_BG_COLOR = '#001034';
+export const HOME_BG_COLOR = '#0d47a1';
+export const TITLE_BG_COLOR = '#001034';
 export const CARD_TEXT_COLOR = 'black';
 export const YOUTUBE_RED = '#c4302b';
 

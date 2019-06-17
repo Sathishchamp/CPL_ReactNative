@@ -37,8 +37,8 @@ import {
   BG_STARS,
   BG_PATRIOTS,
   BG_TRIDENTS,
-  VIEW_BG_COLOR,
-  TITLE_BG_COLOR
+  TITLE_BG_COLOR,
+  HOME_BG_COLOR
 } from '../config/colors';
 
 class Home extends React.Component {
@@ -242,13 +242,16 @@ class Home extends React.Component {
   }
 
   _renderBanner() {
+    const statusBar = isEqual(Platform.OS, 'ios')
+      ? { paddingTop: STATUS_BAR_HEIGHT }
+      : {};
     return (
-      <View style={styles.navBar}>
-        <StatusBar barStyle="light-content" />
+      <View style={[styles.navBar, statusBar]}>
+        <StatusBar barStyle='light-content' />
         <Image
           source={require('../images/header.png')}
-          style={{ height: 50, width: '100%' }}
-          resizeMode="cover"
+          style={{ height: NAV_BAR_HEIGHT, width: '100%' }}
+          resizeMode='stretch'
         />
       </View>
     );
@@ -277,7 +280,10 @@ class Home extends React.Component {
       <Container>
         {this._renderBanner()}
         <Content
-          style={[commonStyles.content, { marginTop: NAV_BAR_HEIGHT }]}
+          style={[
+            commonStyles.content,
+            { marginTop: NAV_BAR_HEIGHT, backgroundColor: HOME_BG_COLOR }
+          ]}
           refreshControl={
             <RefreshControl
               refreshing={this.state.refreshing}
@@ -323,7 +329,7 @@ class Home extends React.Component {
           )}
           {this._renderSpinner()}
         </Content>
-        <AdBanner size="fullBanner" />
+        <AdBanner size='fullBanner' />
         <Footer activeButton={VIEW_HOME} {...this.props} />
       </Container>
     );
@@ -351,10 +357,9 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    paddingTop: STATUS_BAR_HEIGHT,
     height: NAV_BAR_HEIGHT,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: VIEW_BG_COLOR
+    backgroundColor: HOME_BG_COLOR
   }
 });
