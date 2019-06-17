@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, RefreshControl } from 'react-native';
 import { Container, Content, Text } from 'native-base';
-import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { VIEW_NEWS, VIEW_NEWS_NEWS_VIEW } from '../constants/viewNames';
 import { NEWS } from '../constants/strings';
@@ -11,6 +10,7 @@ import * as Actions from '../actions';
 import APIService from '../services/APIService';
 import XMLParser from 'react-native-xml2js';
 import commonStyles from '../commons/styles';
+import BannerHeader, { NAV_BAR_HEIGHT } from '../components/BannerHeader';
 
 class News extends React.Component {
   constructor(props) {
@@ -60,8 +60,9 @@ class News extends React.Component {
   render() {
     return (
       <Container>
-        <Header title={NEWS} />
-        <Content style={commonStyles.content}
+        <BannerHeader title={NEWS} />
+        <Content
+          style={[commonStyles.content, { marginTop: NAV_BAR_HEIGHT * 2 }]}
           refreshControl={
             <RefreshControl
               refreshing={this.state.refreshing}

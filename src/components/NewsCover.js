@@ -16,6 +16,7 @@ import {
   WHITE,
   VIEW_BG_COLOR
 } from '../config/colors';
+import { VAGROUND } from '../constants/fonts';
 
 const SCREEN_W = Dimensions.get('screen').width;
 
@@ -62,7 +63,7 @@ export default props => {
         onPress={() => props.onReadMorePress()}
       >
         <Image
-          source={require('../images/more.png')}
+          source={require('../../assets/images/more.png')}
           resizeMode="contain"
           style={{ height: 20, width: 20, transform: [{ rotate: '90deg' }] }}
         />
@@ -99,8 +100,9 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 5,
     marginRight: 5,
-    fontSize: 14,
-    color: CARD_TEXT_COLOR
+    fontSize: 12,
+    color: CARD_TEXT_COLOR,
+    fontFamily: VAGROUND
   },
   // pubDateText: {
   //   flex: 1,

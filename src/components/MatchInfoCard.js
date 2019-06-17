@@ -8,6 +8,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { isEqual, isNullOrEmpty } from '../utils';
+import { HELVETICA } from '../constants/fonts';
 
 const SCREEN_W = Dimensions.get('screen').width;
 const YET_TO_BEGIN = 'Yet To begin';
@@ -45,7 +46,7 @@ export default props => {
           <Image
             source={{ uri: teamaimage }}
             style={styles.teamImage}
-            resizeMode="contain"
+            resizeMode='contain'
           />
         </View>
 
@@ -67,7 +68,7 @@ export default props => {
           <Image
             source={{ uri: teambimage }}
             style={styles.teamImage}
-            resizeMode="contain"
+            resizeMode='contain'
           />
         </View>
       </View>
@@ -133,10 +134,12 @@ const styles = StyleSheet.create({
   },
   statusText: {
     fontSize: 15,
-    fontWeight: '700',
-    textAlign: 'center'
+    textAlign: 'center',
+    fontFamily: HELVETICA,
+    color: 'black'
   },
   teamName: {
-    fontWeight: '600'
+    color: 'black',
+    fontFamily: HELVETICA
   }
 });

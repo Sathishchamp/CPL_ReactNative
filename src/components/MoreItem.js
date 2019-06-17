@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Icon } from 'native-base';
-import { WHITE, TAB_BG } from '../config/colors';
+import { WHITE, TAB_BG, VIEW_BG_COLOR } from '../config/colors';
+import { SQUARE721 } from '../constants/fonts';
 
 export default props => (
   <TouchableOpacity style={styles.mainView} onPress={() => props.onPress()}>
@@ -18,12 +19,12 @@ const styles = StyleSheet.create({
   mainView: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: TAB_BG,
+    backgroundColor: VIEW_BG_COLOR,
     paddingTop: 10,
     paddingBottom: 10,
-    marginTop: 4,
-    marginBottom: 4,
-    height: 45
+    marginTop: 1,
+    marginBottom: 1,
+    height: 65
   },
   iconView: {
     flex: 1,
@@ -42,6 +43,7 @@ const styles = StyleSheet.create({
   },
   titleText: {
     color: WHITE,
-    fontSize: 20
+    fontSize: 16,
+    fontFamily: SQUARE721
   }
 });

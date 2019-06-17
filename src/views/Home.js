@@ -1,13 +1,6 @@
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  RefreshControl,
-  Image,
-  Platform,
-  StatusBar
-} from 'react-native';
-import { Container, Content, Text, Header } from 'native-base';
+import { View, StyleSheet, RefreshControl, Platform, Text } from 'react-native';
+import { Container, Content } from 'native-base';
 import Footer from '../components/Footer';
 import {
   VIEW_HOME,
@@ -40,6 +33,8 @@ import {
   TITLE_BG_COLOR,
   HOME_BG_COLOR
 } from '../config/colors';
+import { SQUARE721 } from '../constants/fonts';
+import BannerHeader, { NAV_BAR_HEIGHT } from '../components/BannerHeader';
 
 class Home extends React.Component {
   constructor(props) {
@@ -241,35 +236,10 @@ class Home extends React.Component {
     );
   }
 
-  _renderBanner() {
-    const statusBar = isEqual(Platform.OS, 'ios')
-      ? { paddingTop: STATUS_BAR_HEIGHT }
-      : {};
-    return (
-      <View style={[styles.navBar, statusBar]}>
-        <StatusBar barStyle='light-content' />
-        <Image
-          source={require('../images/header.png')}
-          style={{ height: NAV_BAR_HEIGHT, width: '100%' }}
-          resizeMode='stretch'
-        />
-      </View>
-    );
-  }
-
   _renderListTitle(title) {
     return (
       <View style={{ backgroundColor: TITLE_BG_COLOR, padding: 4 }}>
-        <Text
-          style={{
-            margin: 10,
-            fontWeight: '500',
-            color: 'white',
-            fontWeight: 'bold'
-          }}
-        >
-          {title}
-        </Text>
+        <Text style={styles.listTitleText}>{title}</Text>
       </View>
     );
   }
@@ -278,7 +248,7 @@ class Home extends React.Component {
     const { spinner, displayLiveCard } = this.state;
     return (
       <Container>
-        {this._renderBanner()}
+        <BannerHeader />
         <Content
           style={[
             commonStyles.content,
@@ -348,18 +318,10 @@ export default connect(
   Actions
 )(Home);
 
-const NAV_BAR_HEIGHT = 64;
-const STATUS_BAR_HEIGHT = 24;
-
 const styles = StyleSheet.create({
-  navBar: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    height: NAV_BAR_HEIGHT,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: HOME_BG_COLOR
+  listTitleText: {
+    margin: 10,
+    color: 'white',
+    fontFamily: SQUARE721
   }
 });

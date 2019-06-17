@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Text, FlatList } from 'react-native';
 import { TAB_BG } from '../config/colors';
+import { HELVETICA, SQUARE721 } from '../constants/fonts';
 
 export default props => {
   return (
@@ -61,8 +62,8 @@ export default props => {
 const styles = StyleSheet.create({
   titleText: {
     color: 'white',
-    fontWeight: 'bold',
-    fontSize: 16
+    fontSize: 16,
+    fontFamily: SQUARE721
   },
   row: {
     flex: 1,
@@ -88,7 +89,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   rowText: {
-    color: 'white'
+    color: 'white',
+    fontFamily: HELVETICA
   },
   playerText: { fontWeight: '600' },
   dataRow: {

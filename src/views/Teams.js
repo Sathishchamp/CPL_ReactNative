@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import { Container, Content, Text } from 'native-base';
-import Header from '../components/Header';
+import BannerHeader, { NAV_BAR_HEIGHT } from '../components/BannerHeader';
 import Footer from '../components/Footer';
 import { VIEW_TEAMS, VIEW_TEAM_PLAYERS } from '../constants/viewNames';
-import { MATCHES, TEAMS } from '../constants/strings';
+import { TEAMS } from '../constants/strings';
 import commonStyles from '../commons/styles';
 import TeamCard from '../components/TeamCard';
 import { connect } from 'react-redux';
@@ -13,8 +13,16 @@ class Matches extends React.Component {
   render() {
     return (
       <Container>
-        <Header title={TEAMS} />
-        <Content padder style={commonStyles.content}>
+        <BannerHeader title={TEAMS} />
+        <Content
+          padder
+          style={[
+            commonStyles.content,
+            {
+              marginTop: NAV_BAR_HEIGHT * 2
+            }
+          ]}
+        >
           <FlatList
             data={this.props.teams}
             numColumns={2}

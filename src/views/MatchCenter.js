@@ -30,6 +30,7 @@ import {
   STATUS_COMPLETED,
   STATUS_CANCELLED
 } from '../constants/matchStatus';
+import { VAGROUND, SQUARE721 } from '../constants/fonts';
 
 class MatchCenter extends React.Component {
   constructor(props) {
@@ -202,12 +203,14 @@ class MatchCenter extends React.Component {
             renderItem={({ item, index }) => (
               <View style={infoStyles.infoPlayerListItem}>
                 <View style={{ flex: 1 }}>
-                  <Text style={{ color: 'white' }}>
+                  <Text style={{ color: 'white', fontFamily: VAGROUND }}>
                     {parseInt(index + 1) + '.'}
                   </Text>
                 </View>
                 <View style={{ flex: 12 }}>
-                  <Text style={{ color: 'white' }}>{item}</Text>
+                  <Text style={{ color: 'white', fontFamily: VAGROUND }}>
+                    {item}
+                  </Text>
                 </View>
               </View>
             )}
@@ -288,7 +291,7 @@ class MatchCenter extends React.Component {
   render() {
     return (
       <Container>
-        <StatusBar backgroundColor={PRIMARY} barStyle="light-content" />
+        <StatusBar backgroundColor={PRIMARY} barStyle='light-content' />
         <Tabs
           style={{ flex: 1 }}
           tabBarUnderlineStyle={{ borderBottomColor: '#267fff' }}
@@ -347,7 +350,7 @@ const infoStyles = StyleSheet.create({
   playingXiText: {
     color: 'white',
     fontSize: 25,
-    fontWeight: 'bold'
+    fontFamily: SQUARE721
   },
 
   infoPlayerListItem: {

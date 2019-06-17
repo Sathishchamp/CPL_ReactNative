@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { isEqual, isNullOrEmpty } from '../utils';
 import { STATUS_YET_TO_BEGIN } from '../constants/matchStatus';
+import { VAGROUND, HELVETICA } from '../constants/fonts';
 
 const SCREEN_W = Dimensions.get('screen').width;
 
@@ -73,7 +74,7 @@ export default props => {
           <Image
             source={{ uri: teamaimage }}
             style={styles.teamImage}
-            resizeMode="contain"
+            resizeMode='contain'
           />
         </View>
         {showTeamAScores && (
@@ -116,7 +117,7 @@ export default props => {
           <Image
             source={{ uri: teambimage }}
             style={styles.teamImage}
-            resizeMode="contain"
+            resizeMode='contain'
           />
         </View>
       </View>
@@ -160,7 +161,9 @@ const styles = StyleSheet.create({
   },
   matchTimeText: {
     fontSize: 12,
-    fontWeight: '600'
+    fontWeight: '600',
+    fontFamily: HELVETICA,
+    color: 'black'
   },
   matchNameView: {
     flex: 1,
@@ -169,7 +172,9 @@ const styles = StyleSheet.create({
   },
   matchNameText: {
     fontSize: 12,
-    fontWeight: '600'
+    fontWeight: '600',
+    fontFamily: HELVETICA,
+    color: 'black'
   },
   teamImageView: {
     flex: 2,
@@ -178,13 +183,17 @@ const styles = StyleSheet.create({
   },
   runsText: {
     fontWeight: '700',
-    fontSize: SCREEN_W * 0.045
+    fontSize: SCREEN_W * 0.0425,
+    fontFamily: VAGROUND,
+    color: 'black'
   },
   rrText: {
-    fontSize: SCREEN_W * 0.042
+    fontSize: SCREEN_W * 0.0415,
+    fontFamily: HELVETICA
   },
   oversText: {
-    fontSize: SCREEN_W * 0.042
+    fontSize: SCREEN_W * 0.0415,
+    fontFamily: HELVETICA
   },
   flexRow1: {
     flex: 1,
@@ -219,7 +228,8 @@ const styles = StyleSheet.create({
   },
   statusText: {
     fontSize: 13,
-    fontWeight: '500',
-    textAlign: 'center'
+    textAlign: 'center',
+    fontFamily: VAGROUND,
+    color: 'black'
   }
 });

@@ -18,6 +18,7 @@ import {
   HOME_BG_COLOR
 } from '../config/colors';
 import moment from 'moment';
+import { VAGROUND } from '../constants/fonts';
 
 const SCREEN_W = Dimensions.get('screen').width;
 
@@ -85,7 +86,7 @@ export default props => {
         onPress={() => props.onReadMorePress()}
       >
         <Image
-          source={require('../images/more.png')}
+          source={require('../../assets/images/more.png')}
           resizeMode='contain'
           style={{ height: 20, width: 20 }}
         />
@@ -117,7 +118,8 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 5,
     fontSize: 12,
-    color: CARD_TEXT_COLOR
+    color: CARD_TEXT_COLOR,
+    fontFamily: VAGROUND
   },
   // pubDateText: {
   //   flex: 1,

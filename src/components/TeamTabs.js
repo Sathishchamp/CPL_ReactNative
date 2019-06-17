@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { TAB_BG } from '../config/colors';
 import { isEqual } from '../utils';
+import { HELVETICA } from '../constants/fonts';
 
 export default props => {
   const { teamA, teamB, onTabPress } = props;
@@ -71,7 +72,7 @@ const infoStyles = StyleSheet.create({
   },
   teamsTabButtonText: {
     fontSize: 14,
-    fontWeight: '600'
+    fontFamily: HELVETICA
   },
   activeTabView: { backgroundColor: TAB_BG },
   inactiveTabView: { backgroundColor: 'white' },
