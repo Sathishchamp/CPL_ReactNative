@@ -64,7 +64,7 @@ class More extends React.Component {
               onPress={() => {}}
             />
             <MoreItem
-              iconImage={require('../../assets/images/more/podocasts.png')}
+              iconImage={require('../../assets/images/more/podcasts.png')}
               title="Podcasts"
               onPress={() => {}}
             />
