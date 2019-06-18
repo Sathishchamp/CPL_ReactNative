@@ -5,7 +5,8 @@ import {
   ACTION_SET_COMPETITION_URL,
   ACTION_SET_COMPETITION_ID,
   ACTION_SET_TEAMS,
-  ACTION_SET_PLAYER_PROFILE_URL
+  ACTION_SET_PLAYER_PROFILE_URL,
+  ACTION_SET_LIVE_MATCH_INDEX
 } from '../constants/actionTypes';
 
 export const setNewsData = newsData => ({
@@ -41,4 +42,9 @@ export const setTeams = teams => ({
 export const setPlayerProfileUrl = playerProfileUrl => ({
   type: ACTION_SET_PLAYER_PROFILE_URL,
   playerProfileUrl
+});
+
+export const setLiveMatchCardIndex = liveMatchCardIndex => ({
+  type: ACTION_SET_LIVE_MATCH_INDEX,
+  liveMatchCardIndex
 });

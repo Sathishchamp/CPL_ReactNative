@@ -6,11 +6,13 @@ import CompetitionUrlReducer from './CompetitionUrlReducer';
 import CompetitionIdReducer from './CompetitionIdReducer';
 import TeamsReducer from './TeamsReducer';
 import PlayerProfileUrlReducer from './PlayerProfileUrl';
+import LiveMatchIndexReducer from './LiveMatchIndexReducer';
 
 export default combineReducers({
   news: NewsReducer,
   videos: VideoReducer,
   liveMatchData: LiveMatchReducer,
+  liveMatchIndex: LiveMatchIndexReducer,
   competitionUrl: CompetitionUrlReducer,
   competitionId: CompetitionIdReducer,
   teams: TeamsReducer,

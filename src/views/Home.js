@@ -1,5 +1,12 @@
 import React from 'react';
-import { View, StyleSheet, RefreshControl, Platform, Text } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  RefreshControl,
+  Platform,
+  Text,
+  FlatList
+} from 'react-native';
 import { Container, Content } from 'native-base';
 import Footer from '../components/Footer';
 import {
@@ -20,7 +27,10 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import { YouTubeStandaloneIOS } from 'react-native-youtube';
 import commonStyles from '../commons/styles';
 import { translateArrayToJSON } from '../utils/CompDataParser';
-import LiveMatchCard from '../components/LiveMatchCard';
+import LiveMatchCard, {
+  MATCH_CARD_WIDTH,
+  SCREEN_W
+} from '../components/LiveMatchCard';
 import AdBanner from '../ads/Banner';
 import { STATUS_LIVE } from '../constants/matchStatus';
 import {
@@ -127,14 +137,21 @@ class Home extends React.Component {
         }
         const competitionUrl = Servarlink + compId;
         this.props.setCompetitionId(compId);
+
         APIService.getCompData(
           competitionUrl + '/Competition.json',
           compData => {
+            const liveMatchData = translateArrayToJSON(compData.LtFixtures);
+            const liveMatchIndex = liveMatchData
+              .map(data => data['KKRFlag'])
+              .indexOf('1');
+            // liveMatchData.filter(fixture =>
+            //   isEqual(fixture['KKRFlag'], '1')
+            // );
             resolve({
               matchData: compData,
-              liveMatchData: translateArrayToJSON(compData.LtFixtures).filter(
-                fixture => isEqual(fixture['KKRFlag'], '1')
-              )[0],
+              liveMatchData,
+              liveMatchIndex,
               competitionUrl,
               teams: translateArrayToJSON(compData.LtTeam)
             });
@@ -144,10 +161,12 @@ class Home extends React.Component {
     });
 
     Promise.all([newsPromise, videosPromise, matchDataPromise]).then(data => {
+      const { liveMatchData, liveMatchIndex, competitionUrl } = data[2];
       this.props.setNewsData(data[0]);
       this.props.setVideoData(data[1]);
-      this.props.setLiveMatchData(data[2].liveMatchData);
-      this.props.setCompetitionUrl(data[2].competitionUrl);
+      this.props.setLiveMatchData(liveMatchData);
+      this.props.setLiveMatchCardIndex(liveMatchIndex);
+      this.props.setCompetitionUrl(competitionUrl);
       //add backgroud color to team image
       const teams = data[2].teams.map(team => {
         let backgroundColor = '';
@@ -181,13 +200,12 @@ class Home extends React.Component {
       });
       this.props.setTeams(teams);
 
-      console.log(data[2].teams);
       this.setState(
         {
           spinner: false,
           refreshing: false,
           displayLiveCard: true,
-          matchState: data[2].liveMatchData.state
+          matchState: liveMatchData[liveMatchIndex].state
         },
         this._initiateInterval
       );
@@ -195,15 +213,18 @@ class Home extends React.Component {
   }
 
   _initiateInterval = () => {
-    if (isEqual(this.props.liveMatchData.state, STATUS_LIVE)) {
+    const { liveMatchData, liveMatchIndex } = this.props;
+    this.matchCard.scrollToIndex({
+      animated: true,
+      index: liveMatchIndex
+    });
+    if (isEqual(liveMatchData[liveMatchIndex].state, STATUS_LIVE)) {
       this._interval = setInterval(() => {
         console.log('refreshing live data');
         APIService.getCompData(
           this.props.competitionUrl + '/Competition.json',
           compData => {
-            const liveMatchData = translateArrayToJSON(
-              compData.LtFixtures
-            ).filter(fixture => isEqual(fixture['KKRFlag'], '1'))[0];
+            const liveMatchData = translateArrayToJSON(compData.LtFixtures);
             this.props.setLiveMatchData(liveMatchData);
             console.log('live data refresh complete');
             console.log(liveMatchData);
@@ -225,17 +246,40 @@ class Home extends React.Component {
     this.setState({ refreshing: true }, () => this._fetchData());
   }
 
-  _renderLiveMatchCard() {
+  _renderLiveMatchCard(item) {
     const { matchState } = this.state;
     return (
       <LiveMatchCard
-        data={this.props.liveMatchData}
+        data={item}
         onCardPress={matchId =>
           this.props.navigation.navigate(VIEW_MATCH_CENTER, {
             matchId,
             matchState
           })
         }
+      />
+    );
+  }
+
+  _renderLiveMatchCardList() {
+    const { liveMatchData, liveMatchIndex } = this.props;
+    return (
+      <FlatList
+        getItemLayout={(data, index) => ({
+          length: SCREEN_W * 0.98,
+          offset: (SCREEN_W) * index,
+          index
+        })}
+        data={liveMatchData}
+        extraData={this.props}
+        renderItem={({ item }) => this._renderLiveMatchCard(item)}
+        keyExtractor={(item, index) => index}
+        initialScrollIndex={liveMatchIndex}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        ref={ref => {
+          this.matchCard = ref;
+        }}
       />
     );
   }
@@ -268,7 +312,7 @@ class Home extends React.Component {
             />
           }
         >
-          {!spinner && displayLiveCard && this._renderLiveMatchCard()}
+          {!spinner && displayLiveCard && this._renderLiveMatchCardList()}
           {!spinner && (
             <View>
               {this._renderListTitle('Videos')}
@@ -317,7 +361,8 @@ const mapStateToProps = state => ({
   news: state.news,
   videos: state.videos,
   liveMatchData: state.liveMatchData,
-  competitionUrl: state.competitionUrl
+  competitionUrl: state.competitionUrl,
+  liveMatchIndex: state.liveMatchIndex
 });
 
 export default connect(

@@ -291,7 +291,7 @@ class MatchCenter extends React.Component {
   render() {
     return (
       <Container>
-        <StatusBar backgroundColor={PRIMARY} barStyle='light-content' />
+        <StatusBar backgroundColor={PRIMARY} barStyle="light-content" />
         <Tabs
           style={{ flex: 1 }}
           tabBarUnderlineStyle={{ borderBottomColor: '#267fff' }}
@@ -308,8 +308,7 @@ class MatchCenter extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  competitionId: state.competitionId,
-  liveMatchData: state.liveMatchData
+  competitionId: state.competitionId
 });
 
 export default connect(mapStateToProps)(MatchCenter);
