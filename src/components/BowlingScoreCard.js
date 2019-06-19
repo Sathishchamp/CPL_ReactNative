@@ -8,22 +8,22 @@ export default props => {
     <View style={{ flex: 1 }}>
       <View style={[styles.row, styles.titleRow]}>
         <View style={styles.colPlayer}>
-          <Text style={styles.titleText}>Batting</Text>
+          <Text style={styles.titleText}>Bowling</Text>
+        </View>
+        <View style={styles.colValue}>
+          <Text style={styles.titleText}>O</Text>
+        </View>
+        <View style={styles.colValue}>
+          <Text style={styles.titleText}>M</Text>
         </View>
         <View style={styles.colValue}>
           <Text style={styles.titleText}>R</Text>
         </View>
         <View style={styles.colValue}>
-          <Text style={styles.titleText}>B</Text>
-        </View>
-        <View style={styles.colValue}>
-          <Text style={styles.titleText}>4s</Text>
-        </View>
-        <View style={styles.colValue}>
-          <Text style={styles.titleText}>6s</Text>
+          <Text style={styles.titleText}>W</Text>
         </View>
         <View style={[styles.colValue, { flex: 2 }]}>
-          <Text style={styles.titleText}>SR</Text>
+          <Text style={styles.titleText}>ECON</Text>
         </View>
       </View>
       <FlatList
@@ -35,22 +35,21 @@ export default props => {
               <Text style={[styles.rowText, styles.playerText]}>
                 {item.Player}
               </Text>
-              <Text style={styles.rowText}>{item.Dismissal}</Text>
+            </View>
+            <View style={styles.colValue}>
+              <Text style={styles.rowText}>{item.Overs}</Text>
+            </View>
+            <View style={styles.colValue}>
+              <Text style={styles.rowText}>{item.Maiden}</Text>
             </View>
             <View style={styles.colValue}>
               <Text style={styles.rowText}>{item.Runs}</Text>
             </View>
             <View style={styles.colValue}>
-              <Text style={styles.rowText}>{item.Balls}</Text>
-            </View>
-            <View style={styles.colValue}>
-              <Text style={styles.rowText}>{item['4s']}</Text>
-            </View>
-            <View style={styles.colValue}>
-              <Text style={styles.rowText}>{item['6s']}</Text>
+              <Text style={styles.rowText}>{item.Wickets}</Text>
             </View>
             <View style={[styles.colValue, { flex: 2 }]}>
-              <Text style={styles.rowText}>{item.SR}</Text>
+              <Text style={styles.rowText}>{item.Econ}</Text>
             </View>
           </View>
         )}

@@ -20,6 +20,7 @@ import { isEqual, isNullOrEmpty } from '../utils';
 import MatchInfoCard from '../components/MatchInfoCard';
 import TeamTabs from '../components/TeamTabs';
 import BattingScoreCard from '../components/BattingScoreCard';
+import BowlingScoreCard from '../components/BowlingScoreCard';
 import Spinner from 'react-native-loading-spinner-overlay';
 import * as Actions from '../actions';
 import { connect } from 'react-redux';
@@ -48,7 +49,9 @@ class MatchCenter extends React.Component {
       teamAExtras: '',
       teamBExtras: '',
       teamAFallofWickets: '',
-      teamBFallofWickets: ''
+      teamBFallofWickets: '',
+      teamABowlingData: [],
+      teamBBowlingData: []
     };
   }
 
@@ -84,7 +87,9 @@ class MatchCenter extends React.Component {
         teamAExtras,
         teamBExtras,
         teamAFallofWickets,
-        teamBFallofWickets
+        teamBFallofWickets,
+        teamABowlingData,
+        teamBBowlingData
       } = scoresData;
 
       this.setState({
@@ -98,7 +103,9 @@ class MatchCenter extends React.Component {
         teamAFallofWickets,
         teamBFallofWickets,
         teamABattingScores,
-        teamBBattingScores
+        teamBBattingScores,
+        teamABowlingData,
+        teamBBowlingData
       });
     } catch (err) {
       this.setState({ spinner: false, matchDetails });
@@ -143,6 +150,8 @@ class MatchCenter extends React.Component {
           let teamBExtras = '';
           let teamAFallofWickets = '';
           let teamBFallofWickets = '';
+          let teamABowlingData = [];
+          let teamBBowlingData = [];
 
           //check with innings1
           if (isEqual(teama, scorecard.innings.innings1.batteam.batteamName)) {
@@ -156,6 +165,10 @@ class MatchCenter extends React.Component {
             teamAExtras = teamAExtras[0].Extras + teamAExtras[0].Total;
 
             teamAFallofWickets = scorecard.innings.innings1.fallofwicketsstr;
+
+            teamABowlingData = translateArrayToJSON(
+              scorecard.innings.innings1.bowlteam.player
+            );
           }
           if (isEqual(teamb, scorecard.innings.innings1.batteam.batteamName)) {
             teamBBattingScores = translateArrayToJSON(
@@ -168,6 +181,10 @@ class MatchCenter extends React.Component {
             teamBExtras = teamBExtras[0].Extras + teamBExtras[0].Total;
 
             teamBFallofWickets = scorecard.innings.innings1.fallofwicketsstr;
+
+            teamBBowlingData = translateArrayToJSON(
+              scorecard.innings.innings1.bowlteam.player
+            );
           }
 
           //check with innings2
@@ -182,6 +199,10 @@ class MatchCenter extends React.Component {
             teamAExtras = teamAExtras[0].Extras + teamAExtras[0].Total;
 
             teamAFallofWickets = scorecard.innings.innings2.fallofwicketsstr;
+
+            teamABowlingData = translateArrayToJSON(
+              scorecard.innings.innings2.bowlteam.player
+            );
           }
           if (isEqual(teamb, scorecard.innings.innings2.batteam.batteamName)) {
             teamBBattingScores = translateArrayToJSON(
@@ -194,7 +215,12 @@ class MatchCenter extends React.Component {
             teamBExtras = teamBExtras[0].Extras + teamBExtras[0].Total;
 
             teamBFallofWickets = scorecard.innings.innings2.fallofwicketsstr;
+
+            teamBBowlingData = translateArrayToJSON(
+              scorecard.innings.innings2.bowlteam.player
+            );
           }
+
           resolve({
             teamABattingScores,
             teamBBattingScores,
@@ -202,6 +228,8 @@ class MatchCenter extends React.Component {
             teamBFallofWickets,
             teamAExtras,
             teamBExtras,
+            teamABowlingData,
+            teamBBowlingData,
             matchStarted: true
           });
         });
@@ -211,6 +239,10 @@ class MatchCenter extends React.Component {
           teamBBattingScores: [],
           teamAExtras: '',
           teamBExtras: '',
+          teamAFallofWickets: '',
+          teamBFallofWickets: '',
+          teamABowlingData: [],
+          teamBBowlingData: [],
           matchStarted: false
         });
       }
@@ -296,6 +328,8 @@ class MatchCenter extends React.Component {
       teamBExtras,
       teamAFallofWickets,
       teamBFallofWickets,
+      teamABowlingData,
+      teamBBowlingData,
       matchDetails
     } = this.state;
 
@@ -303,7 +337,7 @@ class MatchCenter extends React.Component {
 
     if (this.state.matchStarted) {
       return this._withContent(
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, marginBottom: 30 }}>
           <TeamTabs
             teamA={matchDetails.teama}
             teamB={matchDetails.teamb}
@@ -325,6 +359,9 @@ class MatchCenter extends React.Component {
               {isActiveScoreCard1 ? teamAFallofWickets : teamBFallofWickets}
             </Text>
           </View>
+          <BowlingScoreCard
+            data={isActiveScoreCard1 ? teamABowlingData : teamBBowlingData}
+          />
         </View>
       );
     }
