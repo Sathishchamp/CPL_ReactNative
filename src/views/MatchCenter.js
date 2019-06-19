@@ -32,6 +32,7 @@ import {
   STATUS_CANCELLED
 } from '../constants/matchStatus';
 import { VAGROUND, SQUARE721, HELVETICA } from '../constants/fonts';
+import CommentaryItem from '../components/CommentaryItem';
 
 class MatchCenter extends React.Component {
   constructor(props) {
@@ -51,7 +52,8 @@ class MatchCenter extends React.Component {
       teamAFallofWickets: '',
       teamBFallofWickets: '',
       teamABowlingData: [],
-      teamBBowlingData: []
+      teamBBowlingData: [],
+      fullCommentary: []
     };
   }
 
@@ -74,11 +76,10 @@ class MatchCenter extends React.Component {
         teamb
       );
 
-      const fullcommentary = await this._fetchFullCommentary(
+      const fullCommentary = await this._fetchFullCommentary(
         competitionId,
         matchId
       );
-      console.log(fullcommentary);
 
       const {
         matchStarted,
@@ -105,7 +106,8 @@ class MatchCenter extends React.Component {
         teamABattingScores,
         teamBBattingScores,
         teamABowlingData,
-        teamBBowlingData
+        teamBBowlingData,
+        fullCommentary
       });
     } catch (err) {
       this.setState({ spinner: false, matchDetails });
@@ -143,6 +145,18 @@ class MatchCenter extends React.Component {
           const { scorecard } = data;
 
           console.log(scorecard);
+
+          const commentaryNew = translateArrayToJSON(scorecard.commentarynew);
+
+          const batsmanScores = translateArrayToJSON(
+            scorecard.currentscores.batsman
+          );
+          const bowlerScores = translateArrayToJSON(
+            scorecard.currentscores.bowler
+          );
+
+          console.log(batsmanScores);
+          console.log(bowlerScores);
 
           let teamABattingScores = [];
           let teamBBattingScores = [];
@@ -380,10 +394,16 @@ class MatchCenter extends React.Component {
   }
 
   _renderFullCommentary() {
-    if (this.state.matchStarted) {
+    const { matchStarted, fullCommentary } = this.state;
+    if (matchStarted) {
       return this._withContent(
         <View style={{ flex: 1 }}>
-          <Text style={{ color: 'white' }}>Full Commentary</Text>
+          <FlatList
+            data={fullCommentary}
+            extraData={this.state}
+            keyExtractor={(item, index) => index}
+            renderItem={({ item }) => <CommentaryItem data={item} />}
+          />
         </View>
       );
     }
