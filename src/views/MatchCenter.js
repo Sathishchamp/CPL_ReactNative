@@ -30,7 +30,7 @@ import {
   STATUS_COMPLETED,
   STATUS_CANCELLED
 } from '../constants/matchStatus';
-import { VAGROUND, SQUARE721 } from '../constants/fonts';
+import { VAGROUND, SQUARE721, HELVETICA } from '../constants/fonts';
 
 class MatchCenter extends React.Component {
   constructor(props) {
@@ -44,7 +44,11 @@ class MatchCenter extends React.Component {
       teamBBattingScores: [],
       matchStarted: false,
       teamAPlayers: [],
-      teamBPlayers: []
+      teamBPlayers: [],
+      teamAExtras: '',
+      teamBExtras: '',
+      teamAFallofWickets: '',
+      teamBFallofWickets: ''
     };
   }
 
@@ -55,28 +59,44 @@ class MatchCenter extends React.Component {
   async _fetchData() {
     const { competitionId, navigation } = this.props;
     const matchId = navigation.getParam('matchId');
-
     try {
       const prematch = await this._fetchPrematch(competitionId, matchId);
       const { matchDetails, teamAPlayers, teamBPlayers } = prematch;
       const { teama, teamb } = prematch.matchDetails;
+
       const scoresData = await this._fetchScores(
         competitionId,
         matchId,
         teama,
         teamb
       );
+
+      const fullcommentary = await this._fetchFullCommentary(
+        competitionId,
+        matchId
+      );
+      console.log(fullcommentary);
+
       const {
         matchStarted,
         teamABattingScores,
-        teamBBattingScores
+        teamBBattingScores,
+        teamAExtras,
+        teamBExtras,
+        teamAFallofWickets,
+        teamBFallofWickets
       } = scoresData;
+
       this.setState({
         spinner: false,
         matchDetails,
         teamAPlayers,
         teamBPlayers,
         matchStarted,
+        teamAExtras,
+        teamBExtras,
+        teamAFallofWickets,
+        teamBFallofWickets,
         teamABattingScores,
         teamBBattingScores
       });
@@ -115,19 +135,39 @@ class MatchCenter extends React.Component {
         APIService.getScores(competitionId, matchId, 'scores', data => {
           const { scorecard } = data;
 
+          console.log(scorecard);
+
           let teamABattingScores = [];
           let teamBBattingScores = [];
+          let teamAExtras = '';
+          let teamBExtras = '';
+          let teamAFallofWickets = '';
+          let teamBFallofWickets = '';
 
           //check with innings1
           if (isEqual(teama, scorecard.innings.innings1.batteam.batteamName)) {
             teamABattingScores = translateArrayToJSON(
               scorecard.innings.innings1.batteam.player
             );
+
+            teamAExtras = translateArrayToJSON(
+              scorecard.innings.innings1.extras
+            );
+            teamAExtras = teamAExtras[0].Extras + teamAExtras[0].Total;
+
+            teamAFallofWickets = scorecard.innings.innings1.fallofwicketsstr;
           }
           if (isEqual(teamb, scorecard.innings.innings1.batteam.batteamName)) {
             teamBBattingScores = translateArrayToJSON(
               scorecard.innings.innings1.batteam.player
             );
+
+            teamBExtras = translateArrayToJSON(
+              scorecard.innings.innings1.extras
+            );
+            teamBExtras = teamBExtras[0].Extras + teamBExtras[0].Total;
+
+            teamBFallofWickets = scorecard.innings.innings1.fallofwicketsstr;
           }
 
           //check with innings2
@@ -135,16 +175,33 @@ class MatchCenter extends React.Component {
             teamABattingScores = translateArrayToJSON(
               scorecard.innings.innings2.batteam.player
             );
+
+            teamAExtras = translateArrayToJSON(
+              scorecard.innings.innings2.extras
+            );
+            teamAExtras = teamAExtras[0].Extras + teamAExtras[0].Total;
+
+            teamAFallofWickets = scorecard.innings.innings2.fallofwicketsstr;
           }
           if (isEqual(teamb, scorecard.innings.innings2.batteam.batteamName)) {
             teamBBattingScores = translateArrayToJSON(
               scorecard.innings.innings2.batteam.player
             );
-          }
 
+            teamBExtras = translateArrayToJSON(
+              scorecard.innings.innings2.extras
+            );
+            teamBExtras = teamBExtras[0].Extras + teamBExtras[0].Total;
+
+            teamBFallofWickets = scorecard.innings.innings2.fallofwicketsstr;
+          }
           resolve({
             teamABattingScores,
             teamBBattingScores,
+            teamAFallofWickets,
+            teamBFallofWickets,
+            teamAExtras,
+            teamBExtras,
             matchStarted: true
           });
         });
@@ -152,9 +209,19 @@ class MatchCenter extends React.Component {
         resolve({
           teamABattingScores: [],
           teamBBattingScores: [],
+          teamAExtras: '',
+          teamBExtras: '',
           matchStarted: false
         });
       }
+    });
+  }
+
+  _fetchFullCommentary(competitionId, matchId) {
+    return new Promise((resolve, reject) => {
+      APIService.getScores(competitionId, matchId, 'fullcommentary', data => {
+        resolve(translateArrayToJSON(data));
+      });
     });
   }
 
@@ -225,8 +292,15 @@ class MatchCenter extends React.Component {
       activeScoreCardTab,
       teamABattingScores,
       teamBBattingScores,
+      teamAExtras,
+      teamBExtras,
+      teamAFallofWickets,
+      teamBFallofWickets,
       matchDetails
     } = this.state;
+
+    const isActiveScoreCard1 = isEqual(activeScoreCardTab, 1);
+
     if (this.state.matchStarted) {
       return this._withContent(
         <View style={{ flex: 1 }}>
@@ -238,12 +312,19 @@ class MatchCenter extends React.Component {
             }
           />
           <BattingScoreCard
-            data={
-              isEqual(activeScoreCardTab, 1)
-                ? teamABattingScores
-                : teamBBattingScores
-            }
+            data={isActiveScoreCard1 ? teamABattingScores : teamBBattingScores}
           />
+          <View style={scoreStyles.extrasView}>
+            <Text style={scoreStyles.extrasText}>
+              Extras: {isActiveScoreCard1 ? teamAExtras : teamBExtras}
+            </Text>
+          </View>
+          <View style={scoreStyles.fallOfWicketsView}>
+            <Text style={scoreStyles.fallOfWicketsText}>Fall of Wickets:</Text>
+            <Text style={scoreStyles.fallOfWicketsText}>
+              {isActiveScoreCard1 ? teamAFallofWickets : teamBFallofWickets}
+            </Text>
+          </View>
         </View>
       );
     }
@@ -291,7 +372,7 @@ class MatchCenter extends React.Component {
   render() {
     return (
       <Container>
-        <StatusBar backgroundColor={PRIMARY} barStyle="light-content" />
+        <StatusBar backgroundColor={PRIMARY} barStyle='light-content' />
         <Tabs
           style={{ flex: 1 }}
           tabBarUnderlineStyle={{ borderBottomColor: '#267fff' }}
@@ -362,5 +443,28 @@ const infoStyles = StyleSheet.create({
   infoListView: {
     marginLeft: 10,
     marginRight: 10
+  }
+});
+
+const scoreStyles = StyleSheet.create({
+  extrasText: {
+    color: WHITE,
+    fontFamily: SQUARE721,
+    fontSize: 12
+  },
+  extrasView: {
+    flex: 1,
+    margin: 10
+  },
+  fallOfWicketsText: {
+    color: 'white',
+    fontFamily: HELVETICA,
+    fontSize: 11
+  },
+  fallOfWicketsView: {
+    flex: 2,
+    margin: 10,
+    marginTop: 30,
+    flexDirection: 'column'
   }
 });
