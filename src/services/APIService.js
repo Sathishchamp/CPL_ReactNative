@@ -43,8 +43,10 @@ export default (APIService = {
     let json = '';
     if (isEqual(jsonConfig, 'scores')) {
       json = 'Scores';
-    } else if ((jsonConfig, 'prematch')) {
+    } else if (isEqual(jsonConfig, 'prematch')) {
       json = 'Prematch';
+    } else if (isEqual(jsonConfig, 'fullcommentary')) {
+      json = 'FullCommentary';
     }
     axios
       .get(SCORES_URL + '/' + compId + '/' + matchId + `/${json}.json`)
