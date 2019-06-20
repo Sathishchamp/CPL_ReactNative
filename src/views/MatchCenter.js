@@ -41,6 +41,7 @@ class MatchCenter extends React.Component {
       spinner: false,
       activeInfoTab: 1,
       activeScoreCardTab: 1,
+      activeCommentaryTab: 1,
       matchDetails: {},
       teamABattingScores: [],
       teamBBattingScores: [],
@@ -53,7 +54,9 @@ class MatchCenter extends React.Component {
       teamBFallofWickets: '',
       teamABowlingData: [],
       teamBBowlingData: [],
-      fullCommentary: []
+      fullCommentary: [],
+      teamAInningsId: '',
+      teamBInningsId: ''
     };
   }
 
@@ -80,6 +83,7 @@ class MatchCenter extends React.Component {
         competitionId,
         matchId
       );
+      console.log(fullCommentary);
 
       const {
         matchStarted,
@@ -90,7 +94,9 @@ class MatchCenter extends React.Component {
         teamAFallofWickets,
         teamBFallofWickets,
         teamABowlingData,
-        teamBBowlingData
+        teamBBowlingData,
+        teamAInningsId,
+        teamBInningsId
       } = scoresData;
 
       this.setState({
@@ -107,7 +113,9 @@ class MatchCenter extends React.Component {
         teamBBattingScores,
         teamABowlingData,
         teamBBowlingData,
-        fullCommentary
+        fullCommentary,
+        teamAInningsId,
+        teamBInningsId
       });
     } catch (err) {
       this.setState({ spinner: false, matchDetails });
@@ -155,9 +163,6 @@ class MatchCenter extends React.Component {
             scorecard.currentscores.bowler
           );
 
-          console.log(batsmanScores);
-          console.log(bowlerScores);
-
           let teamABattingScores = [];
           let teamBBattingScores = [];
           let teamAExtras = '';
@@ -166,6 +171,8 @@ class MatchCenter extends React.Component {
           let teamBFallofWickets = '';
           let teamABowlingData = [];
           let teamBBowlingData = [];
+          let teamAInningsId = '';
+          let teamBInningsId = '';
 
           //check with innings1
           if (isEqual(teama, scorecard.innings.innings1.batteam.batteamName)) {
@@ -183,6 +190,8 @@ class MatchCenter extends React.Component {
             teamABowlingData = translateArrayToJSON(
               scorecard.innings.innings1.bowlteam.player
             );
+
+            teamAInningsId = '1';
           }
           if (isEqual(teamb, scorecard.innings.innings1.batteam.batteamName)) {
             teamBBattingScores = translateArrayToJSON(
@@ -199,6 +208,8 @@ class MatchCenter extends React.Component {
             teamBBowlingData = translateArrayToJSON(
               scorecard.innings.innings1.bowlteam.player
             );
+
+            teamBInningsId = '1';
           }
 
           //check with innings2
@@ -217,6 +228,8 @@ class MatchCenter extends React.Component {
             teamABowlingData = translateArrayToJSON(
               scorecard.innings.innings2.bowlteam.player
             );
+
+            teamAInningsId = '2';
           }
           if (isEqual(teamb, scorecard.innings.innings2.batteam.batteamName)) {
             teamBBattingScores = translateArrayToJSON(
@@ -233,6 +246,8 @@ class MatchCenter extends React.Component {
             teamBBowlingData = translateArrayToJSON(
               scorecard.innings.innings2.bowlteam.player
             );
+
+            teamBInningsId = '2';
           }
 
           resolve({
@@ -244,6 +259,8 @@ class MatchCenter extends React.Component {
             teamBExtras,
             teamABowlingData,
             teamBBowlingData,
+            teamAInningsId,
+            teamBInningsId,
             matchStarted: true
           });
         });
@@ -257,6 +274,8 @@ class MatchCenter extends React.Component {
           teamBFallofWickets: '',
           teamABowlingData: [],
           teamBBowlingData: [],
+          teamAInningsId: '',
+          teamBInningsId: '',
           matchStarted: false
         });
       }
@@ -394,12 +413,34 @@ class MatchCenter extends React.Component {
   }
 
   _renderFullCommentary() {
-    const { matchStarted, fullCommentary } = this.state;
+    const {
+      matchStarted,
+      fullCommentary,
+      matchDetails,
+      activeCommentaryTab,
+      teamAInningsId,
+      teamBInningsId
+    } = this.state;
+    const commentary = fullCommentary.filter(comment => {
+      if (isEqual(activeCommentaryTab.toString(), teamAInningsId)) {
+        return isEqual(teamAInningsId, comment.InningsID);
+      }
+      if (isEqual(activeCommentaryTab.toString(), teamBInningsId)) {
+        return isEqual(teamBInningsId, comment.InningsID);
+      }
+    });
     if (matchStarted) {
       return this._withContent(
         <View style={{ flex: 1 }}>
+          <TeamTabs
+            teamA={matchDetails.teama}
+            teamB={matchDetails.teamb}
+            onTabPress={activeCommentaryTab =>
+              this.setState({ activeCommentaryTab })
+            }
+          />
           <FlatList
-            data={fullCommentary}
+            data={commentary}
             extraData={this.state}
             keyExtractor={(item, index) => index}
             renderItem={({ item }) => <CommentaryItem data={item} />}
