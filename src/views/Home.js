@@ -5,7 +5,8 @@ import {
   RefreshControl,
   Platform,
   Text,
-  FlatList
+  FlatList,
+  Alert
 } from 'react-native';
 import { Container, Content } from 'native-base';
 import Footer from '../components/Footer';
@@ -80,136 +81,170 @@ class Home extends React.Component {
     }
 
     const newsPromise = new Promise((resolve, reject) => {
-      APIService.getNewsFeed(xmlData => {
-        XMLParser.parseString(xmlData, (err, jsonData) => {
-          let newsItems = jsonData.rss.channel[0].item;
-          newsItems = newsItems.map(item => ({
-            title: item.title[0],
-            pubDate: item.pubDate[0],
-            description: item.description[0]
-          }));
-          const newsData = newsItems.map(item => {
-            const { title, pubDate, description } = item;
-            return {
-              image: description
-                .match('src="(.*?)"')[0]
-                .slice(4)
-                .replace(/"/g, ''),
-              title,
-              pubDate,
-              description
-            };
+      APIService.getNewsFeed((err, xmlData) => {
+        if (err) {
+          reject(err);
+        } else {
+          XMLParser.parseString(xmlData, (err, jsonData) => {
+            if (err) {
+              reject(err);
+            } else {
+              let newsItems = jsonData.rss.channel[0].item;
+              newsItems = newsItems.map(item => ({
+                title: item.title[0],
+                pubDate: item.pubDate[0],
+                description: item.description[0]
+              }));
+              const newsData = newsItems.map(item => {
+                const { title, pubDate, description } = item;
+                return {
+                  image: description
+                    .match('src="(.*?)"')[0]
+                    .slice(4)
+                    .replace(/"/g, ''),
+                  title,
+                  pubDate,
+                  description
+                };
+              });
+              resolve(newsData);
+            }
           });
-          resolve(newsData);
-        });
+        }
       });
     });
 
     const videosPromise = new Promise((resolve, reject) => {
-      APIService.getVideosFeed(playlistData => {
-        const items = playlistData.items;
-        const videoData = items.map(item => {
-          const { publishedAt, resourceId, thumbnails, title } = item.snippet;
-          return {
-            title,
-            publishedAt,
-            videoId: resourceId.videoId,
-            thumbnail: thumbnails.high.url
-          };
-        });
-        resolve(videoData);
+      APIService.getVideosFeed((err, playlistData) => {
+        if (err) {
+          reject(err);
+        } else {
+          const items = playlistData.items;
+          const videoData = items.map(item => {
+            const { publishedAt, resourceId, thumbnails, title } = item.snippet;
+            return {
+              title,
+              publishedAt,
+              videoId: resourceId.videoId,
+              thumbnail: thumbnails.high.url
+            };
+          });
+          resolve(videoData);
+        }
       });
     });
 
     const matchDataPromise = new Promise((resolve, reject) => {
-      APIService.getConfigurationData(config => {
-        const { CurrentCompID, UpcomingCompID, Servarlink, upcoming } = config;
-        console.log(config);
-        let compId = CurrentCompID;
-        if (!isNullOrEmpty(upcoming) && upcoming.includes('home')) {
-          compId = UpcomingCompID;
-        }
-        //if team present, set in redux state
-        if (!isNullOrEmpty(upcoming) && upcoming.includes('team')) {
-          this.props.setPlayerProfileUrl(
-            Servarlink + UpcomingCompID + '/PlayerProfile'
+      APIService.getConfigurationData((err, config) => {
+        if (err) {
+          reject(err);
+        } else {
+          const {
+            CurrentCompID,
+            UpcomingCompID,
+            Servarlink,
+            upcoming
+          } = config;
+          console.log(config);
+          let compId = CurrentCompID;
+          if (!isNullOrEmpty(upcoming) && upcoming.includes('home')) {
+            compId = UpcomingCompID;
+          }
+          //if team present, set in redux state
+          if (!isNullOrEmpty(upcoming) && upcoming.includes('team')) {
+            this.props.setPlayerProfileUrl(
+              Servarlink + UpcomingCompID + '/PlayerProfile'
+            );
+          }
+          const competitionUrl = Servarlink + compId;
+          this.props.setCompetitionId(compId);
+
+          APIService.getCompData(
+            competitionUrl + '/Competition.json',
+            (err, compData) => {
+              if (err) {
+                reject(err);
+              } else {
+                const liveMatchData = translateArrayToJSON(compData.LtFixtures);
+                const liveMatchIndex = liveMatchData
+                  .map(data => data['KKRFlag'])
+                  .indexOf('1');
+                // liveMatchData.filter(fixture =>
+                //   isEqual(fixture['KKRFlag'], '1')
+                // );
+                resolve({
+                  matchData: compData,
+                  liveMatchData,
+                  liveMatchIndex,
+                  competitionUrl,
+                  teams: translateArrayToJSON(compData.LtTeam)
+                });
+              }
+            }
           );
         }
-        const competitionUrl = Servarlink + compId;
-        this.props.setCompetitionId(compId);
+      });
+    });
 
-        APIService.getCompData(
-          competitionUrl + '/Competition.json',
-          compData => {
-            const liveMatchData = translateArrayToJSON(compData.LtFixtures);
-            const liveMatchIndex = liveMatchData
-              .map(data => data['KKRFlag'])
-              .indexOf('1');
-            // liveMatchData.filter(fixture =>
-            //   isEqual(fixture['KKRFlag'], '1')
-            // );
-            resolve({
-              matchData: compData,
-              liveMatchData,
-              liveMatchIndex,
-              competitionUrl,
-              teams: translateArrayToJSON(compData.LtTeam)
-            });
+    Promise.all([newsPromise, videosPromise, matchDataPromise])
+      .then(data => {
+        const { liveMatchData, liveMatchIndex, competitionUrl } = data[2];
+        this.props.setNewsData(data[0]);
+        this.props.setVideoData(data[1]);
+        this.props.setLiveMatchData(liveMatchData);
+        this.props.setLiveMatchCardIndex(liveMatchIndex);
+        this.props.setCompetitionUrl(competitionUrl);
+        //add backgroud color to team image
+        const teams = data[2].teams.map(team => {
+          let backgroundColor = '';
+          switch (team.ID) {
+            case '58':
+              backgroundColor = BG_KNIGHT_RIDERS;
+              break;
+            case '90':
+              backgroundColor = BG_TALLAWAHS;
+              break;
+            case '92':
+              backgroundColor = BG_AMAZON_WARRIORS;
+              break;
+            case '94':
+              backgroundColor = BG_TRIDENTS;
+              break;
+            case '264':
+              backgroundColor = BG_STARS;
+              break;
+            case '349':
+              backgroundColor = BG_PATRIOTS;
+              break;
+            default:
+              backgroundColor = BG_KNIGHT_RIDERS;
+              break;
           }
+          return {
+            ...team,
+            backgroundColor
+          };
+        });
+        this.props.setTeams(teams);
+
+        this.setState(
+          {
+            spinner: false,
+            refreshing: false,
+            displayLiveCard: true,
+            matchState: liveMatchData[liveMatchIndex].state
+          },
+          this._initiateInterval
+        );
+      })
+      .catch(err => {
+        console.log(err);
+        this.setState({ spinner: false, refreshing: false }, () =>
+          setTimeout(() => {
+            Alert.alert('Server Error!', 'Try again later.');
+          }, 100)
         );
       });
-    });
-
-    Promise.all([newsPromise, videosPromise, matchDataPromise]).then(data => {
-      const { liveMatchData, liveMatchIndex, competitionUrl } = data[2];
-      this.props.setNewsData(data[0]);
-      this.props.setVideoData(data[1]);
-      this.props.setLiveMatchData(liveMatchData);
-      this.props.setLiveMatchCardIndex(liveMatchIndex);
-      this.props.setCompetitionUrl(competitionUrl);
-      //add backgroud color to team image
-      const teams = data[2].teams.map(team => {
-        let backgroundColor = '';
-        switch (team.ID) {
-          case '58':
-            backgroundColor = BG_KNIGHT_RIDERS;
-            break;
-          case '90':
-            backgroundColor = BG_TALLAWAHS;
-            break;
-          case '92':
-            backgroundColor = BG_AMAZON_WARRIORS;
-            break;
-          case '94':
-            backgroundColor = BG_TRIDENTS;
-            break;
-          case '264':
-            backgroundColor = BG_STARS;
-            break;
-          case '349':
-            backgroundColor = BG_PATRIOTS;
-            break;
-          default:
-            backgroundColor = BG_KNIGHT_RIDERS;
-            break;
-        }
-        return {
-          ...team,
-          backgroundColor
-        };
-      });
-      this.props.setTeams(teams);
-
-      this.setState(
-        {
-          spinner: false,
-          refreshing: false,
-          displayLiveCard: true,
-          matchState: liveMatchData[liveMatchIndex].state
-        },
-        this._initiateInterval
-      );
-    });
   }
 
   _initiateInterval = () => {
@@ -267,7 +302,7 @@ class Home extends React.Component {
       <FlatList
         getItemLayout={(data, index) => ({
           length: SCREEN_W * 0.98,
-          offset: (SCREEN_W) * index,
+          offset: SCREEN_W * index,
           index
         })}
         data={liveMatchData}
