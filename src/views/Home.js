@@ -153,6 +153,9 @@ class Home extends React.Component {
               liveMatchData,
               liveMatchIndex,
               competitionUrl,
+              serverUrl: Servarlink,
+              currentCompetitionId: CurrentCompID,
+              upcomingCompetitionId: UpcomingCompID,
               teams: translateArrayToJSON(compData.LtTeam)
             });
           }
@@ -161,12 +164,22 @@ class Home extends React.Component {
     });
 
     Promise.all([newsPromise, videosPromise, matchDataPromise]).then(data => {
-      const { liveMatchData, liveMatchIndex, competitionUrl } = data[2];
+      const {
+        liveMatchData,
+        liveMatchIndex,
+        competitionUrl,
+        serverUrl,
+        currentCompetitionId,
+        upcomingCompetitionId
+      } = data[2];
       this.props.setNewsData(data[0]);
       this.props.setVideoData(data[1]);
       this.props.setLiveMatchData(liveMatchData);
       this.props.setLiveMatchCardIndex(liveMatchIndex);
       this.props.setCompetitionUrl(competitionUrl);
+      this.props.setServerUrl(serverUrl);
+      this.props.setCurrentCompetitionId(currentCompetitionId);
+      this.props.setUpcomingCompetitionId(upcomingCompetitionId);
       //add backgroud color to team image
       const teams = data[2].teams.map(team => {
         let backgroundColor = '';
@@ -267,7 +280,7 @@ class Home extends React.Component {
       <FlatList
         getItemLayout={(data, index) => ({
           length: SCREEN_W * 0.98,
-          offset: (SCREEN_W) * index,
+          offset: SCREEN_W * index,
           index
         })}
         data={liveMatchData}
@@ -350,7 +363,7 @@ class Home extends React.Component {
           )}
           {this._renderSpinner()}
         </Content>
-        <AdBanner size="fullBanner" />
+        <AdBanner size='fullBanner' />
         <Footer activeButton={VIEW_HOME} {...this.props} />
       </Container>
     );
