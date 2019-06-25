@@ -7,36 +7,48 @@ export default (APIService = {
     axios
       .get(NEWS_URL)
       .then(res => {
-        callback(res.data);
+        callback(null, res.data);
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        callback(err, null);
+        console.log(err);
+      });
   },
 
   getVideosFeed(callback) {
     axios
       .get(VIDEOS_URL)
       .then(res => {
-        callback(res.data);
+        callback(null, res.data);
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        callback(err, null);
+        console.log(err);
+      });
   },
 
   getConfigurationData(callback) {
     axios
       .get(CONFIG_URL)
       .then(res => {
-        callback(res.data);
+        callback(null, res.data);
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        callback(err, null);
+        console.log(err);
+      });
   },
 
   getCompData(url, callback) {
     axios
       .get(url)
       .then(res => {
-        callback(res.data);
+        callback(null, res.data);
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        callback(err, null);
+        console.log(err);
+      });
   },
 
   getScores(compId, matchId, jsonConfig, callback) {
