@@ -161,24 +161,28 @@ class Home extends React.Component {
 
           APIService.getCompData(
             competitionUrl + '/Competition.json',
-            compData => {
-              const liveMatchData = translateArrayToJSON(compData.LtFixtures);
-              const liveMatchIndex = liveMatchData
-                .map(data => data['KKRFlag'])
-                .indexOf('1');
-              // liveMatchData.filter(fixture =>
-              //   isEqual(fixture['KKRFlag'], '1')
-              // );
-              resolve({
-                matchData: compData,
-                liveMatchData,
-                liveMatchIndex,
-                competitionUrl,
-                serverUrl: Servarlink,
-                currentCompetitionId: CurrentCompID,
-                upcomingCompetitionId: UpcomingCompID,
-                teams: translateArrayToJSON(compData.LtTeam)
-              });
+            (err, compData) => {
+              if (err) {
+                reject(err);
+              } else {
+                const liveMatchData = translateArrayToJSON(compData.LtFixtures);
+                const liveMatchIndex = liveMatchData
+                  .map(data => data['KKRFlag'])
+                  .indexOf('1');
+                // liveMatchData.filter(fixture =>
+                //   isEqual(fixture['KKRFlag'], '1')
+                // );
+                resolve({
+                  matchData: compData,
+                  liveMatchData,
+                  liveMatchIndex,
+                  competitionUrl,
+                  serverUrl: Servarlink,
+                  currentCompetitionId: CurrentCompID,
+                  upcomingCompetitionId: UpcomingCompID,
+                  teams: translateArrayToJSON(compData.LtTeam)
+                });
+              }
             }
           );
         }
@@ -394,7 +398,7 @@ class Home extends React.Component {
           )}
           {this._renderSpinner()}
         </Content>
-        <AdBanner size='fullBanner' />
+        <AdBanner size="fullBanner" />
         <Footer activeButton={VIEW_HOME} {...this.props} />
       </Container>
     );
