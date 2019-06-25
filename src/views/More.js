@@ -7,13 +7,23 @@ import BannerHeader, {
 } from '../components/BannerHeader';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import Tickets from "../views/Tickets.js"
 import { VIEW_MORE } from '../constants/viewNames';
 import { MORE } from '../constants/strings';
 import commonStyles from '../commons/styles';
 import MoreItem from '../components/MoreItem';
 import { HOME_BG_COLOR } from '../config/colors';
+import Tickets from './Tickets';
 
 class More extends React.Component {
+  constructor(props){
+    super.props
+  }
+
+  _redirectToTickets() {
+    <Tickets />
+  }
+
   render() {
     return (
       <Container>
@@ -61,7 +71,7 @@ class More extends React.Component {
             <MoreItem
               iconImage={require('../../assets/images/more/ticket.png')}
               title="Tickets"
-              onPress={() => {}}
+              onPress={() => {this._redirectToTickets()}}
             />
             <MoreItem
               iconImage={require('../../assets/images/more/podcasts.png')}
