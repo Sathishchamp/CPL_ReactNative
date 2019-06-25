@@ -212,42 +212,49 @@ class MatchCenter extends React.Component {
             teamBInningsId = '1';
           }
 
-          //check with innings2
-          if (isEqual(teama, scorecard.innings.innings2.batteam.batteamName)) {
-            teamABattingScores = translateArrayToJSON(
-              scorecard.innings.innings2.batteam.player
-            );
+          //if innings2 is present
+          if (!isEqual(scorecard.innings.innings2, undefined)) {
+            //check with innings2
+            if (
+              isEqual(teama, scorecard.innings.innings2.batteam.batteamName)
+            ) {
+              teamABattingScores = translateArrayToJSON(
+                scorecard.innings.innings2.batteam.player
+              );
 
-            teamAExtras = translateArrayToJSON(
-              scorecard.innings.innings2.extras
-            );
-            teamAExtras = teamAExtras[0].Extras + teamAExtras[0].Total;
+              teamAExtras = translateArrayToJSON(
+                scorecard.innings.innings2.extras
+              );
+              teamAExtras = teamAExtras[0].Extras + teamAExtras[0].Total;
 
-            teamAFallofWickets = scorecard.innings.innings2.fallofwicketsstr;
+              teamAFallofWickets = scorecard.innings.innings2.fallofwicketsstr;
 
-            teamABowlingData = translateArrayToJSON(
-              scorecard.innings.innings2.bowlteam.player
-            );
+              teamABowlingData = translateArrayToJSON(
+                scorecard.innings.innings2.bowlteam.player
+              );
 
-            teamAInningsId = '2';
-          }
-          if (isEqual(teamb, scorecard.innings.innings2.batteam.batteamName)) {
-            teamBBattingScores = translateArrayToJSON(
-              scorecard.innings.innings2.batteam.player
-            );
+              teamAInningsId = '2';
+            }
+            if (
+              isEqual(teamb, scorecard.innings.innings2.batteam.batteamName)
+            ) {
+              teamBBattingScores = translateArrayToJSON(
+                scorecard.innings.innings2.batteam.player
+              );
 
-            teamBExtras = translateArrayToJSON(
-              scorecard.innings.innings2.extras
-            );
-            teamBExtras = teamBExtras[0].Extras + teamBExtras[0].Total;
+              teamBExtras = translateArrayToJSON(
+                scorecard.innings.innings2.extras
+              );
+              teamBExtras = teamBExtras[0].Extras + teamBExtras[0].Total;
 
-            teamBFallofWickets = scorecard.innings.innings2.fallofwicketsstr;
+              teamBFallofWickets = scorecard.innings.innings2.fallofwicketsstr;
 
-            teamBBowlingData = translateArrayToJSON(
-              scorecard.innings.innings2.bowlteam.player
-            );
+              teamBBowlingData = translateArrayToJSON(
+                scorecard.innings.innings2.bowlteam.player
+              );
 
-            teamBInningsId = '2';
+              teamBInningsId = '2';
+            }
           }
 
           resolve({
@@ -470,7 +477,7 @@ class MatchCenter extends React.Component {
   render() {
     return (
       <Container>
-        <StatusBar backgroundColor={PRIMARY} barStyle='light-content' />
+        <StatusBar backgroundColor={PRIMARY} barStyle="light-content" />
         <Tabs
           style={{ flex: 1 }}
           tabBarUnderlineStyle={{ borderBottomColor: '#267fff' }}
