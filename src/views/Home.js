@@ -161,105 +161,80 @@ class Home extends React.Component {
 
           APIService.getCompData(
             competitionUrl + '/Competition.json',
-            (err, compData) => {
-              if (err) {
-                reject(err);
-              } else {
-                const liveMatchData = translateArrayToJSON(compData.LtFixtures);
-                const liveMatchIndex = liveMatchData
-                  .map(data => data['KKRFlag'])
-                  .indexOf('1');
-                // liveMatchData.filter(fixture =>
-                //   isEqual(fixture['KKRFlag'], '1')
-                // );
-                resolve({
-                  matchData: compData,
-                  liveMatchData,
-                  liveMatchIndex,
-                  competitionUrl,
-                  teams: translateArrayToJSON(compData.LtTeam)
-                });
-              }
+            compData => {
+              const liveMatchData = translateArrayToJSON(compData.LtFixtures);
+              const liveMatchIndex = liveMatchData
+                .map(data => data['KKRFlag'])
+                .indexOf('1');
+              // liveMatchData.filter(fixture =>
+              //   isEqual(fixture['KKRFlag'], '1')
+              // );
+              resolve({
+                matchData: compData,
+                liveMatchData,
+                liveMatchIndex,
+                competitionUrl,
+                serverUrl: Servarlink,
+                currentCompetitionId: CurrentCompID,
+                upcomingCompetitionId: UpcomingCompID,
+                teams: translateArrayToJSON(compData.LtTeam)
+              });
             }
           );
         }
-        const competitionUrl = Servarlink + compId;
-        this.props.setCompetitionId(compId);
-
-        APIService.getCompData(
-          competitionUrl + '/Competition.json',
-          compData => {
-            const liveMatchData = translateArrayToJSON(compData.LtFixtures);
-            const liveMatchIndex = liveMatchData
-              .map(data => data['KKRFlag'])
-              .indexOf('1');
-            // liveMatchData.filter(fixture =>
-            //   isEqual(fixture['KKRFlag'], '1')
-            // );
-            resolve({
-              matchData: compData,
-              liveMatchData,
-              liveMatchIndex,
-              competitionUrl,
-              serverUrl: Servarlink,
-              currentCompetitionId: CurrentCompID,
-              upcomingCompetitionId: UpcomingCompID,
-              teams: translateArrayToJSON(compData.LtTeam)
-            });
-          }
-        );
       });
     });
 
-    Promise.all([newsPromise, videosPromise, matchDataPromise]).then(data => {
-      const {
-        liveMatchData,
-        liveMatchIndex,
-        competitionUrl,
-        serverUrl,
-        currentCompetitionId,
-        upcomingCompetitionId
-      } = data[2];
-      this.props.setNewsData(data[0]);
-      this.props.setVideoData(data[1]);
-      this.props.setLiveMatchData(liveMatchData);
-      this.props.setLiveMatchCardIndex(liveMatchIndex);
-      this.props.setCompetitionUrl(competitionUrl);
-      this.props.setServerUrl(serverUrl);
-      this.props.setCurrentCompetitionId(currentCompetitionId);
-      this.props.setUpcomingCompetitionId(upcomingCompetitionId);
-      //add backgroud color to team image
-      const teams = data[2].teams.map(team => {
-        let backgroundColor = '';
-        switch (team.ID) {
-          case '58':
-            backgroundColor = BG_KNIGHT_RIDERS;
-            break;
-          case '90':
-            backgroundColor = BG_TALLAWAHS;
-            break;
-          case '92':
-            backgroundColor = BG_AMAZON_WARRIORS;
-            break;
-          case '94':
-            backgroundColor = BG_TRIDENTS;
-            break;
-          case '264':
-            backgroundColor = BG_STARS;
-            break;
-          case '349':
-            backgroundColor = BG_PATRIOTS;
-            break;
-          default:
-            backgroundColor = BG_KNIGHT_RIDERS;
-            break;
-        }
-        return {
-          ...team,
-          backgroundColor
-        };
-      });
-      this.props.setTeams(teams);
+    Promise.all([newsPromise, videosPromise, matchDataPromise])
+      .then(data => {
+        const {
+          liveMatchData,
+          liveMatchIndex,
+          competitionUrl,
+          serverUrl,
+          currentCompetitionId,
+          upcomingCompetitionId
+        } = data[2];
+        this.props.setNewsData(data[0]);
+        this.props.setVideoData(data[1]);
+        this.props.setLiveMatchData(liveMatchData);
+        this.props.setLiveMatchCardIndex(liveMatchIndex);
+        this.props.setCompetitionUrl(competitionUrl);
+        this.props.setServerUrl(serverUrl);
+        this.props.setCurrentCompetitionId(currentCompetitionId);
+        this.props.setUpcomingCompetitionId(upcomingCompetitionId);
+        //add backgroud color to team image
+        const teams = data[2].teams.map(team => {
+          let backgroundColor = '';
+          switch (team.ID) {
+            case '58':
+              backgroundColor = BG_KNIGHT_RIDERS;
+              break;
+            case '90':
+              backgroundColor = BG_TALLAWAHS;
+              break;
+            case '92':
+              backgroundColor = BG_AMAZON_WARRIORS;
+              break;
+            case '94':
+              backgroundColor = BG_TRIDENTS;
+              break;
+            case '264':
+              backgroundColor = BG_STARS;
+              break;
+            case '349':
+              backgroundColor = BG_PATRIOTS;
+              break;
+            default:
+              backgroundColor = BG_KNIGHT_RIDERS;
+              break;
+          }
+          return {
+            ...team,
+            backgroundColor
+          };
+        });
+        this.props.setTeams(teams);
 
         this.setState(
           {
