@@ -10,6 +10,7 @@ import {
 import { Container, Content } from 'native-base';
 import APIService from '../services/APIService';
 import { connect } from 'react-redux';
+import Spinner from 'react-native-loading-spinner-overlay'
 import commonStyles from '../commons/styles';
 import {SUPPORT_JSON} from '../constants/strings.js';
 import { isNullOrEmpty } from '../utils'; 
@@ -19,35 +20,42 @@ class Tickets extends React.PureComponent{
     constructor(props){
         super(props)
         this.state = {
-            loading : false
+            loading : false,
+            tickets : ""
         };
     }
     componentDidMount() {
         this._fetchData();
     }
     _fetchData() {
-        const url = this.props.competitionUrl;
+        const url = this.props.serverUrl;
         if(!isNullOrEmpty(url)){
-            const link = url + currentCompetitionId + `/`+ SUPPORT_JSON;
+            const link = url + this.props.currentCompetitionId + SUPPORT_JSON;
             console.log(link)
             this.setState({loading:true},() => 
             APIService.getTickets(
-                url + currentCompetitionId + `/`+ SUPPORT_JSON,
+                link,
                 data => {
-                    console.log(data)
+                    console.log(data.Tickets)
+                    this.setState({loading:false,tickets:data.Tickets})
                 }
             ))
         }
     }
-
+    _renderSpinner() {
+        return (
+          <Spinner visible={this.state.loading} textStyle={{ color: 'white' }} />
+        );
+      }
     render(){
         return (
             <Container>
                 <Content style={commonStyles.content}>
+                {this._renderSpinner()}
                 <View style={{ flex: 1, height: SCREEN_H }}>
                     <WebView
                         originWhitelist={['*']}
-                       // source={{ html: this.state.description }}
+                        source={{ html: this.state.tickets }}
                         style={{ flex: 1}}
                     // scalesPageToFit={true}
                     />
