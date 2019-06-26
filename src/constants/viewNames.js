@@ -12,3 +12,4 @@ export const VIEW_HOME_NEWS_VIEW = 'homeNewsView';
 export const VIEW_NEWS_NEWS_VIEW = 'newsNewsView';
 export const VIEW_MATCH_CENTER = 'matchCenter';
 export const VIEW_TEAM_PLAYERS = 'teamPlayers';
+export const VIEW_TICKETS = 'tickets';

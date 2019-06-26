@@ -7,7 +7,7 @@ import BannerHeader, {
 } from '../components/BannerHeader';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { VIEW_MORE } from '../constants/viewNames';
+import { VIEW_MORE, VIEW_TICKETS } from '../constants/viewNames';
 import { MORE } from '../constants/strings';
 import commonStyles from '../commons/styles';
 import MoreItem from '../components/MoreItem';
@@ -15,7 +15,7 @@ import { HOME_BG_COLOR } from '../config/colors';
 
 class More extends React.Component {
   _redirectToTickets() {
-    <Tickets />
+    this.props.navigation.navigate(VIEW_TICKETS)
   }
 
   render() {
@@ -101,3 +101,4 @@ class More extends React.Component {
 export default More;
 
 const styles = StyleSheet.create({});
+

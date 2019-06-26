@@ -12,8 +12,8 @@ import APIService from '../services/APIService';
 import { connect } from 'react-redux';
 import commonStyles from '../commons/styles';
 import {SUPPORT_JSON} from '../constants/strings.js';
-import { connect } from 'net';
-import { isNullOrEmpty } from '../utils';
+import { isNullOrEmpty } from '../utils'; 
+const SCREEN_H = Dimensions.get('screen').height;
 
 class Tickets extends React.PureComponent{
     constructor(props){
@@ -28,9 +28,11 @@ class Tickets extends React.PureComponent{
     _fetchData() {
         const url = this.props.competitionUrl;
         if(!isNullOrEmpty(url)){
+            const link = url + currentCompetitionId + `/`+ SUPPORT_JSON;
+            console.log(link)
             this.setState({loading:true},() => 
             APIService.getTickets(
-                url + "809" + SUPPORT_JSON,
+                url + currentCompetitionId + `/`+ SUPPORT_JSON,
                 data => {
                     console.log(data)
                 }
@@ -46,7 +48,7 @@ class Tickets extends React.PureComponent{
                     <WebView
                         originWhitelist={['*']}
                        // source={{ html: this.state.description }}
-                        style={{ flex: 1, fontSize: 14 }}
+                        style={{ flex: 1}}
                     // scalesPageToFit={true}
                     />
                 </View>
@@ -57,6 +59,15 @@ class Tickets extends React.PureComponent{
     }
 }
 const mapStateToProps = state => ({
-    competitionUrl: state.competitionUrl,
+    currentCompetitionId: state.currentCompetitionId,
+    upcomingCompetitionId: state.upcomingCompetitionId,
+    serverUrl: state.serverUrl
 });
 export default connect(mapStateToProps)(Tickets)
+
+
+
+
+
+
+
