@@ -7,7 +7,7 @@ import BannerHeader, {
 } from '../components/BannerHeader';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { VIEW_MORE, VIEW_TICKETS } from '../constants/viewNames';
+import { VIEW_MORE, VIEW_TICKETS, VIEW_SPONSOR } from '../constants/viewNames';
 import { MORE } from '../constants/strings';
 import commonStyles from '../commons/styles';
 import MoreItem from '../components/MoreItem';
@@ -17,7 +17,9 @@ class More extends React.Component {
   _redirectToTickets() {
     this.props.navigation.navigate(VIEW_TICKETS)
   }
-
+  _redirectToSponsors() {
+    this.props.navigation.navigate(VIEW_SPONSOR)
+  }
   render() {
     return (
       <Container>
@@ -88,7 +90,7 @@ class More extends React.Component {
             <MoreItem
               iconImage={require('../../assets/images/more/sponsors.png')}
               title="Sponsors"
-              onPress={() => {}}
+              onPress={() => {this._redirectToSponsors()}}
             />
           </View>
         </Content>

@@ -7,5 +7,6 @@ export const MORE = 'More';
 export const MTATCH_CENTER = 'Match Center';
 export const TEAM_DETAILS = 'Team Details';
 export const TICKETS = 'Tickets';
+export const SPONSORS = 'Sponsors';
 export const SUPPORT_JSON = '/others.json';
 
