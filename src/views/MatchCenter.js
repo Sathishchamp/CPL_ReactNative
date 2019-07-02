@@ -33,6 +33,7 @@ import {
 } from '../constants/matchStatus';
 import { VAGROUND, SQUARE721, HELVETICA } from '../constants/fonts';
 import CommentaryItem from '../components/CommentaryItem';
+import LiveMatchCard from '../components/LiveMatchCard';
 
 class MatchCenter extends React.Component {
   constructor(props) {
@@ -409,10 +410,11 @@ class MatchCenter extends React.Component {
   }
 
   _renderTimeline() {
-    if (this.state.matchStarted) {
+    const { matchDetails, matchStarted } = this.state;
+    if (matchStarted) {
       return this._withContent(
         <View style={{ flex: 1 }}>
-          <Text style={{ color: 'white' }}>Timeline</Text>
+          <LiveMatchCard data={matchDetails} showRR={true} />
         </View>
       );
     }
@@ -477,7 +479,7 @@ class MatchCenter extends React.Component {
   render() {
     return (
       <Container>
-        <StatusBar backgroundColor={PRIMARY} barStyle="light-content" />
+        <StatusBar backgroundColor={PRIMARY} barStyle='light-content' />
         <Tabs
           style={{ flex: 1 }}
           tabBarUnderlineStyle={{ borderBottomColor: '#267fff' }}

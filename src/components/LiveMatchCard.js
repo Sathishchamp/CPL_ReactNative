@@ -16,6 +16,7 @@ const MATCH_CARD_HEIGHT = SCREEN_W * 0.5;
 export const MATCH_CARD_WIDTH = SCREEN_W * 0.95;
 
 export default props => {
+  const { data, showRR } = props;
   const {
     starttimeGMT,
     status,
@@ -36,7 +37,7 @@ export default props => {
     venue,
     matchId,
     result
-  } = props.data;
+  } = data;
   const secondInningStatus = props.data['2innstatus'];
 
   let statusText = status;
@@ -74,7 +75,7 @@ export default props => {
             <Image
               source={{ uri: teamaimage }}
               style={styles.teamImage}
-              resizeMode="contain"
+              resizeMode='contain'
             />
           </View>
           {showTeamAScores && (
@@ -84,9 +85,11 @@ export default props => {
                   {teamaRuns + '/' + teamawkts}
                 </Text>
               </View>
-              <View style={styles.flexRow1}>
-                <Text style={styles.rrText}>{'RR ' + teamaRR}</Text>
-              </View>
+              {showRR && (
+                <View style={styles.flexRow1}>
+                  <Text style={styles.rrText}>{'RR ' + teamaRR}</Text>
+                </View>
+              )}
               <View style={styles.flexRow1}>
                 <Text style={styles.oversText}>
                   {teamaovers + '/' + teamatotalovers}
@@ -106,9 +109,11 @@ export default props => {
                   {teambRuns + '/' + teambwkts}
                 </Text>
               </View>
-              <View style={styles.flexRow1}>
-                <Text style={styles.rrText}>{'RR ' + teambRR}</Text>
-              </View>
+              {showRR && (
+                <View style={styles.flexRow1}>
+                  <Text style={styles.rrText}>{'RR ' + teambRR}</Text>
+                </View>
+              )}
               <View style={styles.flexRow1}>
                 <Text style={styles.oversText}>
                   {teambovers + '/' + teambtotalovers}
@@ -121,7 +126,7 @@ export default props => {
             <Image
               source={{ uri: teambimage }}
               style={styles.teamImage}
-              resizeMode="contain"
+              resizeMode='contain'
             />
           </View>
         </View>
