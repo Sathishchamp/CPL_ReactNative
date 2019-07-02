@@ -5,7 +5,8 @@ import {
   Text,
   StatusBar,
   TouchableOpacity,
-  FlatList
+  FlatList,
+  Image
 } from 'react-native';
 import { Container, Content, Tab, Tabs } from 'native-base';
 import commonStyles from '../commons/styles';
@@ -33,7 +34,7 @@ import {
 } from '../constants/matchStatus';
 import { VAGROUND, SQUARE721, HELVETICA } from '../constants/fonts';
 import CommentaryItem from '../components/CommentaryItem';
-import LiveMatchCard from '../components/LiveMatchCard';
+import LiveMatchCard, { SCREEN_W } from '../components/LiveMatchCard';
 
 class MatchCenter extends React.Component {
   constructor(props) {
@@ -57,7 +58,10 @@ class MatchCenter extends React.Component {
       teamBBowlingData: [],
       fullCommentary: [],
       teamAInningsId: '',
-      teamBInningsId: ''
+      teamBInningsId: '',
+      batsmanScores: [],
+      bowlerScores: [],
+      lastWicket: []
     };
   }
 
@@ -97,7 +101,10 @@ class MatchCenter extends React.Component {
         teamABowlingData,
         teamBBowlingData,
         teamAInningsId,
-        teamBInningsId
+        teamBInningsId,
+        batsmanScores,
+        bowlerScores,
+        lastWicket
       } = scoresData;
 
       this.setState({
@@ -116,7 +123,10 @@ class MatchCenter extends React.Component {
         teamBBowlingData,
         fullCommentary,
         teamAInningsId,
-        teamBInningsId
+        teamBInningsId,
+        batsmanScores,
+        bowlerScores,
+        lastWicket
       });
     } catch (err) {
       this.setState({ spinner: false, matchDetails });
@@ -162,6 +172,9 @@ class MatchCenter extends React.Component {
           );
           const bowlerScores = translateArrayToJSON(
             scorecard.currentscores.bowler
+          );
+          const lastWicket = translateArrayToJSON(
+            scorecard.currentscores.lastwicket
           );
 
           let teamABattingScores = [];
@@ -269,6 +282,9 @@ class MatchCenter extends React.Component {
             teamBBowlingData,
             teamAInningsId,
             teamBInningsId,
+            batsmanScores,
+            bowlerScores,
+            lastWicket,
             matchStarted: true
           });
         });
@@ -409,12 +425,155 @@ class MatchCenter extends React.Component {
     return this._renderMatchNotYetStarted();
   }
 
+  _renderBatsmenScoreRow(col1, col2) {
+    return (
+      <View style={{ flexDirection: 'row' }}>
+        <View style={timelineStyles.batsmanScoreCol}>
+          <Text
+            style={{ fontFamily: VAGROUND, fontWeight: 'bold', fontSize: 14 }}
+          >
+            {col1}
+          </Text>
+        </View>
+        <View style={timelineStyles.batsmanScoreCol}>
+          <Text style={{ fontFamily: HELVETICA, fontSize: 14 }}>{col2}</Text>
+        </View>
+      </View>
+    );
+  }
+
   _renderTimeline() {
-    const { matchDetails, matchStarted } = this.state;
+    const {
+      matchDetails,
+      matchStarted,
+      batsmanScores,
+      bowlerScores,
+      lastWicket
+    } = this.state;
+    console.log(bowlerScores);
+    const batsman1 = batsmanScores[0];
+    const batsman2 = batsmanScores[1];
+    const bowler1 = bowlerScores[0];
+    const bowler2 = bowlerScores[1];
     if (matchStarted) {
+      const lastBatsmanContent =
+        lastWicket[0].batsman + ' ' + lastWicket[0].RunsBalls;
       return this._withContent(
         <View style={{ flex: 1 }}>
-          <LiveMatchCard data={matchDetails} showRR={true} />
+          <LiveMatchCard data={matchDetails} showRR={true} fullCard={true} />
+          <View style={timelineStyles.batsmenView}>
+            <View style={timelineStyles.batsmenInnerView}>
+              <Text style={timelineStyles.batsmenFont}>BATSMEN</Text>
+            </View>
+            <View style={timelineStyles.lastbatsmanView}>
+              <Text style={timelineStyles.lastbatsmanFont}>
+                {`LAST BATSMAN : ${lastBatsmanContent}`}
+              </Text>
+            </View>
+          </View>
+          <View style={timelineStyles.playerNameBar}>
+            <View style={timelineStyles.playerNameCol}>
+              <Text style={[timelineStyles.playerNameFont, { color: 'white' }]}>
+                {batsman1.Striker}
+              </Text>
+            </View>
+            <View style={timelineStyles.playerNameCol}>
+              <Text
+                style={[timelineStyles.playerNameFont, { color: '#acb030' }]}
+              >
+                {batsman2.Striker}
+              </Text>
+            </View>
+          </View>
+
+          <View style={timelineStyles.batsmanScoresPart}>
+            <View style={{ flex: 1, flexDirection: 'row' }}>
+              <View style={{ flex: 1, justifyContent: 'center' }}>
+                <View style={{ flex: 1 }}>
+                  {this._renderBatsmenScoreRow('Runs', batsman1.score)}
+                  {this._renderBatsmenScoreRow('Balls', batsman1.Balls)}
+                  {this._renderBatsmenScoreRow('4s', batsman1.fours)}
+                  {this._renderBatsmenScoreRow('6s', batsman1.Six)}
+                  {this._renderBatsmenScoreRow('SR', batsman1.SR)}
+                </View>
+              </View>
+              <View style={timelineStyles.playerImageView}>
+                <Image
+                  source={{ uri: batsman1.PlayerImage }}
+                  style={timelineStyles.playerImage}
+                />
+              </View>
+            </View>
+
+            <View style={{ flex: 1, flexDirection: 'row' }}>
+              <View style={timelineStyles.playerImageView}>
+                <Image
+                  source={{ uri: batsman2.PlayerImage }}
+                  style={timelineStyles.playerImage}
+                />
+              </View>
+              <View style={{ flex: 1, flexDirection: 'row' }}>
+                <View style={{ flex: 1 }}>
+                  {this._renderBatsmenScoreRow('Runs', batsman2.score)}
+                  {this._renderBatsmenScoreRow('Balls', batsman2.Balls)}
+                  {this._renderBatsmenScoreRow('4s', batsman2.fours)}
+                  {this._renderBatsmenScoreRow('6s', batsman2.Six)}
+                  {this._renderBatsmenScoreRow('SR', batsman2.SR)}
+                </View>
+              </View>
+            </View>
+          </View>
+
+          <View style={timelineStyles.batsmenView}>
+            <View style={timelineStyles.batsmenInnerView}>
+              <Text style={timelineStyles.batsmenFont}>BOWLERS</Text>
+            </View>
+          </View>
+          <View style={timelineStyles.playerNameBar}>
+            <View style={timelineStyles.playerNameCol}>
+              <Text style={[timelineStyles.playerNameFont, { color: 'white' }]}>
+                {bowler1.Striker}
+              </Text>
+            </View>
+            <View style={timelineStyles.playerNameCol}>
+              <Text
+                style={[timelineStyles.playerNameFont, { color: '#acb030' }]}
+              >
+                {bowler2.Striker}
+              </Text>
+            </View>
+          </View>
+          <View style={timelineStyles.bowlerScoresView}>
+            <View
+              style={[
+                timelineStyles.bowlerScoreRow,
+                { borderRightWidth: 1, borderRightColor: VIEW_BG_COLOR }
+              ]}
+            >
+              <View style={timelineStyles.bowlerScoreRowItem}>
+                <Text style={timelineStyles.bowlerScoresFont}>{`${
+                  bowler1.score
+                }-${bowler1.Balls}-${bowler1.fours}-${bowler1.Six}`}</Text>
+              </View>
+              <View style={timelineStyles.bowlerScoreRowItem}>
+                <Text style={timelineStyles.bowlerScoresFont}>{`Econ ${
+                  bowler1.PlayerImage
+                }`}</Text>
+              </View>
+            </View>
+            <View style={timelineStyles.bowlerScoreRow}>
+              <View style={timelineStyles.bowlerScoreRowItem}>
+                <Text style={timelineStyles.bowlerScoresFont}>{`${
+                  bowler2.score
+                }-${bowler2.Balls}-${bowler2.fours}-${bowler2.Six}`}</Text>
+              </View>
+              <View style={timelineStyles.bowlerScoreRowItem}>
+                <Text style={timelineStyles.bowlerScoresFont}>{`Econ ${
+                  bowler2.PlayerImage
+                }`}</Text>
+              </View>
+            </View>
+          </View>
         </View>
       );
     }
@@ -479,7 +638,7 @@ class MatchCenter extends React.Component {
   render() {
     return (
       <Container>
-        <StatusBar backgroundColor={PRIMARY} barStyle='light-content' />
+        <StatusBar backgroundColor={PRIMARY} barStyle="light-content" />
         <Tabs
           style={{ flex: 1 }}
           tabBarUnderlineStyle={{ borderBottomColor: '#267fff' }}
@@ -487,7 +646,7 @@ class MatchCenter extends React.Component {
           {this._withTab('INFO', this._renderInfo())}
           {this._withTab('SCORECARD', this._renderScoreCard())}
           {this._withTab('TIMELINE', this._renderTimeline())}
-          {this._withTab('FULL COMMENTARY', this._renderFullCommentary())}
+          {this._withTab('COMMENTARY', this._renderFullCommentary())}
         </Tabs>
         {this._renderSpinner()}
       </Container>
@@ -573,5 +732,91 @@ const scoreStyles = StyleSheet.create({
     margin: 10,
     marginTop: 30,
     flexDirection: 'column'
+  }
+});
+
+const timelineStyles = StyleSheet.create({
+  batsmenView: {
+    // height: 20,
+    marginTop: 3,
+    marginBottom: 3,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingLeft: 10
+  },
+  batsmenInnerView: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'flex-start'
+  },
+  lastbatsmanView: {
+    flex: 2,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    paddingRight: 5
+  },
+  batsmenFont: {
+    fontFamily: SQUARE721,
+    color: 'white'
+  },
+  lastbatsmanFont: {
+    fontFamily: HELVETICA,
+    color: 'white',
+    fontSize: 12
+  },
+  playerNameBar: {
+    flex: 1,
+    backgroundColor: TAB_BG,
+    flexDirection: 'row'
+  },
+  playerNameCol: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+  playerNameFont: {
+    fontFamily: HELVETICA,
+    fontSize: 14,
+    margin: 1
+  },
+  batsmanScoreCol: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+  batsmanScoresPart: {
+    backgroundColor: 'white',
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    paddingTop: 3
+  },
+  playerImage: {
+    height: 50,
+    width: 50
+  },
+  playerImageView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  bowlerScoresFont: {
+    fontFamily: HELVETICA,
+    fontSize: 14,
+    margin: 2
+  },
+  bowlerScoreRowItem: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+  bowlerScoresView: {
+    flex: 1,
+    backgroundColor: 'white',
+    flexDirection: 'row'
+  },
+  bowlerScoreRow: {
+    flex: 1,
+    flexDirection: 'row'
   }
 });

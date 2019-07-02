@@ -16,7 +16,7 @@ const MATCH_CARD_HEIGHT = SCREEN_W * 0.5;
 export const MATCH_CARD_WIDTH = SCREEN_W * 0.95;
 
 export default props => {
-  const { data, showRR } = props;
+  const { data, showRR, fullCard } = props;
   const {
     starttimeGMT,
     status,
@@ -59,9 +59,17 @@ export default props => {
     statusText = result;
   }
 
+  const cardStyle = [styles.mainView];
+  if (fullCard) {
+    cardStyle.push(styles.fullCard);
+  }
+
   return (
-    <TouchableWithoutFeedback onPress={() => props.onCardPress(matchId)}>
-      <View style={styles.mainView}>
+    <TouchableWithoutFeedback
+      onPress={() => props.onCardPress(matchId)}
+      disabled={fullCard}
+    >
+      <View style={cardStyle}>
         <View style={styles.firstRow}>
           <View style={styles.matchTimeView}>
             <Text style={styles.matchTimeText}>{starttimeGMT}</Text>
@@ -75,7 +83,7 @@ export default props => {
             <Image
               source={{ uri: teamaimage }}
               style={styles.teamImage}
-              resizeMode='contain'
+              resizeMode="contain"
             />
           </View>
           {showTeamAScores && (
@@ -126,7 +134,7 @@ export default props => {
             <Image
               source={{ uri: teambimage }}
               style={styles.teamImage}
-              resizeMode='contain'
+              resizeMode="contain"
             />
           </View>
         </View>
@@ -145,11 +153,17 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'white',
-    margin: 10,
     padding: 10,
     height: MATCH_CARD_HEIGHT,
     width: MATCH_CARD_WIDTH,
+    margin: 10,
     borderRadius: 10
+  },
+  fullCard: {
+    height: SCREEN_W * 0.35,
+    width: SCREEN_W,
+    margin: 0,
+    borderRadius: 0
   },
   firstRow: {
     flex: 1,
