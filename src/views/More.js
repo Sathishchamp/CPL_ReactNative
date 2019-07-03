@@ -7,7 +7,7 @@ import BannerHeader, {
 } from '../components/BannerHeader';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { VIEW_MORE } from '../constants/viewNames';
+import { VIEW_MORE, VIEW_TICKETS, VIEW_SPONSOR, VIEW_RESULTS } from '../constants/viewNames';
 import { MORE } from '../constants/strings';
 import commonStyles from '../commons/styles';
 import MoreItem from '../components/MoreItem';
@@ -15,9 +15,14 @@ import { HOME_BG_COLOR } from '../config/colors';
 
 class More extends React.Component {
   _redirectToTickets() {
-    <Tickets />
+    this.props.navigation.navigate(VIEW_TICKETS)
   }
-
+  _redirectToSponsors() {
+    this.props.navigation.navigate(VIEW_SPONSOR)
+  }
+  _redirectToResults() {
+    this.props.navigation.navigate(VIEW_RESULTS)
+  }
   render() {
     return (
       <Container>
@@ -47,7 +52,7 @@ class More extends React.Component {
             <MoreItem
               iconImage={require('../../assets/images/more/results.png')}
               title="Results"
-              onPress={() => {}}
+              onPress={() => {this._redirectToResults()}}
             />
             <MoreItem
               iconImage={require('../../assets/images/more/points_table.png')}
@@ -88,7 +93,7 @@ class More extends React.Component {
             <MoreItem
               iconImage={require('../../assets/images/more/sponsors.png')}
               title="Sponsors"
-              onPress={() => {}}
+              onPress={() => {this._redirectToSponsors()}}
             />
           </View>
         </Content>
@@ -101,3 +106,4 @@ class More extends React.Component {
 export default More;
 
 const styles = StyleSheet.create({});
+

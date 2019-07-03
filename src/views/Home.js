@@ -271,11 +271,13 @@ class Home extends React.Component {
         console.log('refreshing live data');
         APIService.getCompData(
           this.props.competitionUrl + '/Competition.json',
-          compData => {
-            const liveMatchData = translateArrayToJSON(compData.LtFixtures);
-            this.props.setLiveMatchData(liveMatchData);
-            console.log('live data refresh complete');
-            console.log(liveMatchData);
+          (err, compData) => {
+            if (!err) {
+              const liveMatchData = translateArrayToJSON(compData.LtFixtures);
+              this.props.setLiveMatchData(liveMatchData);
+              console.log('live data refresh complete');
+              console.log(liveMatchData); 
+            }
           }
         );
       }, 20000);

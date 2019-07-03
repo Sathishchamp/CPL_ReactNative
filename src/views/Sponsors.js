@@ -16,12 +16,12 @@ import {SUPPORT_JSON} from '../constants/strings.js';
 import { isNullOrEmpty } from '../utils'; 
 const SCREEN_H = Dimensions.get('screen').height;
 
-class Tickets extends React.PureComponent {
+class Sponsors extends React.PureComponent{
     constructor(props){
         super(props)
         this.state = {
             loading : false,
-            tickets : ""
+            sponsors : ""
         };
     }
     componentDidMount() {
@@ -33,11 +33,11 @@ class Tickets extends React.PureComponent {
             const link = url + this.props.currentCompetitionId + SUPPORT_JSON;
             console.log(link)
             this.setState({loading:true},() => 
-            APIService.getTickets(
+            APIService.getSponsors(
                 link,
                 data => {
                     console.log(data.Tickets)
-                    this.setState({loading:false,tickets:data.Tickets})
+                    this.setState({loading:false,sponsors:data.SPONSORS})
                 }
             ))
         }
@@ -55,7 +55,7 @@ class Tickets extends React.PureComponent {
                 <View style={{ flex: 1, height: SCREEN_H }}>
                     <WebView
                         originWhitelist={['*']}
-                        source={{ html: this.state.tickets }}
+                        source={{ uri: this.state.sponsors }}
                         style={{ flex: 1}}
                     // scalesPageToFit={true}
                     />
@@ -71,11 +71,4 @@ const mapStateToProps = state => ({
     upcomingCompetitionId: state.upcomingCompetitionId,
     serverUrl: state.serverUrl
 });
-export default connect(mapStateToProps)(Tickets)
-
-
-
-
-
-
-
+export default connect(mapStateToProps)(Sponsors)
