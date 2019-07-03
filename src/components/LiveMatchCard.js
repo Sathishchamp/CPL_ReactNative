@@ -16,6 +16,7 @@ const MATCH_CARD_HEIGHT = SCREEN_W * 0.5;
 export const MATCH_CARD_WIDTH = SCREEN_W * 0.95;
 
 export default props => {
+  const { data, showRR, fullCard } = props;
   const {
     starttimeGMT,
     status,
@@ -36,7 +37,7 @@ export default props => {
     venue,
     matchId,
     result
-  } = props.data;
+  } = data;
   const secondInningStatus = props.data['2innstatus'];
 
   let statusText = status;
@@ -58,9 +59,17 @@ export default props => {
     statusText = result;
   }
 
+  const cardStyle = [styles.mainView];
+  if (fullCard) {
+    cardStyle.push(styles.fullCard);
+  }
+
   return (
-    <TouchableWithoutFeedback onPress={() => props.onCardPress(matchId)}>
-      <View style={styles.mainView}>
+    <TouchableWithoutFeedback
+      onPress={() => props.onCardPress(matchId)}
+      disabled={fullCard}
+    >
+      <View style={cardStyle}>
         <View style={styles.firstRow}>
           <View style={styles.matchTimeView}>
             <Text style={styles.matchTimeText}>{starttimeGMT}</Text>
@@ -84,9 +93,11 @@ export default props => {
                   {teamaRuns + '/' + teamawkts}
                 </Text>
               </View>
-              <View style={styles.flexRow1}>
-                <Text style={styles.rrText}>{'RR ' + teamaRR}</Text>
-              </View>
+              {showRR && (
+                <View style={styles.flexRow1}>
+                  <Text style={styles.rrText}>{'RR ' + teamaRR}</Text>
+                </View>
+              )}
               <View style={styles.flexRow1}>
                 <Text style={styles.oversText}>
                   {teamaovers + '/' + teamatotalovers}
@@ -106,9 +117,11 @@ export default props => {
                   {teambRuns + '/' + teambwkts}
                 </Text>
               </View>
-              <View style={styles.flexRow1}>
-                <Text style={styles.rrText}>{'RR ' + teambRR}</Text>
-              </View>
+              {showRR && (
+                <View style={styles.flexRow1}>
+                  <Text style={styles.rrText}>{'RR ' + teambRR}</Text>
+                </View>
+              )}
               <View style={styles.flexRow1}>
                 <Text style={styles.oversText}>
                   {teambovers + '/' + teambtotalovers}
@@ -140,11 +153,17 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'white',
-    margin: 10,
     padding: 10,
     height: MATCH_CARD_HEIGHT,
     width: MATCH_CARD_WIDTH,
+    margin: 10,
     borderRadius: 10
+  },
+  fullCard: {
+    height: SCREEN_W * 0.35,
+    width: SCREEN_W,
+    margin: 0,
+    borderRadius: 0
   },
   firstRow: {
     flex: 1,

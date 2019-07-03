@@ -5,7 +5,8 @@ import {
   Text,
   StatusBar,
   TouchableOpacity,
-  FlatList
+  FlatList,
+  Image
 } from 'react-native';
 import { Container, Content, Tab, Tabs } from 'native-base';
 import commonStyles from '../commons/styles';
@@ -33,10 +34,16 @@ import {
 } from '../constants/matchStatus';
 import { VAGROUND, SQUARE721, HELVETICA } from '../constants/fonts';
 import CommentaryItem from '../components/CommentaryItem';
+import LiveMatchCard, { SCREEN_W } from '../components/LiveMatchCard';
+
+const OUT = 'OUT';
+const FOUR = 'FOUR';
+const SIX = 'SIX';
 
 class MatchCenter extends React.Component {
   constructor(props) {
     super(props);
+    this._interval = null;
     this.state = {
       spinner: false,
       activeInfoTab: 1,
@@ -56,7 +63,11 @@ class MatchCenter extends React.Component {
       teamBBowlingData: [],
       fullCommentary: [],
       teamAInningsId: '',
-      teamBInningsId: ''
+      teamBInningsId: '',
+      batsmanScores: [],
+      bowlerScores: [],
+      lastWicket: [],
+      timelineCommentary: []
     };
   }
 
@@ -65,6 +76,7 @@ class MatchCenter extends React.Component {
   }
 
   async _fetchData() {
+    console.log('refreshing timeline data.');
     const { competitionId, navigation } = this.props;
     const matchId = navigation.getParam('matchId');
     try {
@@ -96,30 +108,56 @@ class MatchCenter extends React.Component {
         teamABowlingData,
         teamBBowlingData,
         teamAInningsId,
-        teamBInningsId
+        teamBInningsId,
+        batsmanScores,
+        bowlerScores,
+        lastWicket,
+        timelineCommentary
       } = scoresData;
 
-      this.setState({
-        spinner: false,
-        matchDetails,
-        teamAPlayers,
-        teamBPlayers,
-        matchStarted,
-        teamAExtras,
-        teamBExtras,
-        teamAFallofWickets,
-        teamBFallofWickets,
-        teamABattingScores,
-        teamBBattingScores,
-        teamABowlingData,
-        teamBBowlingData,
-        fullCommentary,
-        teamAInningsId,
-        teamBInningsId
-      });
+      this.setState(
+        {
+          spinner: false,
+          matchDetails,
+          teamAPlayers,
+          teamBPlayers,
+          matchStarted,
+          teamAExtras,
+          teamBExtras,
+          teamAFallofWickets,
+          teamBFallofWickets,
+          teamABattingScores,
+          teamBBattingScores,
+          teamABowlingData,
+          teamBBowlingData,
+          fullCommentary,
+          teamAInningsId,
+          teamBInningsId,
+          batsmanScores,
+          bowlerScores,
+          lastWicket,
+          timelineCommentary
+        },
+        () => {
+          if (isEqual(this.state.matchDetails.state, STATUS_COMPLETED)) {
+            if (isEqual(this._interval, null)) {
+              console.log('Initiating timeline interval.');
+              this._initiateInterval();
+            }
+          } else {
+            clearInterval(this._interval);
+          }
+        }
+      );
     } catch (err) {
       this.setState({ spinner: false, matchDetails });
     }
+  }
+
+  _initiateInterval() {
+    this._interval = setInterval(() => {
+      this._fetchData();
+    }, 20000);
   }
 
   _fetchPrematch(competitionId, matchId) {
@@ -154,14 +192,17 @@ class MatchCenter extends React.Component {
 
           console.log(scorecard);
 
-          const commentaryNew = translateArrayToJSON(scorecard.commentarynew);
-
           const batsmanScores = translateArrayToJSON(
             scorecard.currentscores.batsman
           );
           const bowlerScores = translateArrayToJSON(
             scorecard.currentscores.bowler
           );
+          const lastWicket = translateArrayToJSON(
+            scorecard.currentscores.lastwicket
+          );
+
+          const timelineCommentary = translateArrayToJSON(scorecard.commentary);
 
           let teamABattingScores = [];
           let teamBBattingScores = [];
@@ -268,6 +309,10 @@ class MatchCenter extends React.Component {
             teamBBowlingData,
             teamAInningsId,
             teamBInningsId,
+            batsmanScores,
+            bowlerScores,
+            lastWicket,
+            timelineCommentary,
             matchStarted: true
           });
         });
@@ -297,8 +342,12 @@ class MatchCenter extends React.Component {
     });
   }
 
-  _withContent(content) {
-    return <Content style={commonStyles.content}>{content}</Content>;
+  _withContent(content, scrollEnabled) {
+    return (
+      <Content scrollEnabled={scrollEnabled} style={commonStyles.content}>
+        {content}
+      </Content>
+    );
   }
 
   _withTab(heading, content) {
@@ -355,7 +404,8 @@ class MatchCenter extends React.Component {
             )}
           />
         </View>
-      </View>
+      </View>,
+      true
     );
   }
 
@@ -402,18 +452,276 @@ class MatchCenter extends React.Component {
           <BowlingScoreCard
             data={isActiveScoreCard1 ? teamABowlingData : teamBBowlingData}
           />
-        </View>
+        </View>,
+        true
       );
     }
     return this._renderMatchNotYetStarted();
   }
 
-  _renderTimeline() {
-    if (this.state.matchStarted) {
-      return this._withContent(
-        <View style={{ flex: 1 }}>
-          <Text style={{ color: 'white' }}>Timeline</Text>
+  _renderBatsmenScoreRow(col1, col2) {
+    return (
+      <View style={{ flexDirection: 'row' }}>
+        <View style={timelineStyles.batsmanScoreCol}>
+          <Text
+            style={{
+              fontFamily: VAGROUND,
+              fontWeight: 'bold',
+              fontSize: 14,
+              color: 'black'
+            }}
+          >
+            {col1}
+          </Text>
         </View>
+        <View style={timelineStyles.batsmanScoreCol}>
+          <Text style={{ fontFamily: HELVETICA, fontSize: 14, color: 'black' }}>
+            {col2}
+          </Text>
+        </View>
+      </View>
+    );
+  }
+
+  _renderTimelineTitle(title) {
+    return (
+      <View style={timelineStyles.playerTitleView}>
+        <View style={timelineStyles.playerTitleInnerView}>
+          <Text style={timelineStyles.batsmenFont}>{title}</Text>
+        </View>
+      </View>
+    );
+  }
+
+  _renderTimelinePlayerHeaderRow(player1, player2) {
+    return (
+      <View style={timelineStyles.playerNameBar}>
+        <View style={timelineStyles.playerNameCol}>
+          <Text style={[timelineStyles.playerNameFont, { color: 'white' }]}>
+            {player1}
+          </Text>
+        </View>
+        <View style={timelineStyles.playerNameCol}>
+          <Text style={[timelineStyles.playerNameFont, { color: '#acb030' }]}>
+            {player2}
+          </Text>
+        </View>
+      </View>
+    );
+  }
+
+  _renderTimelineBatsman(batsman, isFirstBatsman) {
+    return (
+      <View style={{ flex: 1, flexDirection: 'row' }}>
+        {!isFirstBatsman && (
+          <View style={timelineStyles.playerImageView}>
+            <Image
+              source={{ uri: batsman.PlayerImage }}
+              style={timelineStyles.playerImage}
+            />
+          </View>
+        )}
+        <View style={{ flex: 1 }}>
+          {this._renderBatsmenScoreRow('Runs', batsman.score)}
+          {this._renderBatsmenScoreRow('Balls', batsman.Balls)}
+          {this._renderBatsmenScoreRow('4s', batsman.fours)}
+          {this._renderBatsmenScoreRow('6s', batsman.Six)}
+          {this._renderBatsmenScoreRow('SR', batsman.SR)}
+        </View>
+        {isFirstBatsman && (
+          <View style={timelineStyles.playerImageView}>
+            <Image
+              source={{ uri: batsman.PlayerImage }}
+              style={timelineStyles.playerImage}
+            />
+          </View>
+        )}
+      </View>
+    );
+  }
+
+  _renderTImelineBowlerScores(bowler1, bowler2) {
+    return (
+      <View style={timelineStyles.bowlerScoresView}>
+        <View
+          style={[
+            timelineStyles.bowlerScoreRow,
+            { borderRightWidth: 1, borderRightColor: VIEW_BG_COLOR }
+          ]}
+        >
+          <View style={timelineStyles.bowlerScoreRowItem}>
+            <Text style={timelineStyles.bowlerScoresFont}>{`${bowler1.score}-${
+              bowler1.Balls
+            }-${bowler1.fours}-${bowler1.Six}`}</Text>
+          </View>
+          <View style={timelineStyles.bowlerScoreRowItem}>
+            <Text style={timelineStyles.bowlerScoresFont}>{`Econ ${
+              bowler1.PlayerImage
+            }`}</Text>
+          </View>
+        </View>
+        <View style={timelineStyles.bowlerScoreRow}>
+          <View style={timelineStyles.bowlerScoreRowItem}>
+            <Text style={timelineStyles.bowlerScoresFont}>{`${bowler2.score}-${
+              bowler2.Balls
+            }-${bowler2.fours}-${bowler2.Six}`}</Text>
+          </View>
+          <View style={timelineStyles.bowlerScoreRowItem}>
+            <Text style={timelineStyles.bowlerScoresFont}>{`Econ ${
+              bowler2.PlayerImage
+            }`}</Text>
+          </View>
+        </View>
+      </View>
+    );
+  }
+
+  _renderTimelineRecentOverItem(value) {
+    let bgColor = { backgroundColor: '#7a7878' };
+    let valueColor = {};
+    if (isEqual(value, 'W')) {
+      bgColor = { backgroundColor: 'red' };
+    } else if (isEqual(value, 6)) {
+      bgColor = { backgroundColor: '#2ea30e' };
+    } else if (isEqual(value, 4)) {
+      bgColor = { backgroundColor: '#186bf2' };
+    } else if (value.includes('(')) {
+      bgColor = { borderWidth: 0, backgroundColor: 'transparent' };
+      valueColor = { color: 'red' };
+    }
+    return (
+      <View style={{ flex: 1, margin: 10 }}>
+        <View style={[timelineStyles.recentOversItem, bgColor]}>
+          <Text style={[timelineStyles.recentOversFont, valueColor]}>
+            {value}
+          </Text>
+        </View>
+      </View>
+    );
+  }
+
+  _renderTimelineRecentOvers() {
+    const { timelineCommentary } = this.state;
+    const scoreSequence = timelineCommentary.map(commentaryItem => {
+      const toolTipString = commentaryItem.ToolTipString;
+      const scoreString = toolTipString.split(',')[1];
+      let score = '';
+      if (scoreString.includes('no')) {
+        score = '0';
+      } else if (scoreString.includes(SIX)) {
+        score = '6';
+      } else if (scoreString.includes(FOUR)) {
+        score = '4';
+      } else if (scoreString.includes('wide')) {
+        score = 'Wd';
+      } else if (scoreString.includes('1')) {
+        score = '1';
+      } else if (scoreString.includes('2')) {
+        score = '2';
+      } else if (scoreString.includes('3')) {
+        score = '3';
+      } else if (scoreString.includes(OUT)) {
+        score = 'W';
+      }
+      return { score, overId: commentaryItem.OverID };
+    });
+    const scores = [];
+    let tempOverId = undefined;
+    for (let scr of scoreSequence) {
+      if (!isEqual(scr.overId, tempOverId)) {
+        tempOverId = scr.overId;
+        scores.push(`(${tempOverId})`);
+      }
+      scores.push(scr.score);
+    }
+    console.log(scores);
+    return (
+      <FlatList
+        getItemLayout={(data, index) => ({
+          length: 80,
+          offset: 80 * index,
+          index
+        })}
+        initialScrollIndex={scores.length - 1}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        data={scores}
+        extraData={this.state}
+        keyExtractor={(item, index) => index}
+        renderItem={({ item }) => this._renderTimelineRecentOverItem(item)}
+        ref={ref => (this.recentOversList = ref)}
+      />
+    );
+  }
+
+  _renderTimelineCommentary() {
+    const { timelineCommentary } = this.state;
+    return (
+      <FlatList
+        data={timelineCommentary}
+        extraData={this.state}
+        keyExtractor={(item, index) => index}
+        renderItem={({ item }) => <CommentaryItem data={item} />}
+      />
+    );
+  }
+
+  _renderTimeline() {
+    const {
+      matchDetails,
+      matchStarted,
+      batsmanScores,
+      bowlerScores,
+      lastWicket
+    } = this.state;
+    const batsman1 = batsmanScores[0];
+    const batsman2 = batsmanScores[1];
+    const bowler1 = bowlerScores[0];
+    const bowler2 = bowlerScores[1];
+    if (matchStarted) {
+      let lastBatsmanContent = null;
+      if (lastWicket.length > 0) {
+        lastBatsmanContent =
+          lastWicket[0].batsman + ' ' + lastWicket[0].RunsBalls;
+      }
+      return this._withContent(
+        <View style={{ flex: 1, flexDirection: 'column' }}>
+          <View style={{ flex: 1 }}>
+            <LiveMatchCard data={matchDetails} showRR={true} fullCard={true} />
+          </View>
+          <View style={timelineStyles.playerTitleView}>
+            <View style={timelineStyles.playerTitleINNERView}>
+              <Text style={timelineStyles.batsmenFont}>BATSMEN</Text>
+            </View>
+            <View style={timelineStyles.lastbatsmanView}>
+              {!isEqual(lastBatsmanContent, null) && (
+                <Text style={timelineStyles.lastbatsmanFont}>
+                  {`LAST BATSMAN : ${lastBatsmanContent}`}
+                </Text>
+              )}
+            </View>
+          </View>
+          {this._renderTimelinePlayerHeaderRow(
+            batsman1.Striker,
+            batsman2.Striker
+          )}
+          <View style={timelineStyles.batsmanScoresPart}>
+            {this._renderTimelineBatsman(batsman1, true)}
+            {this._renderTimelineBatsman(batsman2, false)}
+          </View>
+
+          {this._renderTimelineTitle('BOWLERS')}
+          {this._renderTimelinePlayerHeaderRow(
+            bowler1.Striker,
+            bowler2.Striker
+          )}
+          {this._renderTImelineBowlerScores(bowler1, bowler2)}
+          {this._renderTimelineTitle('RECENT OVERS')}
+          {this._renderTimelineRecentOvers()}
+          {this._renderTimelineTitle('COMMENTARY')}
+          {this._renderTimelineCommentary()}
+        </View>,
+        true
       );
     }
     return this._renderMatchNotYetStarted();
@@ -452,7 +760,8 @@ class MatchCenter extends React.Component {
             keyExtractor={(item, index) => index}
             renderItem={({ item }) => <CommentaryItem data={item} />}
           />
-        </View>
+        </View>,
+        true
       );
     }
     return this._renderMatchNotYetStarted();
@@ -479,13 +788,14 @@ class MatchCenter extends React.Component {
       <Container>
         <StatusBar backgroundColor={PRIMARY} barStyle="light-content" />
         <Tabs
+          locked={true}
           style={{ flex: 1 }}
           tabBarUnderlineStyle={{ borderBottomColor: '#267fff' }}
         >
           {this._withTab('INFO', this._renderInfo())}
           {this._withTab('SCORECARD', this._renderScoreCard())}
           {this._withTab('TIMELINE', this._renderTimeline())}
-          {this._withTab('FULL COMMENTARY', this._renderFullCommentary())}
+          {this._withTab('COMMENTARY', this._renderFullCommentary())}
         </Tabs>
         {this._renderSpinner()}
       </Container>
@@ -571,5 +881,106 @@ const scoreStyles = StyleSheet.create({
     margin: 10,
     marginTop: 30,
     flexDirection: 'column'
+  }
+});
+
+const timelineStyles = StyleSheet.create({
+  playerTitleView: {
+    flex: 1,
+    // height: 20,
+    marginTop: 3,
+    marginBottom: 3,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingLeft: 10
+  },
+  playerTitleInnerView: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'flex-start'
+  },
+  lastbatsmanView: {
+    flex: 2,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    paddingRight: 5
+  },
+  batsmenFont: {
+    fontFamily: SQUARE721,
+    color: 'white'
+  },
+  lastbatsmanFont: {
+    fontFamily: HELVETICA,
+    color: 'white',
+    fontSize: 12
+  },
+  playerNameBar: {
+    flex: 1,
+    backgroundColor: TAB_BG,
+    flexDirection: 'row'
+  },
+  playerNameCol: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+  playerNameFont: {
+    fontFamily: HELVETICA,
+    fontSize: 14,
+    margin: 1
+  },
+  batsmanScoreCol: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+  batsmanScoresPart: {
+    backgroundColor: 'white',
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    paddingTop: 3
+  },
+  playerImage: {
+    height: 50,
+    width: 50
+  },
+  playerImageView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  bowlerScoresFont: {
+    fontFamily: HELVETICA,
+    fontSize: 14,
+    margin: 2
+  },
+  bowlerScoreRowItem: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+  bowlerScoresView: {
+    flex: 1,
+    backgroundColor: 'white',
+    flexDirection: 'row'
+  },
+  bowlerScoreRow: {
+    flex: 1,
+    flexDirection: 'row'
+  },
+  recentOversItem: {
+    flex: 1,
+    borderWidth: 2,
+    borderRadius: 99,
+    height: 40,
+    width: 40,
+    borderColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  recentOversFont: {
+    fontFamily: HELVETICA,
+    color: 'white'
   }
 });

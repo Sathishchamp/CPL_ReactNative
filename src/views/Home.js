@@ -299,6 +299,7 @@ class Home extends React.Component {
     return (
       <LiveMatchCard
         data={item}
+        showRR={false}
         onCardPress={matchId =>
           this.props.navigation.navigate(VIEW_MATCH_CENTER, {
             matchId,
@@ -398,7 +399,7 @@ class Home extends React.Component {
           )}
           {this._renderSpinner()}
         </Content>
-        <AdBanner size="fullBanner" />
+        <AdBanner size='fullBanner' />
         <Footer activeButton={VIEW_HOME} {...this.props} />
       </Container>
     );
