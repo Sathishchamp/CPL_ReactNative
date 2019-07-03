@@ -16,7 +16,7 @@ import {SUPPORT_JSON} from '../constants/strings.js';
 import { isNullOrEmpty } from '../utils'; 
 const SCREEN_H = Dimensions.get('screen').height;
 
-class Tickets extends React.PureComponent{
+class Tickets extends React.PureComponent {
     constructor(props){
         super(props)
         this.state = {

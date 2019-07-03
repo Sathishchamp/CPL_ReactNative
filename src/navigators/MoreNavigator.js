@@ -4,14 +4,25 @@ import More from '../views/More';
 import Tickets from "../views/Tickets"
 import Sponsors from "../views/Sponsors"
 import { VIEW_MORE } from '../constants/viewNames';
-import { TICKETS,SPONSORS } from '../constants/strings';
+import { TICKETS,SPONSORS, RESULTS } from '../constants/strings';
 import commonStyles from '../commons/styles';
+import Results from '../views/Results';
 const MoreNavigator = createStackNavigator(
   {
     more: {
       screen: More,
       navigationOptions: {
         header: null
+      }
+    },
+    results: {
+      screen: Results,
+      navigationOptions: {
+        title: RESULTS,
+        headerTitleStyle: commonStyles.headerTitleStyle,
+        headerTintColor: 'white',
+        headerBackTitle: null,
+        headerStyle: commonStyles.headerDefault
       }
     },
     tickets: {

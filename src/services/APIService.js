@@ -60,6 +60,7 @@ export default (APIService = {
     } else if (isEqual(jsonConfig, 'fullcommentary')) {
       json = 'FullCommentary';
     }
+    console.log("final url",SCORES_URL + '/' + compId + '/' + matchId + `/${json}.json`)
     axios
       .get(SCORES_URL + '/' + compId + '/' + matchId + `/${json}.json`)
       .then(res => callback(res.data))
@@ -76,6 +77,23 @@ export default (APIService = {
   },
 
   getSponsors(url,callback) {
+    axios
+    .get(url)
+    .then(res => {
+      callback(res.data);
+    })
+    .catch(err => console.log(err));
+  },
+
+  getPlayerList(url,callback) {
+    axios
+    .get(url)
+    .then(res => {
+      callback(res.data);
+    })
+    .catch(err => console.log(err));
+  },
+  getResults(url,callback) {
     axios
     .get(url)
     .then(res => {

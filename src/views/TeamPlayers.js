@@ -36,9 +36,11 @@ class TeamPlayers extends React.PureComponent {
     const teamId = this.props.navigation.getParam('teamId');
     const backgroundColor = this._getBackgorundColor(teamId);
     if (!isNullOrEmpty(this.props.playerProfileUrl)) {
+      let url = this.props.playerProfileUrl + `/${teamId}_.json`;
+      console.log(url);
       this.setState({ spinner: true }, () =>
-        APIService.getCompData(
-          this.props.playerProfileUrl + `/${teamId}_.json`,
+        APIService.getPlayerList(
+          url,
           data => {
             console.log(data);
             let playerProfiles = Object.keys(data.LtPlayerDetails).map(
