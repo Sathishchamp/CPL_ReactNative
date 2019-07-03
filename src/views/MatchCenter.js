@@ -6,7 +6,8 @@ import {
   StatusBar,
   TouchableOpacity,
   FlatList,
-  Image
+  Image,
+  ScrollView
 } from 'react-native';
 import { Container, Content, Tab, Tabs } from 'native-base';
 import commonStyles from '../commons/styles';
@@ -61,7 +62,8 @@ class MatchCenter extends React.Component {
       teamBInningsId: '',
       batsmanScores: [],
       bowlerScores: [],
-      lastWicket: []
+      lastWicket: [],
+      timelineCommentary: []
     };
   }
 
@@ -104,7 +106,8 @@ class MatchCenter extends React.Component {
         teamBInningsId,
         batsmanScores,
         bowlerScores,
-        lastWicket
+        lastWicket,
+        timelineCommentary
       } = scoresData;
 
       this.setState({
@@ -126,7 +129,8 @@ class MatchCenter extends React.Component {
         teamBInningsId,
         batsmanScores,
         bowlerScores,
-        lastWicket
+        lastWicket,
+        timelineCommentary
       });
     } catch (err) {
       this.setState({ spinner: false, matchDetails });
@@ -165,8 +169,6 @@ class MatchCenter extends React.Component {
 
           console.log(scorecard);
 
-          const commentaryNew = translateArrayToJSON(scorecard.commentarynew);
-
           const batsmanScores = translateArrayToJSON(
             scorecard.currentscores.batsman
           );
@@ -176,6 +178,8 @@ class MatchCenter extends React.Component {
           const lastWicket = translateArrayToJSON(
             scorecard.currentscores.lastwicket
           );
+
+          const timelineCommentary = translateArrayToJSON(scorecard.commentary);
 
           let teamABattingScores = [];
           let teamBBattingScores = [];
@@ -285,6 +289,7 @@ class MatchCenter extends React.Component {
             batsmanScores,
             bowlerScores,
             lastWicket,
+            timelineCommentary,
             matchStarted: true
           });
         });
@@ -314,8 +319,12 @@ class MatchCenter extends React.Component {
     });
   }
 
-  _withContent(content) {
-    return <Content style={commonStyles.content}>{content}</Content>;
+  _withContent(content, scrollEnabled) {
+    return (
+      <Content scrollEnabled={scrollEnabled} style={commonStyles.content}>
+        {content}
+      </Content>
+    );
   }
 
   _withTab(heading, content) {
@@ -372,7 +381,8 @@ class MatchCenter extends React.Component {
             )}
           />
         </View>
-      </View>
+      </View>,
+      true
     );
   }
 
@@ -419,7 +429,8 @@ class MatchCenter extends React.Component {
           <BowlingScoreCard
             data={isActiveScoreCard1 ? teamABowlingData : teamBBowlingData}
           />
-        </View>
+        </View>,
+        true
       );
     }
     return this._renderMatchNotYetStarted();
@@ -442,6 +453,111 @@ class MatchCenter extends React.Component {
     );
   }
 
+  _renderTimelineTitle(title) {
+    return (
+      <View style={timelineStyles.playerTitleView}>
+        <View style={timelineStyles.playerTitleInnerView}>
+          <Text style={timelineStyles.batsmenFont}>{title}</Text>
+        </View>
+      </View>
+    );
+  }
+
+  _renderTimelinePlayerHeaderRow(player1, player2) {
+    return (
+      <View style={timelineStyles.playerNameBar}>
+        <View style={timelineStyles.playerNameCol}>
+          <Text style={[timelineStyles.playerNameFont, { color: 'white' }]}>
+            {player1}
+          </Text>
+        </View>
+        <View style={timelineStyles.playerNameCol}>
+          <Text style={[timelineStyles.playerNameFont, { color: '#acb030' }]}>
+            {player2}
+          </Text>
+        </View>
+      </View>
+    );
+  }
+
+  _renderTimelineBatsman(batsman, isFirstBatsman) {
+    return (
+      <View style={{ flex: 1, flexDirection: 'row' }}>
+        {!isFirstBatsman && (
+          <View style={timelineStyles.playerImageView}>
+            <Image
+              source={{ uri: batsman.PlayerImage }}
+              style={timelineStyles.playerImage}
+            />
+          </View>
+        )}
+        <View style={{ flex: 1 }}>
+          {this._renderBatsmenScoreRow('Runs', batsman.score)}
+          {this._renderBatsmenScoreRow('Balls', batsman.Balls)}
+          {this._renderBatsmenScoreRow('4s', batsman.fours)}
+          {this._renderBatsmenScoreRow('6s', batsman.Six)}
+          {this._renderBatsmenScoreRow('SR', batsman.SR)}
+        </View>
+        {isFirstBatsman && (
+          <View style={timelineStyles.playerImageView}>
+            <Image
+              source={{ uri: batsman.PlayerImage }}
+              style={timelineStyles.playerImage}
+            />
+          </View>
+        )}
+      </View>
+    );
+  }
+
+  _renderTImelineBowlerScores(bowler1, bowler2) {
+    return (
+      <View style={timelineStyles.bowlerScoresView}>
+        <View
+          style={[
+            timelineStyles.bowlerScoreRow,
+            { borderRightWidth: 1, borderRightColor: VIEW_BG_COLOR }
+          ]}
+        >
+          <View style={timelineStyles.bowlerScoreRowItem}>
+            <Text style={timelineStyles.bowlerScoresFont}>{`${bowler1.score}-${
+              bowler1.Balls
+            }-${bowler1.fours}-${bowler1.Six}`}</Text>
+          </View>
+          <View style={timelineStyles.bowlerScoreRowItem}>
+            <Text style={timelineStyles.bowlerScoresFont}>{`Econ ${
+              bowler1.PlayerImage
+            }`}</Text>
+          </View>
+        </View>
+        <View style={timelineStyles.bowlerScoreRow}>
+          <View style={timelineStyles.bowlerScoreRowItem}>
+            <Text style={timelineStyles.bowlerScoresFont}>{`${bowler2.score}-${
+              bowler2.Balls
+            }-${bowler2.fours}-${bowler2.Six}`}</Text>
+          </View>
+          <View style={timelineStyles.bowlerScoreRowItem}>
+            <Text style={timelineStyles.bowlerScoresFont}>{`Econ ${
+              bowler2.PlayerImage
+            }`}</Text>
+          </View>
+        </View>
+      </View>
+    );
+  }
+
+  _renderTimelineCommentary() {
+    const { timelineCommentary } = this.state;
+    return (
+      <FlatList
+        data={timelineCommentary}
+        extraData={this.state}
+        keyExtractor={(item, index) => index}
+        renderItem={({ item }) => <CommentaryItem data={item} />}
+      />
+    );
+  }
+
   _renderTimeline() {
     const {
       matchDetails,
@@ -450,7 +566,6 @@ class MatchCenter extends React.Component {
       bowlerScores,
       lastWicket
     } = this.state;
-    console.log(bowlerScores);
     const batsman1 = batsmanScores[0];
     const batsman2 = batsmanScores[1];
     const bowler1 = bowlerScores[0];
@@ -459,10 +574,10 @@ class MatchCenter extends React.Component {
       const lastBatsmanContent =
         lastWicket[0].batsman + ' ' + lastWicket[0].RunsBalls;
       return this._withContent(
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, flexDirection: 'column' }}>
           <LiveMatchCard data={matchDetails} showRR={true} fullCard={true} />
-          <View style={timelineStyles.batsmenView}>
-            <View style={timelineStyles.batsmenInnerView}>
+          <View style={timelineStyles.playerTitleView}>
+            <View style={timelineStyles.playerTitleINNERView}>
               <Text style={timelineStyles.batsmenFont}>BATSMEN</Text>
             </View>
             <View style={timelineStyles.lastbatsmanView}>
@@ -471,110 +586,25 @@ class MatchCenter extends React.Component {
               </Text>
             </View>
           </View>
-          <View style={timelineStyles.playerNameBar}>
-            <View style={timelineStyles.playerNameCol}>
-              <Text style={[timelineStyles.playerNameFont, { color: 'white' }]}>
-                {batsman1.Striker}
-              </Text>
-            </View>
-            <View style={timelineStyles.playerNameCol}>
-              <Text
-                style={[timelineStyles.playerNameFont, { color: '#acb030' }]}
-              >
-                {batsman2.Striker}
-              </Text>
-            </View>
-          </View>
-
+          {this._renderTimelinePlayerHeaderRow(
+            batsman1.Striker,
+            batsman2.Striker
+          )}
           <View style={timelineStyles.batsmanScoresPart}>
-            <View style={{ flex: 1, flexDirection: 'row' }}>
-              <View style={{ flex: 1, justifyContent: 'center' }}>
-                <View style={{ flex: 1 }}>
-                  {this._renderBatsmenScoreRow('Runs', batsman1.score)}
-                  {this._renderBatsmenScoreRow('Balls', batsman1.Balls)}
-                  {this._renderBatsmenScoreRow('4s', batsman1.fours)}
-                  {this._renderBatsmenScoreRow('6s', batsman1.Six)}
-                  {this._renderBatsmenScoreRow('SR', batsman1.SR)}
-                </View>
-              </View>
-              <View style={timelineStyles.playerImageView}>
-                <Image
-                  source={{ uri: batsman1.PlayerImage }}
-                  style={timelineStyles.playerImage}
-                />
-              </View>
-            </View>
-
-            <View style={{ flex: 1, flexDirection: 'row' }}>
-              <View style={timelineStyles.playerImageView}>
-                <Image
-                  source={{ uri: batsman2.PlayerImage }}
-                  style={timelineStyles.playerImage}
-                />
-              </View>
-              <View style={{ flex: 1, flexDirection: 'row' }}>
-                <View style={{ flex: 1 }}>
-                  {this._renderBatsmenScoreRow('Runs', batsman2.score)}
-                  {this._renderBatsmenScoreRow('Balls', batsman2.Balls)}
-                  {this._renderBatsmenScoreRow('4s', batsman2.fours)}
-                  {this._renderBatsmenScoreRow('6s', batsman2.Six)}
-                  {this._renderBatsmenScoreRow('SR', batsman2.SR)}
-                </View>
-              </View>
-            </View>
+            {this._renderTimelineBatsman(batsman1, true)}
+            {this._renderTimelineBatsman(batsman2, false)}
           </View>
 
-          <View style={timelineStyles.batsmenView}>
-            <View style={timelineStyles.batsmenInnerView}>
-              <Text style={timelineStyles.batsmenFont}>BOWLERS</Text>
-            </View>
-          </View>
-          <View style={timelineStyles.playerNameBar}>
-            <View style={timelineStyles.playerNameCol}>
-              <Text style={[timelineStyles.playerNameFont, { color: 'white' }]}>
-                {bowler1.Striker}
-              </Text>
-            </View>
-            <View style={timelineStyles.playerNameCol}>
-              <Text
-                style={[timelineStyles.playerNameFont, { color: '#acb030' }]}
-              >
-                {bowler2.Striker}
-              </Text>
-            </View>
-          </View>
-          <View style={timelineStyles.bowlerScoresView}>
-            <View
-              style={[
-                timelineStyles.bowlerScoreRow,
-                { borderRightWidth: 1, borderRightColor: VIEW_BG_COLOR }
-              ]}
-            >
-              <View style={timelineStyles.bowlerScoreRowItem}>
-                <Text style={timelineStyles.bowlerScoresFont}>{`${
-                  bowler1.score
-                }-${bowler1.Balls}-${bowler1.fours}-${bowler1.Six}`}</Text>
-              </View>
-              <View style={timelineStyles.bowlerScoreRowItem}>
-                <Text style={timelineStyles.bowlerScoresFont}>{`Econ ${
-                  bowler1.PlayerImage
-                }`}</Text>
-              </View>
-            </View>
-            <View style={timelineStyles.bowlerScoreRow}>
-              <View style={timelineStyles.bowlerScoreRowItem}>
-                <Text style={timelineStyles.bowlerScoresFont}>{`${
-                  bowler2.score
-                }-${bowler2.Balls}-${bowler2.fours}-${bowler2.Six}`}</Text>
-              </View>
-              <View style={timelineStyles.bowlerScoreRowItem}>
-                <Text style={timelineStyles.bowlerScoresFont}>{`Econ ${
-                  bowler2.PlayerImage
-                }`}</Text>
-              </View>
-            </View>
-          </View>
-        </View>
+          {this._renderTimelineTitle('BOWLERS')}
+          {this._renderTimelinePlayerHeaderRow(
+            bowler1.Striker,
+            bowler2.Striker
+          )}
+          {this._renderTImelineBowlerScores(bowler1, bowler2)}
+          {this._renderTimelineTitle('COMMENTARY')}
+          {this._renderTimelineCommentary()}
+        </View>,
+        false
       );
     }
     return this._renderMatchNotYetStarted();
@@ -613,7 +643,8 @@ class MatchCenter extends React.Component {
             keyExtractor={(item, index) => index}
             renderItem={({ item }) => <CommentaryItem data={item} />}
           />
-        </View>
+        </View>,
+        true
       );
     }
     return this._renderMatchNotYetStarted();
@@ -736,7 +767,7 @@ const scoreStyles = StyleSheet.create({
 });
 
 const timelineStyles = StyleSheet.create({
-  batsmenView: {
+  playerTitleView: {
     // height: 20,
     marginTop: 3,
     marginBottom: 3,
@@ -744,7 +775,7 @@ const timelineStyles = StyleSheet.create({
     alignItems: 'center',
     paddingLeft: 10
   },
-  batsmenInnerView: {
+  playerTitleInnerView: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'flex-start'
