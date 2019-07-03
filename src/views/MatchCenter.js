@@ -43,6 +43,7 @@ const SIX = 'SIX';
 class MatchCenter extends React.Component {
   constructor(props) {
     super(props);
+    this._interval = null;
     this.state = {
       spinner: false,
       activeInfoTab: 1,
@@ -75,6 +76,7 @@ class MatchCenter extends React.Component {
   }
 
   async _fetchData() {
+    console.log('refreshing timeline data.');
     const { competitionId, navigation } = this.props;
     const matchId = navigation.getParam('matchId');
     try {
@@ -113,31 +115,49 @@ class MatchCenter extends React.Component {
         timelineCommentary
       } = scoresData;
 
-      this.setState({
-        spinner: false,
-        matchDetails,
-        teamAPlayers,
-        teamBPlayers,
-        matchStarted,
-        teamAExtras,
-        teamBExtras,
-        teamAFallofWickets,
-        teamBFallofWickets,
-        teamABattingScores,
-        teamBBattingScores,
-        teamABowlingData,
-        teamBBowlingData,
-        fullCommentary,
-        teamAInningsId,
-        teamBInningsId,
-        batsmanScores,
-        bowlerScores,
-        lastWicket,
-        timelineCommentary
-      });
+      this.setState(
+        {
+          spinner: false,
+          matchDetails,
+          teamAPlayers,
+          teamBPlayers,
+          matchStarted,
+          teamAExtras,
+          teamBExtras,
+          teamAFallofWickets,
+          teamBFallofWickets,
+          teamABattingScores,
+          teamBBattingScores,
+          teamABowlingData,
+          teamBBowlingData,
+          fullCommentary,
+          teamAInningsId,
+          teamBInningsId,
+          batsmanScores,
+          bowlerScores,
+          lastWicket,
+          timelineCommentary
+        },
+        () => {
+          if (isEqual(this.state.matchDetails.state, STATUS_COMPLETED)) {
+            if (isEqual(this._interval, null)) {
+              console.log('Initiating timeline interval.');
+              this._initiateInterval();
+            }
+          } else {
+            clearInterval(this._interval);
+          }
+        }
+      );
     } catch (err) {
       this.setState({ spinner: false, matchDetails });
     }
+  }
+
+  _initiateInterval() {
+    this._interval = setInterval(() => {
+      this._fetchData();
+    }, 20000);
   }
 
   _fetchPrematch(competitionId, matchId) {
@@ -558,17 +578,23 @@ class MatchCenter extends React.Component {
 
   _renderTimelineRecentOverItem(value) {
     let bgColor = { backgroundColor: '#7a7878' };
+    let valueColor = {};
     if (isEqual(value, 'W')) {
       bgColor = { backgroundColor: 'red' };
     } else if (isEqual(value, 6)) {
       bgColor = { backgroundColor: '#2ea30e' };
     } else if (isEqual(value, 4)) {
       bgColor = { backgroundColor: '#186bf2' };
+    } else if (value.includes('(')) {
+      bgColor = { borderWidth: 0, backgroundColor: 'transparent' };
+      valueColor = { color: 'red' };
     }
     return (
       <View style={{ flex: 1, margin: 10 }}>
         <View style={[timelineStyles.recentOversItem, bgColor]}>
-          <Text style={timelineStyles.recentOversFont}>{value}</Text>
+          <Text style={[timelineStyles.recentOversFont, valueColor]}>
+            {value}
+          </Text>
         </View>
       </View>
     );
@@ -579,36 +605,51 @@ class MatchCenter extends React.Component {
     const scoreSequence = timelineCommentary.map(commentaryItem => {
       const toolTipString = commentaryItem.ToolTipString;
       const scoreString = toolTipString.split(',')[1];
+      let score = '';
       if (scoreString.includes('no')) {
-        return 0;
+        score = '0';
       } else if (scoreString.includes(SIX)) {
-        return 6;
+        score = '6';
       } else if (scoreString.includes(FOUR)) {
-        return 4;
+        score = '4';
       } else if (scoreString.includes('wide')) {
-        return 'Wd';
+        score = 'Wd';
       } else if (scoreString.includes('1')) {
-        return 1;
+        score = '1';
       } else if (scoreString.includes('2')) {
-        return 2;
+        score = '2';
       } else if (scoreString.includes('3')) {
-        return 3;
+        score = '3';
       } else if (scoreString.includes(OUT)) {
-        return 'W';
+        score = 'W';
       }
-      return '';
+      return { score, overId: commentaryItem.OverID };
     });
+    const scores = [];
+    let tempOverId = undefined;
+    for (let scr of scoreSequence) {
+      if (!isEqual(scr.overId, tempOverId)) {
+        tempOverId = scr.overId;
+        scores.push(`(${tempOverId})`);
+      }
+      scores.push(scr.score);
+    }
+    console.log(scores);
     return (
       <FlatList
+        getItemLayout={(data, index) => ({
+          length: 80,
+          offset: 80 * index,
+          index
+        })}
+        initialScrollIndex={scores.length - 1}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
-        data={scoreSequence}
+        data={scores}
         extraData={this.state}
         keyExtractor={(item, index) => index}
         renderItem={({ item }) => this._renderTimelineRecentOverItem(item)}
-        ref={ref => {
-          this.timelineRecentOversList = ref;
-        }}
+        ref={ref => (this.recentOversList = ref)}
       />
     );
   }
@@ -745,7 +786,7 @@ class MatchCenter extends React.Component {
   render() {
     return (
       <Container>
-        <StatusBar backgroundColor={PRIMARY} barStyle='light-content' />
+        <StatusBar backgroundColor={PRIMARY} barStyle="light-content" />
         <Tabs
           locked={true}
           style={{ flex: 1 }}
