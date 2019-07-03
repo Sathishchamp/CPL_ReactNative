@@ -6,8 +6,7 @@ import {
   StatusBar,
   TouchableOpacity,
   FlatList,
-  Image,
-  ScrollView
+  Image
 } from 'react-native';
 import { Container, Content, Tab, Tabs } from 'native-base';
 import commonStyles from '../commons/styles';
@@ -36,6 +35,10 @@ import {
 import { VAGROUND, SQUARE721, HELVETICA } from '../constants/fonts';
 import CommentaryItem from '../components/CommentaryItem';
 import LiveMatchCard, { SCREEN_W } from '../components/LiveMatchCard';
+
+const OUT = 'OUT';
+const FOUR = 'FOUR';
+const SIX = 'SIX';
 
 class MatchCenter extends React.Component {
   constructor(props) {
@@ -441,13 +444,20 @@ class MatchCenter extends React.Component {
       <View style={{ flexDirection: 'row' }}>
         <View style={timelineStyles.batsmanScoreCol}>
           <Text
-            style={{ fontFamily: VAGROUND, fontWeight: 'bold', fontSize: 14 }}
+            style={{
+              fontFamily: VAGROUND,
+              fontWeight: 'bold',
+              fontSize: 14,
+              color: 'black'
+            }}
           >
             {col1}
           </Text>
         </View>
         <View style={timelineStyles.batsmanScoreCol}>
-          <Text style={{ fontFamily: HELVETICA, fontSize: 14 }}>{col2}</Text>
+          <Text style={{ fontFamily: HELVETICA, fontSize: 14, color: 'black' }}>
+            {col2}
+          </Text>
         </View>
       </View>
     );
@@ -546,6 +556,63 @@ class MatchCenter extends React.Component {
     );
   }
 
+  _renderTimelineRecentOverItem(value) {
+    let bgColor = { backgroundColor: '#7a7878' };
+    if (isEqual(value, 'W')) {
+      bgColor = { backgroundColor: 'red' };
+    } else if (isEqual(value, 6)) {
+      bgColor = { backgroundColor: '#2ea30e' };
+    } else if (isEqual(value, 4)) {
+      bgColor = { backgroundColor: '#186bf2' };
+    }
+    return (
+      <View style={{ flex: 1, margin: 10 }}>
+        <View style={[timelineStyles.recentOversItem, bgColor]}>
+          <Text style={timelineStyles.recentOversFont}>{value}</Text>
+        </View>
+      </View>
+    );
+  }
+
+  _renderTimelineRecentOvers() {
+    const { timelineCommentary } = this.state;
+    const scoreSequence = timelineCommentary.map(commentaryItem => {
+      const toolTipString = commentaryItem.ToolTipString;
+      const scoreString = toolTipString.split(',')[1];
+      if (scoreString.includes('no')) {
+        return 0;
+      } else if (scoreString.includes(SIX)) {
+        return 6;
+      } else if (scoreString.includes(FOUR)) {
+        return 4;
+      } else if (scoreString.includes('wide')) {
+        return 'Wd';
+      } else if (scoreString.includes('1')) {
+        return 1;
+      } else if (scoreString.includes('2')) {
+        return 2;
+      } else if (scoreString.includes('3')) {
+        return 3;
+      } else if (scoreString.includes(OUT)) {
+        return 'W';
+      }
+      return '';
+    });
+    return (
+      <FlatList
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        data={scoreSequence}
+        extraData={this.state}
+        keyExtractor={(item, index) => index}
+        renderItem={({ item }) => this._renderTimelineRecentOverItem(item)}
+        ref={ref => {
+          this.timelineRecentOversList = ref;
+        }}
+      />
+    );
+  }
+
   _renderTimelineCommentary() {
     const { timelineCommentary } = this.state;
     return (
@@ -575,7 +642,9 @@ class MatchCenter extends React.Component {
         lastWicket[0].batsman + ' ' + lastWicket[0].RunsBalls;
       return this._withContent(
         <View style={{ flex: 1, flexDirection: 'column' }}>
-          <LiveMatchCard data={matchDetails} showRR={true} fullCard={true} />
+          <View style={{ flex: 1 }}>
+            <LiveMatchCard data={matchDetails} showRR={true} fullCard={true} />
+          </View>
           <View style={timelineStyles.playerTitleView}>
             <View style={timelineStyles.playerTitleINNERView}>
               <Text style={timelineStyles.batsmenFont}>BATSMEN</Text>
@@ -601,10 +670,12 @@ class MatchCenter extends React.Component {
             bowler2.Striker
           )}
           {this._renderTImelineBowlerScores(bowler1, bowler2)}
+          {this._renderTimelineTitle('RECENT OVERS')}
+          {this._renderTimelineRecentOvers()}
           {this._renderTimelineTitle('COMMENTARY')}
           {this._renderTimelineCommentary()}
         </View>,
-        false
+        true
       );
     }
     return this._renderMatchNotYetStarted();
@@ -669,8 +740,9 @@ class MatchCenter extends React.Component {
   render() {
     return (
       <Container>
-        <StatusBar backgroundColor={PRIMARY} barStyle="light-content" />
+        <StatusBar backgroundColor={PRIMARY} barStyle='light-content' />
         <Tabs
+          locked={true}
           style={{ flex: 1 }}
           tabBarUnderlineStyle={{ borderBottomColor: '#267fff' }}
         >
@@ -768,6 +840,7 @@ const scoreStyles = StyleSheet.create({
 
 const timelineStyles = StyleSheet.create({
   playerTitleView: {
+    flex: 1,
     // height: 20,
     marginTop: 3,
     marginBottom: 3,
@@ -849,5 +922,19 @@ const timelineStyles = StyleSheet.create({
   bowlerScoreRow: {
     flex: 1,
     flexDirection: 'row'
+  },
+  recentOversItem: {
+    flex: 1,
+    borderWidth: 2,
+    borderRadius: 99,
+    height: 40,
+    width: 40,
+    borderColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  recentOversFont: {
+    fontFamily: HELVETICA,
+    color: 'white'
   }
 });
