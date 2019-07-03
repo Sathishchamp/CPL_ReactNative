@@ -638,8 +638,11 @@ class MatchCenter extends React.Component {
     const bowler1 = bowlerScores[0];
     const bowler2 = bowlerScores[1];
     if (matchStarted) {
-      const lastBatsmanContent =
-        lastWicket[0].batsman + ' ' + lastWicket[0].RunsBalls;
+      let lastBatsmanContent = null;
+      if (lastWicket.length > 0) {
+        lastBatsmanContent =
+          lastWicket[0].batsman + ' ' + lastWicket[0].RunsBalls;
+      }
       return this._withContent(
         <View style={{ flex: 1, flexDirection: 'column' }}>
           <View style={{ flex: 1 }}>
@@ -650,9 +653,11 @@ class MatchCenter extends React.Component {
               <Text style={timelineStyles.batsmenFont}>BATSMEN</Text>
             </View>
             <View style={timelineStyles.lastbatsmanView}>
-              <Text style={timelineStyles.lastbatsmanFont}>
-                {`LAST BATSMAN : ${lastBatsmanContent}`}
-              </Text>
+              {!isEqual(lastBatsmanContent, null) && (
+                <Text style={timelineStyles.lastbatsmanFont}>
+                  {`LAST BATSMAN : ${lastBatsmanContent}`}
+                </Text>
+              )}
             </View>
           </View>
           {this._renderTimelinePlayerHeaderRow(
