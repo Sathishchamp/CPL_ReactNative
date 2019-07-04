@@ -40,6 +40,8 @@ const OUT = 'OUT';
 const FOUR = 'FOUR';
 const SIX = 'SIX';
 
+const MATCH_ABANDONED = 'Match Abandoned';
+
 class MatchCenter extends React.Component {
   constructor(props) {
     super(props);
@@ -67,7 +69,8 @@ class MatchCenter extends React.Component {
       batsmanScores: [],
       bowlerScores: [],
       lastWicket: [],
-      timelineCommentary: []
+      timelineCommentary: [],
+      matchMessage: 'Match is not yet started'
     };
   }
 
@@ -90,71 +93,84 @@ class MatchCenter extends React.Component {
       const { matchDetails, teamAPlayers, teamBPlayers } = prematch;
       const { teama, teamb } = prematch.matchDetails;
 
-      const scoresData = await this._fetchScores(
-        competitionId,
-        matchId,
-        teama,
-        teamb
-      );
+      console.log(prematch);
+      //fetch data if and only match is not abandoned
+      if (!isEqual(matchDetails.result, MATCH_ABANDONED)) {
+        const scoresData = await this._fetchScores(
+          competitionId,
+          matchId,
+          teama,
+          teamb
+        );
 
-      const fullCommentary = await this._fetchFullCommentary(
-        competitionId,
-        matchId
-      );
-      console.log(fullCommentary);
+        const fullCommentary = await this._fetchFullCommentary(
+          competitionId,
+          matchId
+        );
+        console.log(fullCommentary);
 
-      const {
-        matchStarted,
-        teamABattingScores,
-        teamBBattingScores,
-        teamAExtras,
-        teamBExtras,
-        teamAFallofWickets,
-        teamBFallofWickets,
-        teamABowlingData,
-        teamBBowlingData,
-        teamAInningsId,
-        teamBInningsId,
-        batsmanScores,
-        bowlerScores,
-        lastWicket,
-        timelineCommentary
-      } = scoresData;
-
-      this.setState(
-        {
-          spinner: false,
-          matchDetails,
-          teamAPlayers,
-          teamBPlayers,
+        const {
           matchStarted,
+          teamABattingScores,
+          teamBBattingScores,
           teamAExtras,
           teamBExtras,
           teamAFallofWickets,
           teamBFallofWickets,
-          teamABattingScores,
-          teamBBattingScores,
           teamABowlingData,
           teamBBowlingData,
-          fullCommentary,
           teamAInningsId,
           teamBInningsId,
           batsmanScores,
           bowlerScores,
           lastWicket,
           timelineCommentary
-        },
-        () => {
-          if (isEqual(this.state.matchDetails.state, STATUS_LIVE)) {
-            if (isEqual(this._interval, null)) {
-              console.log('Initiating timeline interval.');
-              this._initiateInterval();
+        } = scoresData;
+
+        this.setState(
+          {
+            spinner: false,
+            matchDetails,
+            teamAPlayers,
+            teamBPlayers,
+            matchStarted,
+            teamAExtras,
+            teamBExtras,
+            teamAFallofWickets,
+            teamBFallofWickets,
+            teamABattingScores,
+            teamBBattingScores,
+            teamABowlingData,
+            teamBBowlingData,
+            fullCommentary,
+            teamAInningsId,
+            teamBInningsId,
+            batsmanScores,
+            bowlerScores,
+            lastWicket,
+            timelineCommentary
+          },
+          () => {
+            if (isEqual(this.state.matchDetails.state, STATUS_LIVE)) {
+              if (isEqual(this._interval, null)) {
+                console.log('Initiating timeline interval.');
+                this._initiateInterval();
+              }
+            } else {
+              clearInterval(this._interval);
             }
-          } else {
-            clearInterval(this._interval);
           }
-        }
-      );
+        );
+      } else {
+        this.setState({
+          spinner: false,
+          matchStarted: false,
+          matchDetails,
+          teamAPlayers,
+          teamBPlayers,
+          matchMessage: 'Match Abandoned'
+        });
+      }
     } catch (err) {
       this.setState({ spinner: false, matchDetails });
     }
@@ -822,7 +838,7 @@ class MatchCenter extends React.Component {
     return (
       <View style={styles.matchNotYetStartedView}>
         <Text style={styles.matchNotYetStartedText}>
-          Match is not yet started
+          {this.state.matchMessage}
         </Text>
       </View>
     );
