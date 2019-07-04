@@ -139,7 +139,7 @@ class MatchCenter extends React.Component {
           timelineCommentary
         },
         () => {
-          if (isEqual(this.state.matchDetails.state, STATUS_COMPLETED)) {
+          if (isEqual(this.state.matchDetails.state, STATUS_LIVE)) {
             if (isEqual(this._interval, null)) {
               console.log('Initiating timeline interval.');
               this._initiateInterval();
