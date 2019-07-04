@@ -33,7 +33,7 @@ import LiveMatchCard, {
   SCREEN_W
 } from '../components/LiveMatchCard';
 import AdBanner from '../ads/Banner';
-import { STATUS_LIVE } from '../constants/matchStatus';
+import { STATUS_LIVE, STATUS_YET_TO_BEGIN } from '../constants/matchStatus';
 import {
   BG_KNIGHT_RIDERS,
   BG_TALLAWAHS,
@@ -276,7 +276,7 @@ class Home extends React.Component {
               const liveMatchData = translateArrayToJSON(compData.LtFixtures);
               this.props.setLiveMatchData(liveMatchData);
               console.log('live data refresh complete');
-              console.log(liveMatchData); 
+              console.log(liveMatchData);
             }
           }
         );
@@ -302,6 +302,7 @@ class Home extends React.Component {
       <LiveMatchCard
         data={item}
         showRR={false}
+        disableNavigation={isEqual(item.state, STATUS_YET_TO_BEGIN)}
         onCardPress={matchId =>
           this.props.navigation.navigate(VIEW_MATCH_CENTER, {
             matchId,

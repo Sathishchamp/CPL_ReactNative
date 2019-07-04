@@ -16,7 +16,7 @@ const MATCH_CARD_HEIGHT = SCREEN_W * 0.5;
 export const MATCH_CARD_WIDTH = SCREEN_W * 0.95;
 
 export default props => {
-  const { data, showRR, fullCard } = props;
+  const { data, showRR, fullCard, disableNavigation } = props;
   const {
     starttimeGMT,
     status,
@@ -67,7 +67,7 @@ export default props => {
   return (
     <TouchableWithoutFeedback
       onPress={() => props.onCardPress(matchId)}
-      disabled={fullCard}
+      disabled={fullCard || disableNavigation}
     >
       <View style={cardStyle}>
         <View style={styles.firstRow}>
