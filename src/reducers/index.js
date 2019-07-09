@@ -10,6 +10,7 @@ import LiveMatchIndexReducer from './LiveMatchIndexReducer';
 import CurrentCompetitionIdReducer from './CurrentCompetitionIdReducer';
 import UpcomingCompetitionIdReducer from './UpcomingCompetitionIdReducer';
 import ServerUrlReducer from './ServerUrlReducer';
+import IsFixturesUpcomingReducer from './IsFixturesUpcomingReducer';
 
 export default combineReducers({
   news: NewsReducer,
@@ -22,5 +23,6 @@ export default combineReducers({
   playerProfileUrl: PlayerProfileUrlReducer,
   currentCompetitionId: CurrentCompetitionIdReducer,
   upcomingCompetitionId: UpcomingCompetitionIdReducer,
-  serverUrl: ServerUrlReducer
+  serverUrl: ServerUrlReducer,
+  isFixturesUpcoming: IsFixturesUpcomingReducer
 });

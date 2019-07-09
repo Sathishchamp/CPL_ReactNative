@@ -150,6 +150,10 @@ class Home extends React.Component {
           if (!isNullOrEmpty(upcoming) && upcoming.includes('home')) {
             compId = UpcomingCompID;
           }
+
+          if (!isNullOrEmpty(upcoming) && upcoming.includes('fixtures')) {
+            this.props.setIsFixturesUpcoming(true);
+          }
           //if team present, set in redux state
           if (!isNullOrEmpty(upcoming) && upcoming.includes('team')) {
             this.props.setPlayerProfileUrl(
@@ -402,7 +406,7 @@ class Home extends React.Component {
           )}
           {this._renderSpinner()}
         </Content>
-        <AdBanner size='fullBanner' />
+        <AdBanner size="fullBanner" />
         <Footer activeButton={VIEW_HOME} {...this.props} />
       </Container>
     );

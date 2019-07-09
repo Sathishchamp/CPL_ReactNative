@@ -10,4 +10,5 @@ export const TICKETS = 'Tickets';
 export const SPONSORS = 'Sponsors';
 export const RESULTS = 'Results';
 export const SUPPORT_JSON = '/others.json';
+export const FIXTURES = 'Fixtures';
 
