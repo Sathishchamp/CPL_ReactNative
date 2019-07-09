@@ -1,12 +1,14 @@
 import React from 'react';
 import { createAppContainer, createStackNavigator } from 'react-navigation';
 import More from '../views/More';
-import Tickets from "../views/Tickets"
-import Sponsors from "../views/Sponsors"
+import Tickets from '../views/Tickets';
+import Sponsors from '../views/Sponsors';
 import { VIEW_MORE } from '../constants/viewNames';
-import { TICKETS,SPONSORS, RESULTS } from '../constants/strings';
+import { TICKETS, SPONSORS, RESULTS, FIXTURES } from '../constants/strings';
 import commonStyles from '../commons/styles';
 import Results from '../views/Results';
+import Fixtures from '../views/Fixtures';
+
 const MoreNavigator = createStackNavigator(
   {
     more: {
@@ -39,6 +41,16 @@ const MoreNavigator = createStackNavigator(
       screen: Sponsors,
       navigationOptions: {
         title: SPONSORS,
+        headerTitleStyle: commonStyles.headerTitleStyle,
+        headerTintColor: 'white',
+        headerBackTitle: null,
+        headerStyle: commonStyles.headerDefault
+      }
+    },
+    fixtures: {
+      screen: Fixtures,
+      navigationOptions: {
+        title: FIXTURES,
         headerTitleStyle: commonStyles.headerTitleStyle,
         headerTintColor: 'white',
         headerBackTitle: null,

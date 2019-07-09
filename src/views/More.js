@@ -7,7 +7,13 @@ import BannerHeader, {
 } from '../components/BannerHeader';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { VIEW_MORE, VIEW_TICKETS, VIEW_SPONSOR, VIEW_RESULTS } from '../constants/viewNames';
+import {
+  VIEW_MORE,
+  VIEW_TICKETS,
+  VIEW_SPONSOR,
+  VIEW_RESULTS,
+  VIEW_FIXTURES
+} from '../constants/viewNames';
 import { MORE } from '../constants/strings';
 import commonStyles from '../commons/styles';
 import MoreItem from '../components/MoreItem';
@@ -15,13 +21,13 @@ import { HOME_BG_COLOR } from '../config/colors';
 
 class More extends React.Component {
   _redirectToTickets() {
-    this.props.navigation.navigate(VIEW_TICKETS)
+    this.props.navigation.navigate(VIEW_TICKETS);
   }
   _redirectToSponsors() {
-    this.props.navigation.navigate(VIEW_SPONSOR)
+    this.props.navigation.navigate(VIEW_SPONSOR);
   }
   _redirectToResults() {
-    this.props.navigation.navigate(VIEW_RESULTS)
+    this.props.navigation.navigate(VIEW_RESULTS);
   }
   render() {
     return (
@@ -47,12 +53,16 @@ class More extends React.Component {
             <MoreItem
               iconImage={require('../../assets/images/more/fixtures.png')}
               title="Fixtures"
-              onPress={() => {}}
+              onPress={() => {
+                this.props.navigation.navigate(VIEW_FIXTURES);
+              }}
             />
             <MoreItem
               iconImage={require('../../assets/images/more/results.png')}
               title="Results"
-              onPress={() => {this._redirectToResults()}}
+              onPress={() => {
+                this._redirectToResults();
+              }}
             />
             <MoreItem
               iconImage={require('../../assets/images/more/points_table.png')}
@@ -70,7 +80,9 @@ class More extends React.Component {
             <MoreItem
               iconImage={require('../../assets/images/more/ticket.png')}
               title="Tickets"
-              onPress={() => {this._redirectToTickets()}}
+              onPress={() => {
+                this._redirectToTickets();
+              }}
             />
             <MoreItem
               iconImage={require('../../assets/images/more/podcasts.png')}
@@ -93,7 +105,9 @@ class More extends React.Component {
             <MoreItem
               iconImage={require('../../assets/images/more/sponsors.png')}
               title="Sponsors"
-              onPress={() => {this._redirectToSponsors()}}
+              onPress={() => {
+                this._redirectToSponsors();
+              }}
             />
           </View>
         </Content>
@@ -106,4 +120,3 @@ class More extends React.Component {
 export default More;
 
 const styles = StyleSheet.create({});
-
