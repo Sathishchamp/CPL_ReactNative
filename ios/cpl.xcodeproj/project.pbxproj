@@ -810,7 +810,7 @@
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = 32884K3637;
+						DevelopmentTeam = 277234P2SS;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -1325,7 +1325,7 @@
 				CODE_SIGN_ENTITLEMENTS = cpl/cpl.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = 32884K3637;
+				DEVELOPMENT_TEAM = 277234P2SS;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks",
@@ -1349,7 +1349,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.justalab.cpl;
+				PRODUCT_BUNDLE_IDENTIFIER = kadamba.CPLT20;
 				PRODUCT_NAME = cpl;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1362,7 +1362,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = cpl/cpl.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 32884K3637;
+				DEVELOPMENT_TEAM = 277234P2SS;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks",
@@ -1386,7 +1386,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.justalab.cpl;
+				PRODUCT_BUNDLE_IDENTIFIER = kadamba.CPLT20;
 				PRODUCT_NAME = cpl;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
