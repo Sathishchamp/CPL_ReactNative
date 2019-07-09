@@ -40,6 +40,8 @@ const OUT = 'OUT';
 const FOUR = 'FOUR';
 const SIX = 'SIX';
 
+const MATCH_ABANDONED = 'Match Abandoned';
+
 class MatchCenter extends React.Component {
   constructor(props) {
     super(props);
@@ -67,12 +69,19 @@ class MatchCenter extends React.Component {
       batsmanScores: [],
       bowlerScores: [],
       lastWicket: [],
-      timelineCommentary: []
+      timelineCommentary: [],
+      matchMessage: 'Match is not yet started'
     };
   }
 
   componentDidMount() {
     this.setState({ spinner: true }, () => this._fetchData());
+  }
+
+  componentWillUnmount() {
+    if (!isEqual(this._interval, null)) {
+      clearInterval(this._interval);
+    }
   }
 
   async _fetchData() {
@@ -84,71 +93,84 @@ class MatchCenter extends React.Component {
       const { matchDetails, teamAPlayers, teamBPlayers } = prematch;
       const { teama, teamb } = prematch.matchDetails;
 
-      const scoresData = await this._fetchScores(
-        competitionId,
-        matchId,
-        teama,
-        teamb
-      );
+      console.log(prematch);
+      //fetch data if and only match is not abandoned
+      if (!isEqual(matchDetails.result, MATCH_ABANDONED)) {
+        const scoresData = await this._fetchScores(
+          competitionId,
+          matchId,
+          teama,
+          teamb
+        );
 
-      const fullCommentary = await this._fetchFullCommentary(
-        competitionId,
-        matchId
-      );
-      console.log(fullCommentary);
+        const fullCommentary = await this._fetchFullCommentary(
+          competitionId,
+          matchId
+        );
+        console.log(fullCommentary);
 
-      const {
-        matchStarted,
-        teamABattingScores,
-        teamBBattingScores,
-        teamAExtras,
-        teamBExtras,
-        teamAFallofWickets,
-        teamBFallofWickets,
-        teamABowlingData,
-        teamBBowlingData,
-        teamAInningsId,
-        teamBInningsId,
-        batsmanScores,
-        bowlerScores,
-        lastWicket,
-        timelineCommentary
-      } = scoresData;
-
-      this.setState(
-        {
-          spinner: false,
-          matchDetails,
-          teamAPlayers,
-          teamBPlayers,
+        const {
           matchStarted,
+          teamABattingScores,
+          teamBBattingScores,
           teamAExtras,
           teamBExtras,
           teamAFallofWickets,
           teamBFallofWickets,
-          teamABattingScores,
-          teamBBattingScores,
           teamABowlingData,
           teamBBowlingData,
-          fullCommentary,
           teamAInningsId,
           teamBInningsId,
           batsmanScores,
           bowlerScores,
           lastWicket,
           timelineCommentary
-        },
-        () => {
-          if (isEqual(this.state.matchDetails.state, STATUS_LIVE)) {
-            if (isEqual(this._interval, null)) {
-              console.log('Initiating timeline interval.');
-              this._initiateInterval();
+        } = scoresData;
+
+        this.setState(
+          {
+            spinner: false,
+            matchDetails,
+            teamAPlayers,
+            teamBPlayers,
+            matchStarted,
+            teamAExtras,
+            teamBExtras,
+            teamAFallofWickets,
+            teamBFallofWickets,
+            teamABattingScores,
+            teamBBattingScores,
+            teamABowlingData,
+            teamBBowlingData,
+            fullCommentary,
+            teamAInningsId,
+            teamBInningsId,
+            batsmanScores,
+            bowlerScores,
+            lastWicket,
+            timelineCommentary
+          },
+          () => {
+            if (isEqual(this.state.matchDetails.state, STATUS_LIVE)) {
+              if (isEqual(this._interval, null)) {
+                console.log('Initiating timeline interval.');
+                this._initiateInterval();
+              }
+            } else {
+              clearInterval(this._interval);
             }
-          } else {
-            clearInterval(this._interval);
           }
-        }
-      );
+        );
+      } else {
+        this.setState({
+          spinner: false,
+          matchStarted: false,
+          matchDetails,
+          teamAPlayers,
+          teamBPlayers,
+          matchMessage: 'Match Abandoned'
+        });
+      }
     } catch (err) {
       this.setState({ spinner: false, matchDetails });
     }
@@ -215,46 +237,58 @@ class MatchCenter extends React.Component {
           let teamAInningsId = '';
           let teamBInningsId = '';
 
-          //check with innings1
-          if (isEqual(teama, scorecard.innings.innings1.batteam.batteamName)) {
-            teamABattingScores = translateArrayToJSON(
-              scorecard.innings.innings1.batteam.player
-            );
+          if (
+            !isEqual(scorecard.innings.innings1, undefined) &&
+            !isEqual(scorecard.innings.innings1.batteam, undefined)
+          ) {
+            //check with innings1
+            if (
+              isEqual(teama, scorecard.innings.innings1.batteam.batteamName)
+            ) {
+              teamABattingScores = translateArrayToJSON(
+                scorecard.innings.innings1.batteam.player
+              );
 
-            teamAExtras = translateArrayToJSON(
-              scorecard.innings.innings1.extras
-            );
-            teamAExtras = teamAExtras[0].Extras + teamAExtras[0].Total;
+              teamAExtras = translateArrayToJSON(
+                scorecard.innings.innings1.extras
+              );
+              teamAExtras = teamAExtras[0].Extras + teamAExtras[0].Total;
 
-            teamAFallofWickets = scorecard.innings.innings1.fallofwicketsstr;
+              teamAFallofWickets = scorecard.innings.innings1.fallofwicketsstr;
 
-            teamABowlingData = translateArrayToJSON(
-              scorecard.innings.innings1.bowlteam.player
-            );
+              teamABowlingData = translateArrayToJSON(
+                scorecard.innings.innings1.bowlteam.player
+              );
 
-            teamAInningsId = '1';
-          }
-          if (isEqual(teamb, scorecard.innings.innings1.batteam.batteamName)) {
-            teamBBattingScores = translateArrayToJSON(
-              scorecard.innings.innings1.batteam.player
-            );
+              teamAInningsId = '1';
+            }
+            if (
+              isEqual(teamb, scorecard.innings.innings1.batteam.batteamName)
+            ) {
+              teamBBattingScores = translateArrayToJSON(
+                scorecard.innings.innings1.batteam.player
+              );
 
-            teamBExtras = translateArrayToJSON(
-              scorecard.innings.innings1.extras
-            );
-            teamBExtras = teamBExtras[0].Extras + teamBExtras[0].Total;
+              teamBExtras = translateArrayToJSON(
+                scorecard.innings.innings1.extras
+              );
+              teamBExtras = teamBExtras[0].Extras + teamBExtras[0].Total;
 
-            teamBFallofWickets = scorecard.innings.innings1.fallofwicketsstr;
+              teamBFallofWickets = scorecard.innings.innings1.fallofwicketsstr;
 
-            teamBBowlingData = translateArrayToJSON(
-              scorecard.innings.innings1.bowlteam.player
-            );
+              teamBBowlingData = translateArrayToJSON(
+                scorecard.innings.innings1.bowlteam.player
+              );
 
-            teamBInningsId = '1';
+              teamBInningsId = '1';
+            }
           }
 
           //if innings2 is present
-          if (!isEqual(scorecard.innings.innings2, undefined)) {
+          if (
+            !isEqual(scorecard.innings.innings2, undefined) &&
+            !isEqual(scorecard.innings.innings2.batteam, undefined)
+          ) {
             //check with innings2
             if (
               isEqual(teama, scorecard.innings.innings2.batteam.batteamName)
@@ -494,23 +528,38 @@ class MatchCenter extends React.Component {
   }
 
   _renderTimelinePlayerHeaderRow(player1, player2) {
+    let hasPlayer1 = true;
+    let hasPlayer2 = true;
+    if (isEqual(player1, null)) {
+      hasPlayer1 = false;
+    }
+    if (isEqual(player2, null)) {
+      hasPlayer2 = true;
+    }
     return (
       <View style={timelineStyles.playerNameBar}>
         <View style={timelineStyles.playerNameCol}>
-          <Text style={[timelineStyles.playerNameFont, { color: 'white' }]}>
-            {player1}
-          </Text>
+          {hasPlayer1 && (
+            <Text style={[timelineStyles.playerNameFont, { color: 'white' }]}>
+              {player1.Striker}
+            </Text>
+          )}
         </View>
         <View style={timelineStyles.playerNameCol}>
-          <Text style={[timelineStyles.playerNameFont, { color: '#acb030' }]}>
-            {player2}
-          </Text>
+          {hasPlayer2 && (
+            <Text style={[timelineStyles.playerNameFont, { color: '#acb030' }]}>
+              {player2.Striker}
+            </Text>
+          )}
         </View>
       </View>
     );
   }
 
   _renderTimelineBatsman(batsman, isFirstBatsman) {
+    if (isEqual(batsman, null)) {
+      return;
+    }
     return (
       <View style={{ flex: 1, flexDirection: 'row' }}>
         {!isFirstBatsman && (
@@ -541,6 +590,14 @@ class MatchCenter extends React.Component {
   }
 
   _renderTImelineBowlerScores(bowler1, bowler2) {
+    let hasBowler1 = true;
+    let hasBowler2 = true;
+    if (isEqual(bowler1, null)) {
+      hasBowler1 = false;
+    }
+    if (isEqual(bowler2, null)) {
+      hasBowler2 = false;
+    }
     return (
       <View style={timelineStyles.bowlerScoresView}>
         <View
@@ -549,28 +606,36 @@ class MatchCenter extends React.Component {
             { borderRightWidth: 1, borderRightColor: VIEW_BG_COLOR }
           ]}
         >
-          <View style={timelineStyles.bowlerScoreRowItem}>
-            <Text style={timelineStyles.bowlerScoresFont}>{`${bowler1.score}-${
-              bowler1.Balls
-            }-${bowler1.fours}-${bowler1.Six}`}</Text>
-          </View>
-          <View style={timelineStyles.bowlerScoreRowItem}>
-            <Text style={timelineStyles.bowlerScoresFont}>{`Econ ${
-              bowler1.PlayerImage
-            }`}</Text>
-          </View>
+          {hasBowler1 && (
+            <View style={timelineStyles.bowlerScoreRowItem}>
+              <Text style={timelineStyles.bowlerScoresFont}>{`${
+                bowler1.score
+              }-${bowler1.Balls}-${bowler1.fours}-${bowler1.Six}`}</Text>
+            </View>
+          )}
+          {hasBowler1 && (
+            <View style={timelineStyles.bowlerScoreRowItem}>
+              <Text style={timelineStyles.bowlerScoresFont}>{`Econ ${
+                bowler1.PlayerImage
+              }`}</Text>
+            </View>
+          )}
         </View>
         <View style={timelineStyles.bowlerScoreRow}>
-          <View style={timelineStyles.bowlerScoreRowItem}>
-            <Text style={timelineStyles.bowlerScoresFont}>{`${bowler2.score}-${
-              bowler2.Balls
-            }-${bowler2.fours}-${bowler2.Six}`}</Text>
-          </View>
-          <View style={timelineStyles.bowlerScoreRowItem}>
-            <Text style={timelineStyles.bowlerScoresFont}>{`Econ ${
-              bowler2.PlayerImage
-            }`}</Text>
-          </View>
+          {hasBowler2 && (
+            <View style={timelineStyles.bowlerScoreRowItem}>
+              <Text style={timelineStyles.bowlerScoresFont}>{`${
+                bowler2.score
+              }-${bowler2.Balls}-${bowler2.fours}-${bowler2.Six}`}</Text>
+            </View>
+          )}
+          {hasBowler2 && (
+            <View style={timelineStyles.bowlerScoreRowItem}>
+              <Text style={timelineStyles.bowlerScoresFont}>{`Econ ${
+                bowler2.PlayerImage
+              }`}</Text>
+            </View>
+          )}
         </View>
       </View>
     );
@@ -674,10 +739,18 @@ class MatchCenter extends React.Component {
       bowlerScores,
       lastWicket
     } = this.state;
-    const batsman1 = batsmanScores[0];
-    const batsman2 = batsmanScores[1];
-    const bowler1 = bowlerScores[0];
-    const bowler2 = bowlerScores[1];
+    let batsman1 = null;
+    let batsman2 = null;
+    if (batsmanScores.length > 1) {
+      batsman1 = batsmanScores[0];
+      batsman2 = batsmanScores[1];
+    }
+    let bowler1 = null;
+    let bowler2 = null;
+    if (bowlerScores.length > 1) {
+      bowler1 = bowlerScores[0];
+      bowler2 = bowlerScores[1];
+    }
     if (matchStarted) {
       let lastBatsmanContent = null;
       if (lastWicket.length > 0) {
@@ -701,20 +774,14 @@ class MatchCenter extends React.Component {
               )}
             </View>
           </View>
-          {this._renderTimelinePlayerHeaderRow(
-            batsman1.Striker,
-            batsman2.Striker
-          )}
+          {this._renderTimelinePlayerHeaderRow(batsman1, batsman2)}
           <View style={timelineStyles.batsmanScoresPart}>
             {this._renderTimelineBatsman(batsman1, true)}
             {this._renderTimelineBatsman(batsman2, false)}
           </View>
 
           {this._renderTimelineTitle('BOWLERS')}
-          {this._renderTimelinePlayerHeaderRow(
-            bowler1.Striker,
-            bowler2.Striker
-          )}
+          {this._renderTimelinePlayerHeaderRow(bowler1, bowler2)}
           {this._renderTImelineBowlerScores(bowler1, bowler2)}
           {this._renderTimelineTitle('RECENT OVERS')}
           {this._renderTimelineRecentOvers()}
@@ -771,7 +838,7 @@ class MatchCenter extends React.Component {
     return (
       <View style={styles.matchNotYetStartedView}>
         <Text style={styles.matchNotYetStartedText}>
-          Match is not yet started
+          {this.state.matchMessage}
         </Text>
       </View>
     );
@@ -786,7 +853,7 @@ class MatchCenter extends React.Component {
   render() {
     return (
       <Container>
-        <StatusBar backgroundColor={PRIMARY} barStyle="light-content" />
+        <StatusBar backgroundColor={PRIMARY} barStyle='light-content' />
         <Tabs
           locked={true}
           style={{ flex: 1 }}
