@@ -87,7 +87,8 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start'
   },
   firstViewText: {
-    color: 'white'
+    color: 'white',
+    fontFamily: HELVETICA
   },
   matchCol: {
     flex: 1,
