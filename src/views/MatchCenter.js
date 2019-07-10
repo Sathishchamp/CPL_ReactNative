@@ -534,7 +534,7 @@ class MatchCenter extends React.Component {
       hasPlayer1 = false;
     }
     if (isEqual(player2, null)) {
-      hasPlayer2 = true;
+      hasPlayer2 = false;
     }
     return (
       <View style={timelineStyles.playerNameBar}>
