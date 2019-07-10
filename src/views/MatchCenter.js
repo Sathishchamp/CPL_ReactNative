@@ -741,13 +741,13 @@ class MatchCenter extends React.Component {
     } = this.state;
     let batsman1 = null;
     let batsman2 = null;
-    if (isNullOrEmpty(batsmanScores) && batsmanScores.length > 1) {
+    if (!isNullOrEmpty(batsmanScores) && batsmanScores.length > 1) {
       batsman1 = batsmanScores[0];
       batsman2 = batsmanScores[1];
     }
     let bowler1 = null;
     let bowler2 = null;
-    if (isNullOrEmpty(bowlerScores) && bowlerScores.length > 1) {
+    if (!isNullOrEmpty(bowlerScores) && bowlerScores.length > 1) {
       bowler1 = bowlerScores[0];
       bowler2 = bowlerScores[1];
     }
