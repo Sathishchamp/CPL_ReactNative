@@ -12,7 +12,8 @@ import {
   VIEW_TICKETS,
   VIEW_SPONSOR,
   VIEW_RESULTS,
-  VIEW_FIXTURES
+  VIEW_FIXTURES,
+  VIEW_STATS
 } from '../constants/viewNames';
 import { MORE } from '../constants/strings';
 import commonStyles from '../commons/styles';
@@ -88,6 +89,11 @@ class More extends React.Component {
               iconImage={require('../../assets/images/more/podcasts.png')}
               title="Podcasts"
               onPress={() => {}}
+            />
+            <MoreItem
+              iconImage={require('../../assets/images/more/podcasts.png')}
+              title="Stats"
+              onPress={() => this.props.navigation.navigate(VIEW_STATS)}
             />
           </View>
           <View
