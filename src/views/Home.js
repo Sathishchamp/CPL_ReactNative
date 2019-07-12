@@ -154,12 +154,18 @@ class Home extends React.Component {
           if (!isNullOrEmpty(upcoming) && upcoming.includes('fixtures')) {
             this.props.setIsFixturesUpcoming(true);
           }
+
+          if (!isNullOrEmpty(upcoming) && upcoming.includes('stats')) {
+            this.props.setIsStatsUpcoming(true);
+          }
+
           //if team present, set in redux state
           if (!isNullOrEmpty(upcoming) && upcoming.includes('team')) {
             this.props.setPlayerProfileUrl(
               Servarlink + UpcomingCompID + '/PlayerProfile'
             );
           }
+
           const competitionUrl = Servarlink + compId;
           this.props.setCompetitionId(compId);
 

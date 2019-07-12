@@ -16,4 +16,4 @@ export const VIEW_RESULTS = 'results';
 export const VIEW_TICKETS = 'tickets';
 export const VIEW_SPONSOR = 'sponsors';
 export const VIEW_FIXTURES = 'fixtures';
-
+export const VIEW_STATS = 'stats';

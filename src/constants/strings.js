@@ -11,4 +11,15 @@ export const SPONSORS = 'Sponsors';
 export const RESULTS = 'Results';
 export const SUPPORT_JSON = '/others.json';
 export const FIXTURES = 'Fixtures';
-
+export const STATS = 'Stats';
+export const AVERAGE = 'Average';
+export const CATCHES = 'Catches';
+export const ECON = 'Econ';
+export const INDIVIDUAL = 'Individual';
+export const RUNOUT = 'Run Out';
+export const RUNS = 'Runs';
+export const SR = 'SR';
+export const SIXES = 'Sixes';
+export const STUMPING = 'Stumping';
+export const FIGURES = 'Figures';
+export const WICKETS = 'Wickets';

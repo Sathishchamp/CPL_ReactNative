@@ -4,10 +4,17 @@ import More from '../views/More';
 import Tickets from '../views/Tickets';
 import Sponsors from '../views/Sponsors';
 import { VIEW_MORE } from '../constants/viewNames';
-import { TICKETS, SPONSORS, RESULTS, FIXTURES } from '../constants/strings';
+import {
+  TICKETS,
+  SPONSORS,
+  RESULTS,
+  FIXTURES,
+  STATS
+} from '../constants/strings';
 import commonStyles from '../commons/styles';
 import Results from '../views/Results';
 import Fixtures from '../views/Fixtures';
+import Stats from '../views/Stats';
 
 const MoreNavigator = createStackNavigator(
   {
@@ -51,6 +58,16 @@ const MoreNavigator = createStackNavigator(
       screen: Fixtures,
       navigationOptions: {
         title: FIXTURES,
+        headerTitleStyle: commonStyles.headerTitleStyle,
+        headerTintColor: 'white',
+        headerBackTitle: null,
+        headerStyle: commonStyles.headerDefault
+      }
+    },
+    stats: {
+      screen: Stats,
+      navigationOptions: {
+        title: STATS,
         headerTitleStyle: commonStyles.headerTitleStyle,
         headerTintColor: 'white',
         headerBackTitle: null,

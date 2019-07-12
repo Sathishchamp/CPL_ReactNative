@@ -10,7 +10,8 @@ import {
   ACTION_SET_CURRENT_COMPETITION_ID,
   ACTION_SET_UPCOMING_COMPETITION_ID,
   ACTION_SET_SEVER_URL,
-  ACTION_SET_IS_FIXTURES_UPCOMING
+  ACTION_SET_IS_FIXTURES_UPCOMING,
+  ACTION_SET_IS_STATS_UPCOMING
 } from '../constants/actionTypes';
 
 export const setNewsData = newsData => ({
@@ -71,4 +72,9 @@ export const setServerUrl = serverUrl => ({
 export const setIsFixturesUpcoming = isFixturesUpcoming => ({
   type: ACTION_SET_IS_FIXTURES_UPCOMING,
   isFixturesUpcoming
+});
+
+export const setIsStatsUpcoming = isStatsUpcoming => ({
+  type: ACTION_SET_IS_STATS_UPCOMING,
+  isStatsUpcoming
 });
