@@ -12,6 +12,7 @@ export const RESULTS = 'Results';
 export const SUPPORT_JSON = '/others.json';
 export const FIXTURES = 'Fixtures';
 export const STATS = 'Stats';
+export const PODCASTS = 'Podcasts';
 export const AVERAGE = 'Average';
 export const CATCHES = 'Catches';
 export const ECON = 'Econ';

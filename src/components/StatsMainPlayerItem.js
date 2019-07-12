@@ -7,12 +7,12 @@ import {
   TouchableOpacity,
   Dimensions
 } from 'react-native';
-import { HELVETICA } from '../constants/fonts';
+import { HELVETICA,SQUARE721 } from '../constants/fonts';
 
 const SCREEN_W = Dimensions.get('window').width;
 
 export default props => {
-  const { title, player } = props.data;
+  const { title, player, color } = props.data;
   const { Category, Player, playerImage, Team, Teamimage, Value } = player;
   return (
     <TouchableOpacity style={styles.touchable}>
@@ -21,7 +21,7 @@ export default props => {
           style={[
             styles.titleView,
             {
-              backgroundColor: props.color
+              backgroundColor: color
             }
           ]}
         >
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     padding: 10
   },
   titleText: {
-    fontFamily: HELVETICA,
+    fontFamily: SQUARE721,
     fontWeight: 'bold',
     color: '#fff'
   },

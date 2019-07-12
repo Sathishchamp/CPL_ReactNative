@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { NEWS_URL, VIDEOS_URL, CONFIG_URL, SCORES_URL } from '../config/server';
+import { NEWS_URL, VIDEOS_URL, CONFIG_URL, SCORES_URL, PODCASTS_URL } from '../config/server';
 import { isEqual } from '../utils/index';
 
 export default (APIService = {
@@ -96,6 +96,14 @@ export default (APIService = {
   getResults(url,callback) {
     axios
     .get(url)
+    .then(res => {
+      callback(res.data);
+    })
+    .catch(err => console.log(err));
+  },
+  getPodcasts(callback) {
+    axios
+    .get(PODCASTS_URL)
     .then(res => {
       callback(res.data);
     })

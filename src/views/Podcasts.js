@@ -1,21 +1,24 @@
 import React from 'react';
-import { View, StyleSheet, RefreshControl, Platform } from 'react-native';
-import { Container, Content, Text } from 'native-base';
-import Footer from '../components/Footer';
-import { VIEW_VIDEOS, VIEW_VIDEOS_VIDEOS_VIEW } from '../constants/viewNames';
-import { VIDEOS } from '../constants/strings';
-import VideoCoverList from '../components/VideoCoverList';
-import { connect } from 'react-redux';
-import * as Actions from '../actions';
-import { YouTubeStandaloneIOS } from 'react-native-youtube';
+import {
+  View,
+  StyleSheet,
+  RefreshControl,
+  Platform,
+  Text,
+  FlatList,
+  Alert,
+  Dimensions,
+  WebView
+} from 'react-native';
+import {connect} from 'react-redux';
+import { Container, Content } from 'native-base';
+import APIService from '../services/APIService';
+import { isNullOrEmpty } from '../utils';
+import Spinner from 'react-native-loading-spinner-overlay'
 import commonStyles from '../commons/styles';
-import { isEqual } from '../utils';
-import BannerHeader, {
-  NAV_BAR_HEIGHT,
-  CONTENT_MARGIN_TOP
-} from '../components/BannerHeader';
+import PodcastsCover from '../components/PodcastsCover';
 
-class Podcasts extends React.Component {
+export default class Podcasts extends React.Component {
     constructor(props){
         super(props)
         this.state = {
@@ -27,6 +30,28 @@ class Podcasts extends React.Component {
         this._fetchPodcasts();
     }
     _fetchPodcasts() {
-        
+        this.setState({loading:true},() => 
+        APIService.getPodcasts(
+            audioList => {
+                console.log("audio",audioList)
+                this.setState({loading:false,audios:audioList})
+            }
+        ));
+    }
+    render(){
+        return(
+            <FlatList
+                data={this.state.audios}
+                horizontal={false}
+                renderItem = {({item}) => {
+                    return(
+                        <PodcastsCover
+                        data = {item}
+                        keyExtractor={({ item, index }) => index}
+                    />
+                    );
+                }}
+            />
+        );
     }
 } 

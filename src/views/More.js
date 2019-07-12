@@ -13,7 +13,8 @@ import {
   VIEW_SPONSOR,
   VIEW_RESULTS,
   VIEW_FIXTURES,
-  VIEW_STATS
+  VIEW_STATS,
+  VIEW_PODCASTS
 } from '../constants/viewNames';
 import { MORE } from '../constants/strings';
 import commonStyles from '../commons/styles';
@@ -29,6 +30,9 @@ class More extends React.Component {
   }
   _redirectToResults() {
     this.props.navigation.navigate(VIEW_RESULTS);
+  }
+  _redirectToPodcasts() {
+    this.props.navigation.navigate(VIEW_PODCASTS);
   }
   render() {
     return (
@@ -88,7 +92,7 @@ class More extends React.Component {
             <MoreItem
               iconImage={require('../../assets/images/more/podcasts.png')}
               title="Podcasts"
-              onPress={() => {}}
+              onPress={() => {this._redirectToPodcasts();}}
             />
             <MoreItem
               iconImage={require('../../assets/images/more/podcasts.png')}

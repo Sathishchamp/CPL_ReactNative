@@ -9,12 +9,14 @@ import {
   SPONSORS,
   RESULTS,
   FIXTURES,
-  STATS
+  STATS,
+  PODCASTS
 } from '../constants/strings';
 import commonStyles from '../commons/styles';
 import Results from '../views/Results';
 import Fixtures from '../views/Fixtures';
 import Stats from '../views/Stats';
+import Podcasts from '../views/Podcasts';
 
 const MoreNavigator = createStackNavigator(
   {
@@ -68,6 +70,16 @@ const MoreNavigator = createStackNavigator(
       screen: Stats,
       navigationOptions: {
         title: STATS,
+        headerTitleStyle: commonStyles.headerTitleStyle,
+        headerTintColor: 'white',
+        headerBackTitle: null,
+        headerStyle: commonStyles.headerDefault
+      }
+    },
+    podcasts: {
+      screen: Podcasts,
+      navigationOptions: {
+        title: PODCASTS,
         headerTitleStyle: commonStyles.headerTitleStyle,
         headerTintColor: 'white',
         headerBackTitle: null,
