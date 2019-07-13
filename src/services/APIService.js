@@ -98,9 +98,12 @@ export default (APIService = {
     axios
       .get(url)
       .then(res => {
-        callback(res.data);
+        callback(null, res.data);
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+        callback(err, null);
+      });
   },
 
   getResults(url, callback) {
