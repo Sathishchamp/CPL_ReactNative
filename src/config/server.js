@@ -4,3 +4,5 @@ export const VIDEOS_URL =
 export const CONFIG_URL =
   'http://api.cricket-21.com/JsonResoruce/T20%20Domestic/Configuration_V2.json';
 export const SCORES_URL = 'http://api.cricket-21.com/JsonResoruce/CPL';
+export const PODCASTS_URL = 'https://s3.amazonaws.com/api.cricket-21.com/JsonResoruce/CPL/PodcastFeed.json';
+

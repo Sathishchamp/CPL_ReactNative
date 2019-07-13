@@ -67,47 +67,58 @@ class Stats extends React.Component {
         } else {
           const { LtAllStats } = compData;
           const average = {
-            title: AVERAGE,
+            title: 'AVERAGE',
+            color: '#ff6600',
             player: LtAllStats.LtHighest_CategoryAve[0]
           };
           const catches = {
-            title: CATCHES,
+            title: 'CATCHES',
+            color: '#003366',
             player: LtAllStats.LtHighest_CategoryCatches[0]
           };
           const econ = {
-            title: ECON,
+            title: 'ECON',
+            color: '#993366',
             player: LtAllStats.LtHighest_CategoryEcon[0]
           };
           const individual = {
-            title: INDIVIDUAL,
+            title: 'INDIVIDUAL',
+            color: '#ff6600',
             player: LtAllStats.LtHighest_CategoryInd[0]
           };
           const runOut = {
-            title: RUNOUT,
+            title: 'RUNOUT',
+            color: '#ffff00',
             player: LtAllStats.LtHighest_CategoryRunOut[0]
           };
           const runs = {
             title: RUNS,
+            color: '#800000',
             player: LtAllStats.LtHighest_CategoryRuns[0]
           };
           const sr = {
-            title: SR,
+            title: 'STRIKE RATE',
+            color: '#009933',
             player: LtAllStats.LtHighest_CategorySR[0]
           };
           const sixes = {
-            title: SIXES,
+            title: 'SIXES',
+            color: '#e6e600',
             player: LtAllStats.LtHighest_CategorySix[0]
           };
           const stumping = {
-            title: STUMPING,
+            title: 'STUMPING',
+            color: '#333300',
             player: LtAllStats.LtHighest_CategoryStumping[0]
           };
           const figures = {
-            title: FIGURES,
+            title: 'FIGURES',
+            color: '#003366',
             player: LtAllStats.LtHighest_Categoryfig[0]
           };
           const wickets = {
-            title: WICKETS,
+            title: 'WICKETS',
+            color: '#009900',
             player: LtAllStats.LtHighest_Categorywkts[0]
           };
 
@@ -145,7 +156,7 @@ class Stats extends React.Component {
             <FlatList
               data={this.state.playerData}
               renderItem={({ item }) => (
-                <StatsMainPlayerItem data={item} color="#ff6600" />
+                <StatsMainPlayerItem data={item} />
               )}
               keyExtractor={({ item, index }) => index}
             />
