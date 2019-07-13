@@ -1321,7 +1321,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 615C2D836DE0964083A97AC0 /* Pods-cpl.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CODE_SIGN_ENTITLEMENTS = cpl/cpl.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
@@ -1359,7 +1359,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 531508B33B3052EF528A6387 /* Pods-cpl.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CODE_SIGN_ENTITLEMENTS = cpl/cpl.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 277234P2SS;
