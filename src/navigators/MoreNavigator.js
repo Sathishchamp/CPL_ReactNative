@@ -17,6 +17,8 @@ import Results from '../views/Results';
 import Fixtures from '../views/Fixtures';
 import Stats from '../views/Stats';
 import Podcasts from '../views/Podcasts';
+import StatsDetails from '../views/StatsDetails';
+import StatsPlayerDetail from '../views/StatsPlayerDetail';
 
 const MoreNavigator = createStackNavigator(
   {
@@ -75,6 +77,26 @@ const MoreNavigator = createStackNavigator(
         headerBackTitle: null,
         headerStyle: commonStyles.headerDefault
       }
+    },
+    statsDetails: {
+      screen: StatsDetails,
+      navigationOptions: ({ navigation }) => ({
+        title: `${navigation.state.params.title}`,
+        headerTitleStyle: commonStyles.headerTitleStyle,
+        headerTintColor: 'white',
+        headerBackTitle: null,
+        headerStyle: commonStyles.headerDefault
+      })
+    },
+    statsPlayerDetail: {
+      screen: StatsPlayerDetail,
+      navigationOptions: ({ navigation }) => ({
+        title: `${navigation.state.params.title}`,
+        headerTitleStyle: commonStyles.headerTitleStyle,
+        headerTintColor: 'white',
+        headerBackTitle: null,
+        headerStyle: commonStyles.headerDefault
+      })
     },
     podcasts: {
       screen: Podcasts,

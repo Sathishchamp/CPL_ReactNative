@@ -18,3 +18,5 @@ export const VIEW_SPONSOR = 'sponsors';
 export const VIEW_FIXTURES = 'fixtures';
 export const VIEW_PODCASTS = 'podcasts';
 export const VIEW_STATS = 'stats';
+export const VIEW_STATS_DETAILS = 'statsDetails';
+export const VIEW_STATS_PLAYER_DETAIL = 'statsPlayerDetail';
