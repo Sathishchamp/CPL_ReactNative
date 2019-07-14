@@ -20,3 +20,6 @@ export const VIEW_PODCASTS = 'podcasts';
 export const VIEW_STATS = 'stats';
 export const VIEW_STATS_DETAILS = 'statsDetails';
 export const VIEW_STATS_PLAYER_DETAIL = 'statsPlayerDetail';
+export const VIEW_ARCHIVES = 'archives';
+export const VIEW_ARCHIVE_DETAILS = 'archiveDetails';
+export const VIEW_ARCHIVE_MATCH_CENTER = 'archiveMatchCenter';

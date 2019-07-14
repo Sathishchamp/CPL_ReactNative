@@ -4,7 +4,8 @@ import {
   VIDEOS_URL,
   CONFIG_URL,
   SCORES_URL,
-  PODCASTS_URL
+  PODCASTS_URL,
+  ARCHIVES_URL
 } from '../config/server';
 import { isEqual } from '../utils/index';
 
@@ -122,5 +123,14 @@ export default (APIService = {
         callback(res.data);
       })
       .catch(err => console.log(err));
+  },
+
+  getArchives(callback) {
+    axios
+      .get(ARCHIVES_URL)
+      .then(res => {
+        callback(res.data);
+      })
+      .catch(err => console.log('***** error fetching archives ' + err));
   }
 });
