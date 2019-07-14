@@ -14,7 +14,8 @@ import {
   VIEW_RESULTS,
   VIEW_FIXTURES,
   VIEW_STATS,
-  VIEW_PODCASTS
+  VIEW_PODCASTS,
+  VIEW_ARCHIVES
 } from '../constants/viewNames';
 import { MORE } from '../constants/strings';
 import commonStyles from '../commons/styles';
@@ -53,7 +54,7 @@ class More extends React.Component {
             <MoreItem
               iconImage={require('../../assets/images/more/archives.png')}
               title="Archives"
-              onPress={() => {}}
+              onPress={() => this.props.navigation.navigate(VIEW_ARCHIVES)}
             />
             <MoreItem
               iconImage={require('../../assets/images/more/fixtures.png')}
@@ -92,7 +93,9 @@ class More extends React.Component {
             <MoreItem
               iconImage={require('../../assets/images/more/podcasts.png')}
               title="Podcasts"
-              onPress={() => {this._redirectToPodcasts();}}
+              onPress={() => {
+                this._redirectToPodcasts();
+              }}
             />
             <MoreItem
               iconImage={require('../../assets/images/more/podcasts.png')}

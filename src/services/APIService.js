@@ -1,5 +1,12 @@
 import axios from 'axios';
-import { NEWS_URL, VIDEOS_URL, CONFIG_URL, SCORES_URL, PODCASTS_URL } from '../config/server';
+import {
+  NEWS_URL,
+  VIDEOS_URL,
+  CONFIG_URL,
+  SCORES_URL,
+  PODCASTS_URL,
+  ARCHIVES_URL
+} from '../config/server';
 import { isEqual } from '../utils/index';
 
 export default (APIService = {
@@ -60,53 +67,70 @@ export default (APIService = {
     } else if (isEqual(jsonConfig, 'fullcommentary')) {
       json = 'FullCommentary';
     }
-    console.log("final url",SCORES_URL + '/' + compId + '/' + matchId + `/${json}.json`)
+    console.log(
+      'final url',
+      SCORES_URL + '/' + compId + '/' + matchId + `/${json}.json`
+    );
     axios
       .get(SCORES_URL + '/' + compId + '/' + matchId + `/${json}.json`)
       .then(res => callback(res.data))
       .catch(err => console.log(err));
   },
 
-  getTickets(url,callback) {
+  getTickets(url, callback) {
     axios
-    .get(url)
-    .then(res => {
-      callback(res.data);
-    })
-    .catch(err => console.log(err));
+      .get(url)
+      .then(res => {
+        callback(res.data);
+      })
+      .catch(err => console.log(err));
   },
 
-  getSponsors(url,callback) {
+  getSponsors(url, callback) {
     axios
-    .get(url)
-    .then(res => {
-      callback(res.data);
-    })
-    .catch(err => console.log(err));
+      .get(url)
+      .then(res => {
+        callback(res.data);
+      })
+      .catch(err => console.log(err));
   },
 
-  getPlayerList(url,callback) {
+  getPlayerList(url, callback) {
     axios
-    .get(url)
-    .then(res => {
-      callback(res.data);
-    })
-    .catch(err => console.log(err));
+      .get(url)
+      .then(res => {
+        callback(null, res.data);
+      })
+      .catch(err => {
+        console.log(err);
+        callback(err, null);
+      });
   },
-  getResults(url,callback) {
+
+  getResults(url, callback) {
     axios
-    .get(url)
-    .then(res => {
-      callback(res.data);
-    })
-    .catch(err => console.log(err));
+      .get(url)
+      .then(res => {
+        callback(res.data);
+      })
+      .catch(err => console.log(err));
   },
+
   getPodcasts(callback) {
     axios
-    .get(PODCASTS_URL)
-    .then(res => {
-      callback(res.data);
-    })
-    .catch(err => console.log(err));
+      .get(PODCASTS_URL)
+      .then(res => {
+        callback(res.data);
+      })
+      .catch(err => console.log(err));
+  },
+
+  getArchives(callback) {
+    axios
+      .get(ARCHIVES_URL)
+      .then(res => {
+        callback(res.data);
+      })
+      .catch(err => console.log('***** error fetching archives ' + err));
   }
 });

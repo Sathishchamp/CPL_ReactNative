@@ -12,6 +12,7 @@ import UpcomingCompetitionIdReducer from './UpcomingCompetitionIdReducer';
 import ServerUrlReducer from './ServerUrlReducer';
 import IsFixturesUpcomingReducer from './IsFixturesUpcomingReducer';
 import IsStatsUpcomingReducer from './IsStatsUpcomingReducer';
+import AllStatsReducer from './AllStatsReducer';
 
 export default combineReducers({
   news: NewsReducer,
@@ -26,5 +27,6 @@ export default combineReducers({
   upcomingCompetitionId: UpcomingCompetitionIdReducer,
   serverUrl: ServerUrlReducer,
   isFixturesUpcoming: IsFixturesUpcomingReducer,
-  isStatsUpcoming: IsStatsUpcomingReducer
+  isStatsUpcoming: IsStatsUpcomingReducer,
+  allStats: AllStatsReducer
 });

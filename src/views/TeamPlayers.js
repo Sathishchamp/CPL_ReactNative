@@ -39,9 +39,8 @@ class TeamPlayers extends React.PureComponent {
       let url = this.props.playerProfileUrl + `/${teamId}_.json`;
       console.log(url);
       this.setState({ spinner: true }, () =>
-        APIService.getPlayerList(
-          url,
-          data => {
+        APIService.getPlayerList(url, (err, data) => {
+          if (!err) {
             console.log(data);
             let playerProfiles = Object.keys(data.LtPlayerDetails).map(
               key => data.LtPlayerDetails[key]
@@ -61,8 +60,10 @@ class TeamPlayers extends React.PureComponent {
             }
             console.log(playerProfiles);
             this.setState({ playerProfiles, backgroundColor, spinner: false });
+          } else {
+            this.setState({ spinner: false });
           }
-        )
+        })
       );
     }
   }

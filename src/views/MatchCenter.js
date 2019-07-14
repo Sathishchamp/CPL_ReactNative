@@ -88,8 +88,14 @@ class MatchCenter extends React.Component {
     console.log('refreshing timeline data.');
     const { competitionId, navigation } = this.props;
     const matchId = navigation.getParam('matchId');
+    const matchState = navigation.getParam('matchState');
+    let compId = competitionId;
+    // * when opened from archives, matchState will be null, so get compId from navigation param
+    if (isNullOrEmpty(matchState)) {
+      compId = navigation.getParam('compId');
+    }
     try {
-      const prematch = await this._fetchPrematch(competitionId, matchId);
+      const prematch = await this._fetchPrematch(compId, matchId);
       const { matchDetails, teamAPlayers, teamBPlayers } = prematch;
       const { teama, teamb } = prematch.matchDetails;
 
@@ -97,17 +103,13 @@ class MatchCenter extends React.Component {
       //fetch data if and only match is not abandoned
       if (!isEqual(matchDetails.result, MATCH_ABANDONED)) {
         const scoresData = await this._fetchScores(
-          competitionId,
+          compId,
           matchId,
           teama,
           teamb
         );
 
-        const fullCommentary = await this._fetchFullCommentary(
-          competitionId,
-          matchId
-        );
-        console.log(fullCommentary);
+        const fullCommentary = await this._fetchFullCommentary(compId, matchId);
 
         const {
           matchStarted,
@@ -205,6 +207,7 @@ class MatchCenter extends React.Component {
       //if match is in Live, Completed or Cancelled state get the scores data
       const matchState = this.props.navigation.getParam('matchState');
       if (
+        isNullOrEmpty(matchState) ||
         isEqual(matchState, STATUS_LIVE) ||
         isEqual(matchState, STATUS_COMPLETED) ||
         isEqual(matchState, STATUS_CANCELLED)
@@ -853,7 +856,7 @@ class MatchCenter extends React.Component {
   render() {
     return (
       <Container>
-        <StatusBar backgroundColor={PRIMARY} barStyle='light-content' />
+        <StatusBar backgroundColor={PRIMARY} barStyle="light-content" />
         <Tabs
           locked={true}
           style={{ flex: 1 }}

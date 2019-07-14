@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Dimensions
 } from 'react-native';
-import { HELVETICA,SQUARE721 } from '../constants/fonts';
+import { HELVETICA, SQUARE721 } from '../constants/fonts';
 
 const SCREEN_W = Dimensions.get('window').width;
 
@@ -15,7 +15,7 @@ export default props => {
   const { title, player, color } = props.data;
   const { Category, Player, playerImage, Team, Teamimage, Value } = player;
   return (
-    <TouchableOpacity style={styles.touchable}>
+    <TouchableOpacity style={styles.touchable} onPress={() => props.onPress()}>
       <View style={styles.mainView}>
         <View
           style={[
@@ -25,7 +25,7 @@ export default props => {
             }
           ]}
         >
-          <Text style={styles.titleText}>{title}</Text>
+          <Text style={styles.titleText}>{title.toUpperCase()}</Text>
         </View>
         <View style={styles.dataView}>
           <View style={styles.playerView}>
@@ -33,7 +33,10 @@ export default props => {
               <Image
                 resizeMode="contain"
                 style={styles.playerImage}
-                source={{ uri: playerImage }}
+                source={{
+                  uri: playerImage
+                }}
+                defaultSource={require('../../assets/images/filler_profileimage.png')}
               />
             </View>
             <View style={{ flex: 2, flexDirection: 'column' }}>
@@ -45,7 +48,9 @@ export default props => {
                   <Image
                     resizeMode="contain"
                     style={styles.teamImage}
-                    source={{ uri: Teamimage }}
+                    source={{
+                      uri: Teamimage
+                    }}
                   />
                 </View>
                 <View style={styles.teamNameView}>
@@ -113,12 +118,11 @@ const styles = StyleSheet.create({
     flex: 3,
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    alignItems: 'center'
+    alignItems: 'flex-start'
   },
   playerImage: {
-    height: 60,
-    width: 60,
-    flex: 1
+    height: SCREEN_W * 0.2,
+    width: SCREEN_W * 0.2
   },
   playerNameView: {
     flex: 1,
@@ -142,7 +146,7 @@ const styles = StyleSheet.create({
     flex: 2,
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    alignItems: 'center'
+    alignItems: 'flex-end'
   },
   teamNameText: {
     fontFamily: HELVETICA

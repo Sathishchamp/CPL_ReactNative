@@ -11,7 +11,8 @@ import {
   ACTION_SET_UPCOMING_COMPETITION_ID,
   ACTION_SET_SEVER_URL,
   ACTION_SET_IS_FIXTURES_UPCOMING,
-  ACTION_SET_IS_STATS_UPCOMING
+  ACTION_SET_IS_STATS_UPCOMING,
+  ACTION_SET_ALL_STATS
 } from '../constants/actionTypes';
 
 export const setNewsData = newsData => ({
@@ -77,4 +78,9 @@ export const setIsFixturesUpcoming = isFixturesUpcoming => ({
 export const setIsStatsUpcoming = isStatsUpcoming => ({
   type: ACTION_SET_IS_STATS_UPCOMING,
   isStatsUpcoming
+});
+
+export const setAllStats = allStats => ({
+  type: ACTION_SET_ALL_STATS,
+  allStats
 });

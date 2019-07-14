@@ -10,13 +10,20 @@ import {
   RESULTS,
   FIXTURES,
   STATS,
-  PODCASTS
+  PODCASTS,
+  ARCHIVES,
+  MTATCH_CENTER
 } from '../constants/strings';
 import commonStyles from '../commons/styles';
 import Results from '../views/Results';
 import Fixtures from '../views/Fixtures';
 import Stats from '../views/Stats';
 import Podcasts from '../views/Podcasts';
+import StatsDetails from '../views/StatsDetails';
+import StatsPlayerDetail from '../views/StatsPlayerDetail';
+import Archives from '../views/Archives';
+import ArchiveDetails from '../views/ArchiveDetails';
+import MatchCenter from '../views/MatchCenter';
 
 const MoreNavigator = createStackNavigator(
   {
@@ -76,6 +83,26 @@ const MoreNavigator = createStackNavigator(
         headerStyle: commonStyles.headerDefault
       }
     },
+    statsDetails: {
+      screen: StatsDetails,
+      navigationOptions: ({ navigation }) => ({
+        title: `${navigation.state.params.title}`,
+        headerTitleStyle: commonStyles.headerTitleStyle,
+        headerTintColor: 'white',
+        headerBackTitle: null,
+        headerStyle: commonStyles.headerDefault
+      })
+    },
+    statsPlayerDetail: {
+      screen: StatsPlayerDetail,
+      navigationOptions: ({ navigation }) => ({
+        title: `${navigation.state.params.title}`,
+        headerTitleStyle: commonStyles.headerTitleStyle,
+        headerTintColor: 'white',
+        headerBackTitle: null,
+        headerStyle: commonStyles.headerDefault
+      })
+    },
     podcasts: {
       screen: Podcasts,
       navigationOptions: {
@@ -85,9 +112,38 @@ const MoreNavigator = createStackNavigator(
         headerBackTitle: null,
         headerStyle: commonStyles.headerDefault
       }
+    },
+    archives: {
+      screen: Archives,
+      navigationOptions: {
+        title: ARCHIVES,
+        headerTitleStyle: commonStyles.headerTitleStyle,
+        headerTintColor: 'white',
+        headerBackTitle: null,
+        headerStyle: commonStyles.headerDefault
+      }
+    },
+    archiveDetails: {
+      screen: ArchiveDetails,
+      navigationOptions: ({ navigation }) => ({
+        title: `${navigation.state.params.title}`,
+        headerTitleStyle: commonStyles.headerTitleStyle,
+        headerTintColor: 'white',
+        headerBackTitle: null,
+        headerStyle: commonStyles.headerDefault
+      })
+    },
+    archiveMatchCenter: {
+      screen: MatchCenter,
+      navigationOptions: {
+        title: MTATCH_CENTER,
+        headerTitleStyle: commonStyles.headerTitleStyle,
+        headerTintColor: 'white',
+        headerBackTitle: null,
+        headerStyle: commonStyles.headerDefault
+      }
     }
   },
-
   {
     initialRouteName: VIEW_MORE
   }
