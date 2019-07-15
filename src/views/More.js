@@ -38,6 +38,7 @@ class More extends React.Component {
   }
   render() {
     const { showFixtures, showTickets } = this.props;
+    
     return (
       <Container>
         <BannerHeader title={MORE} />

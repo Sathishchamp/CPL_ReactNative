@@ -148,6 +148,8 @@ class Home extends React.Component {
             showTickets
           } = config;
 
+          console.log(config);
+
           if (isEqual(showFixtures, '1')) {
             this.props.setShowFixtures(true);
           }
@@ -422,7 +424,7 @@ class Home extends React.Component {
           )}
           {this._renderSpinner()}
         </Content>
-        <AdBanner size='fullBanner' />
+        <AdBanner size="fullBanner" />
         <Footer activeButton={VIEW_HOME} {...this.props} />
       </Container>
     );
