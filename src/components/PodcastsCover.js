@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -19,11 +19,26 @@ import {
 } from '../config/colors';
 import moment from 'moment';
 import { VAGROUND } from '../constants/fonts';
+import SoundPlayer from 'react-native-sound-player';
 
 const SCREEN_W = Dimensions.get('screen').width;
 
 export default props => {
+  const [isPlaying, setIsPlaying] = useState(false);
   const { Name, Audio, Image } = props.data;
+
+  useEffect(() => {
+    try {
+      if (isPlaying) {
+        SoundPlayer.playUrl(Audio);
+      } else {
+        SoundPlayer.stop();
+      }
+    } catch (e) {
+      console.log(`cannot play the sound file`, e);
+    }
+  }, [isPlaying]);
+
   let coverWidth = styles.coverFullWidth;
   if (props.horizontal) {
     coverWidth = styles.coverSmallWidth;
@@ -33,47 +48,61 @@ export default props => {
     imageWidth = styles.imageSmallWidth;
   }
 
-    return (
-      <TouchableOpacity onPress={() => onPress(videoId)}>
-        <View style={[styles.videoCover, coverWidth]}>
-          <ImageBackground
-            source={{ uri: Image }}
-            resizeMode='cover'
-            style={[styles.image, imageWidth]}
-          >
+  return (
+    <TouchableOpacity
+      onPress={() => {
+        setIsPlaying(!isPlaying);
+        // props.onPress(Audio, isPlaying);
+      }}
+    >
+      <View style={[styles.videoCover, coverWidth]}>
+        <ImageBackground
+          source={{ uri: Image }}
+          resizeMode='cover'
+          style={[styles.image, imageWidth]}
+        >
+          {!isPlaying && (
             <Icon
-              name='youtube'
+              name='play-circle'
               type='MaterialCommunityIcons'
               style={styles.youtubeIcon}
             />
-          </ImageBackground>
-          <View
-            style={{
-              flex: 2,
-              flexDirection: 'column',
-              justifyContent: 'center'
-            }}
+          )}
+          {isPlaying && (
+            <Icon
+              name='pause-circle'
+              type='MaterialCommunityIcons'
+              style={styles.youtubeIcon}
+            />
+          )}
+        </ImageBackground>
+        <View
+          style={{
+            flex: 2,
+            flexDirection: 'column',
+            justifyContent: 'center'
+          }}
+        >
+          <Text
+            style={styles.videoText}
+            numberOfLines={2}
+            ellipsizeMode='tail'
+            allowFontScaling={true}
           >
-            <Text
-              style={styles.videoText}
-              numberOfLines={2}
-              ellipsizeMode='tail'
-              allowFontScaling={true}
-            >
-              {Name}
-            </Text>
-            {/* <Text
+            {Name}
+          </Text>
+          {/* <Text
               style={styles.pubDateText}
               numberOfLines={1}
               ellipsizeMode="tail"
             >
               {pubDateString}
             </Text> */}
-          </View>
         </View>
-      </TouchableOpacity>
-    );
-  };
+      </View>
+    </TouchableOpacity>
+  );
+};
 
 const styles = StyleSheet.create({
   videoCover: {

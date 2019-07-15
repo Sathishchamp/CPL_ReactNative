@@ -13,6 +13,8 @@ import ServerUrlReducer from './ServerUrlReducer';
 import IsFixturesUpcomingReducer from './IsFixturesUpcomingReducer';
 import IsStatsUpcomingReducer from './IsStatsUpcomingReducer';
 import AllStatsReducer from './AllStatsReducer';
+import ShowFixturesReducer from './ShowFixturesReducer';
+import ShowTicketsReducer from './ShowTicketsReducer';
 
 export default combineReducers({
   news: NewsReducer,
@@ -28,5 +30,7 @@ export default combineReducers({
   serverUrl: ServerUrlReducer,
   isFixturesUpcoming: IsFixturesUpcomingReducer,
   isStatsUpcoming: IsStatsUpcomingReducer,
-  allStats: AllStatsReducer
+  allStats: AllStatsReducer,
+  showFixtures: ShowFixturesReducer,
+  showTickets: ShowTicketsReducer
 });
