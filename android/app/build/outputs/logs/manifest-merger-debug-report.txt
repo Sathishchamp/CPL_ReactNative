@@ -5,6 +5,7 @@ INJECTED from /Users/macbookpro/ram/cpl/android/app/src/main/AndroidManifest.xml
 INJECTED from /Users/macbookpro/ram/cpl/android/app/src/main/AndroidManifest.xml:1:1-31:12
 INJECTED from /Users/macbookpro/ram/cpl/android/app/src/main/AndroidManifest.xml:1:1-31:12
 MERGED from /Users/macbookpro/ram/cpl/android/app/src/main/AndroidManifest.xml:1:1-31:12
+MERGED from [:react-native-sound-player] /Users/macbookpro/ram/cpl/node_modules/react-native-sound-player/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-admob] /Users/macbookpro/ram/cpl/node_modules/react-native-admob/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-firebase] /Users/macbookpro/ram/cpl/node_modules/react-native-firebase/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-19:12
 MERGED from [:react-native-youtube] /Users/macbookpro/ram/cpl/node_modules/react-native-youtube/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
@@ -217,6 +218,8 @@ uses-sdk
 INJECTED from /Users/macbookpro/ram/cpl/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/macbookpro/ram/cpl/android/app/src/main/AndroidManifest.xml
 INJECTED from /Users/macbookpro/ram/cpl/android/app/src/main/AndroidManifest.xml
+MERGED from [:react-native-sound-player] /Users/macbookpro/ram/cpl/node_modules/react-native-sound-player/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-sound-player] /Users/macbookpro/ram/cpl/node_modules/react-native-sound-player/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-admob] /Users/macbookpro/ram/cpl/node_modules/react-native-admob/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-admob] /Users/macbookpro/ram/cpl/node_modules/react-native-admob/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-firebase] /Users/macbookpro/ram/cpl/node_modules/react-native-firebase/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:11:5-13:41
