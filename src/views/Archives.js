@@ -4,7 +4,8 @@ import {
   StyleSheet,
   Text,
   FlatList,
-  TouchableOpacity
+  TouchableOpacity,
+  Image
 } from 'react-native';
 import { Container, Content } from 'native-base';
 import APIService from '../services/APIService';
@@ -56,7 +57,30 @@ class Archives extends React.Component {
           })
         }
       >
-        <Text style={styles.archivesYearText}>{item.year}</Text>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+            alignItems: 'center'
+          }}
+        >
+          <Image
+            source={require('../../assets/images/cpl_archives.png')}
+            resizeMode="contain"
+            style={{ height: 45, width: 45 }}
+          />
+        </View>
+        <View
+          style={{
+            flex: 4,
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+            alignItems: 'center'
+          }}
+        >
+          <Text style={styles.archivesYearText}>{item.year}</Text>
+        </View>
       </TouchableOpacity>
     );
   }
@@ -83,7 +107,7 @@ export default Archives;
 
 const styles = StyleSheet.create({
   archivesItemView: {
-    height: 50,
+    height: 60,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
