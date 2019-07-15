@@ -12,7 +12,9 @@ import {
   ACTION_SET_SEVER_URL,
   ACTION_SET_IS_FIXTURES_UPCOMING,
   ACTION_SET_IS_STATS_UPCOMING,
-  ACTION_SET_ALL_STATS
+  ACTION_SET_ALL_STATS,
+  ACTION_SET_SHOW_FIXTURES,
+  ACTION_SET_SHOW_TICKETS
 } from '../constants/actionTypes';
 
 export const setNewsData = newsData => ({
@@ -83,4 +85,14 @@ export const setIsStatsUpcoming = isStatsUpcoming => ({
 export const setAllStats = allStats => ({
   type: ACTION_SET_ALL_STATS,
   allStats
+});
+
+export const setShowFixtures = showFixtures => ({
+  type: ACTION_SET_SHOW_FIXTURES,
+  showFixtures
+});
+
+export const setShowTickets = showTickets => ({
+  type: ACTION_SET_SHOW_TICKETS,
+  showTickets
 });

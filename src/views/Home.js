@@ -143,9 +143,19 @@ class Home extends React.Component {
             CurrentCompID,
             UpcomingCompID,
             Servarlink,
-            upcoming
+            upcoming,
+            showFixtures,
+            showTickets
           } = config;
-          console.log(config);
+
+          if (isEqual(showFixtures, '1')) {
+            this.props.setShowFixtures(true);
+          }
+
+          if (isEqual(showTickets, '1')) {
+            this.props.setShowTickets(true);
+          }
+
           let compId = CurrentCompID;
           if (!isNullOrEmpty(upcoming) && upcoming.includes('home')) {
             compId = UpcomingCompID;
@@ -412,7 +422,7 @@ class Home extends React.Component {
           )}
           {this._renderSpinner()}
         </Content>
-        <AdBanner size="fullBanner" />
+        <AdBanner size='fullBanner' />
         <Footer activeButton={VIEW_HOME} {...this.props} />
       </Container>
     );
