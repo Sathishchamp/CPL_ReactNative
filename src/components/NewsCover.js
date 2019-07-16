@@ -41,7 +41,7 @@ export default props => {
               style={[imageWidth, styles.image]}
             />
           </View>
-          <View style={{ flex: 3, justifyContent: 'center', paddingTop: 5 }}>
+          <View style={{ flex: 2, justifyContent: 'center', paddingTop: 5 }}>
             <Text
               style={styles.newsText}
               numberOfLines={2}
