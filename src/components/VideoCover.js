@@ -53,7 +53,7 @@ export default props => {
           </ImageBackground>
           <View
             style={{
-              flex: 2,
+              flex: 1,
               flexDirection: 'column',
               justifyContent: 'center'
             }}
