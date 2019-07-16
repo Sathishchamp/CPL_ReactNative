@@ -15,7 +15,8 @@ import {
   VIEW_FIXTURES,
   VIEW_STATS,
   VIEW_PODCASTS,
-  VIEW_ARCHIVES
+  VIEW_ARCHIVES,
+  VIEW_POINTS_TABLE
 } from '../constants/viewNames';
 import { MORE } from '../constants/strings';
 import commonStyles from '../commons/styles';
@@ -38,7 +39,7 @@ class More extends React.Component {
   }
   render() {
     const { showFixtures, showTickets } = this.props;
-    
+
     return (
       <Container>
         <BannerHeader title={MORE} />
@@ -78,7 +79,7 @@ class More extends React.Component {
             <MoreItem
               iconImage={require('../../assets/images/more/points_table.png')}
               title='Points Table'
-              onPress={() => {}}
+              onPress={() => this.props.navigation.navigate(VIEW_POINTS_TABLE)}
             />
           </View>
           <View
@@ -105,7 +106,7 @@ class More extends React.Component {
               }}
             />
             <MoreItem
-              iconImage={require('../../assets/images/more/podcasts.png')}
+              iconImage={require('../../assets/images/more/stats.png')}
               title='Stats'
               onPress={() => this.props.navigation.navigate(VIEW_STATS)}
             />

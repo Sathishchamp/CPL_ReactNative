@@ -25,7 +25,10 @@ import { connect } from 'react-redux';
 import * as Actions from '../actions';
 import { isNullOrEmpty, isEqual } from '../utils';
 import Spinner from 'react-native-loading-spinner-overlay';
-import { YouTubeStandaloneIOS } from 'react-native-youtube';
+import {
+  YouTubeStandaloneIOS,
+  YouTubeStandaloneAndroid
+} from 'react-native-youtube';
 import commonStyles from '../commons/styles';
 import { translateArrayToJSON } from '../utils/CompDataParser';
 import LiveMatchCard, {
@@ -50,6 +53,7 @@ import BannerHeader, {
   CONTENT_MARGIN_TOP,
   STATUS_BAR_HEIGHT
 } from '../components/BannerHeader';
+import { YOUTUBE_API_KEY } from '../config/keys';
 
 class Home extends React.Component {
   constructor(props) {
@@ -191,9 +195,12 @@ class Home extends React.Component {
                 const liveMatchIndex = liveMatchData
                   .map(data => data['KKRFlag'])
                   .indexOf('1');
-                // liveMatchData.filter(fixture =>
-                //   isEqual(fixture['KKRFlag'], '1')
-                // );
+
+                // ! set points table data to redux state
+                this.props.setPointsTable(
+                  translateArrayToJSON(compData.LtPointTable)
+                );
+
                 resolve({
                   matchData: compData,
                   liveMatchData,
@@ -290,15 +297,12 @@ class Home extends React.Component {
     });
     if (isEqual(liveMatchData[liveMatchIndex].state, STATUS_LIVE)) {
       this._interval = setInterval(() => {
-        console.log('refreshing live data');
         APIService.getCompData(
           this.props.competitionUrl + '/Competition.json',
           (err, compData) => {
             if (!err) {
               const liveMatchData = translateArrayToJSON(compData.LtFixtures);
               this.props.setLiveMatchData(liveMatchData);
-              console.log('live data refresh complete');
-              console.log(liveMatchData);
             }
           }
         );
@@ -331,6 +335,7 @@ class Home extends React.Component {
             matchState
           })
         }
+        compactCard={true}
       />
     );
   }
@@ -360,7 +365,7 @@ class Home extends React.Component {
 
   _renderListTitle(title) {
     return (
-      <View style={{ backgroundColor: TITLE_BG_COLOR, padding: 4 }}>
+      <View style={{ backgroundColor: TITLE_BG_COLOR, paddingLeft: 4 }}>
         <Text style={styles.listTitleText}>{title}</Text>
       </View>
     );
@@ -398,6 +403,13 @@ class Home extends React.Component {
                     YouTubeStandaloneIOS.playVideo(videoId)
                       .then(() => console.log('Standalone Player Exited'))
                       .catch(errorMessage => console.log(errorMessage));
+                  } else if (isEqual(Platform.OS, 'android')) {
+                    YouTubeStandaloneAndroid.playVideo({
+                      videoId,
+                      apiKey: YOUTUBE_API_KEY
+                    })
+                      .then(() => console.log('Standalone Player Exited'))
+                      .catch(errorMessage => console.log(errorMessage));
                   }
                 }}
                 showReadMore={true}
@@ -424,7 +436,7 @@ class Home extends React.Component {
           )}
           {this._renderSpinner()}
         </Content>
-        <AdBanner size="fullBanner" />
+        <AdBanner size='fullBanner' />
         <Footer activeButton={VIEW_HOME} {...this.props} />
       </Container>
     );
@@ -446,7 +458,7 @@ export default connect(
 
 const styles = StyleSheet.create({
   listTitleText: {
-    margin: 10,
+    margin: 5,
     color: 'white',
     fontFamily: SQUARE721
   }

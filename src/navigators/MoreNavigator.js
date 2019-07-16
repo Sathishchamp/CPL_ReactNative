@@ -12,7 +12,8 @@ import {
   STATS,
   PODCASTS,
   ARCHIVES,
-  MTATCH_CENTER
+  MTATCH_CENTER,
+  POINTS_TABLE
 } from '../constants/strings';
 import commonStyles from '../commons/styles';
 import Results from '../views/Results';
@@ -24,6 +25,7 @@ import StatsPlayerDetail from '../views/StatsPlayerDetail';
 import Archives from '../views/Archives';
 import ArchiveDetails from '../views/ArchiveDetails';
 import MatchCenter from '../views/MatchCenter';
+import PointsTable from '../views/PointsTable';
 
 const MoreNavigator = createStackNavigator(
   {
@@ -137,6 +139,16 @@ const MoreNavigator = createStackNavigator(
       screen: MatchCenter,
       navigationOptions: {
         title: MTATCH_CENTER,
+        headerTitleStyle: commonStyles.headerTitleStyle,
+        headerTintColor: 'white',
+        headerBackTitle: null,
+        headerStyle: commonStyles.headerDefault
+      }
+    },
+    pointsTable: {
+      screen: PointsTable,
+      navigationOptions: {
+        title: POINTS_TABLE,
         headerTitleStyle: commonStyles.headerTitleStyle,
         headerTintColor: 'white',
         headerBackTitle: null,

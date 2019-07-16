@@ -30,6 +30,7 @@ import {
 } from '../constants/strings';
 import StatsMainPlayerItem from '../components/StatsMainPlayerItem';
 import { VIEW_STATS_DETAILS } from '../constants/viewNames';
+import { BG_GREY } from '../config/colors';
 
 class Stats extends React.Component {
   constructor(props) {
@@ -165,7 +166,7 @@ class Stats extends React.Component {
   render() {
     return (
       <Container>
-        <Content style={[commonStyles.content, { backgroundColor: '#d9d9d9' }]}>
+        <Content style={[commonStyles.content, { backgroundColor: BG_GREY }]}>
           <View>
             <FlatList
               data={this.state.playerData}

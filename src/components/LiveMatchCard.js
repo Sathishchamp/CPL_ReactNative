@@ -16,7 +16,7 @@ const MATCH_CARD_HEIGHT = SCREEN_W * 0.5;
 export const MATCH_CARD_WIDTH = SCREEN_W * 0.95;
 
 export default props => {
-  const { data, showRR, fullCard, disableNavigation } = props;
+  const { data, showRR, fullCard, disableNavigation, compactCard } = props;
   const {
     starttimeGMT,
     status,
@@ -64,6 +64,10 @@ export default props => {
     cardStyle.push(styles.fullCard);
   }
 
+  if (compactCard) {
+    cardStyle.push({ height: MATCH_CARD_HEIGHT * 0.75 });
+  }
+
   return (
     <TouchableWithoutFeedback
       onPress={() => props.onCardPress(matchId)}
@@ -83,7 +87,7 @@ export default props => {
             <Image
               source={{ uri: teamaimage }}
               style={styles.teamImage}
-              resizeMode="contain"
+              resizeMode='contain'
             />
           </View>
           {showTeamAScores && (
@@ -98,7 +102,7 @@ export default props => {
                   <Text style={styles.rrText}>{'RR ' + teamaRR}</Text>
                 </View>
               )}
-              <View style={styles.flexRow1}>
+              <View style={styles.flexRow3}>
                 <Text style={styles.oversText}>
                   {teamaovers + '/' + teamatotalovers}
                 </Text>
@@ -122,7 +126,7 @@ export default props => {
                   <Text style={styles.rrText}>{'RR ' + teambRR}</Text>
                 </View>
               )}
-              <View style={styles.flexRow1}>
+              <View style={styles.flexRow3}>
                 <Text style={styles.oversText}>
                   {teambovers + '/' + teambtotalovers}
                 </Text>
@@ -134,7 +138,7 @@ export default props => {
             <Image
               source={{ uri: teambimage }}
               style={styles.teamImage}
-              resizeMode="contain"
+              resizeMode='contain'
             />
           </View>
         </View>
@@ -222,7 +226,13 @@ const styles = StyleSheet.create({
   },
   flexRow1: {
     flex: 1,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    alignItems: 'flex-end'
+  },
+  flexRow3: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'flex-start'
   },
   vsView: {
     flex: 1,

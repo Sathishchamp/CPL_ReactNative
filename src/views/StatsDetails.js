@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import commonStyles from '../commons/styles';
 import StatsPlayerDetailItem from '../components/StatsPlayerDetailItem';
 import { VIEW_STATS_PLAYER_DETAIL } from '../constants/viewNames';
+import { BG_GREY } from '../config/colors';
 
 class StatsDetails extends React.Component {
   constructor(props) {
@@ -31,7 +32,7 @@ class StatsDetails extends React.Component {
   render() {
     return (
       <Container>
-        <Content style={[commonStyles.content, { backgroundColor: '#d9d9d9' }]}>
+        <Content style={[commonStyles.content, { backgroundColor: BG_GREY }]}>
           <View>
             <FlatList
               data={this.state.players}

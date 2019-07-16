@@ -7,13 +7,17 @@ import { VIDEOS } from '../constants/strings';
 import VideoCoverList from '../components/VideoCoverList';
 import { connect } from 'react-redux';
 import * as Actions from '../actions';
-import { YouTubeStandaloneIOS } from 'react-native-youtube';
+import {
+  YouTubeStandaloneIOS,
+  YouTubeStandaloneAndroid
+} from 'react-native-youtube';
 import commonStyles from '../commons/styles';
 import { isEqual } from '../utils';
 import BannerHeader, {
   NAV_BAR_HEIGHT,
   CONTENT_MARGIN_TOP
 } from '../components/BannerHeader';
+import { YOUTUBE_API_KEY } from '../config/keys';
 
 class Videos extends React.Component {
   constructor(props) {
@@ -62,6 +66,13 @@ class Videos extends React.Component {
               onItemPress={videoId => {
                 if (isEqual(Platform.OS, 'ios')) {
                   YouTubeStandaloneIOS.playVideo(videoId)
+                    .then(() => console.log('Standalone Player Exited'))
+                    .catch(errorMessage => console.log(errorMessage));
+                } else if (isEqual(Platform.OS, 'android')) {
+                  YouTubeStandaloneAndroid.playVideo({
+                    videoId,
+                    apiKey: YOUTUBE_API_KEY
+                  })
                     .then(() => console.log('Standalone Player Exited'))
                     .catch(errorMessage => console.log(errorMessage));
                 }
