@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: '#940a00'
+    borderBottomColor: 'red'
   },
   coachImage: {
     height: height * 0.62,
