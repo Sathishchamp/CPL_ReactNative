@@ -335,6 +335,7 @@ class Home extends React.Component {
             matchState
           })
         }
+        compactCard={true}
       />
     );
   }
