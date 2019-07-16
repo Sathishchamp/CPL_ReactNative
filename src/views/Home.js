@@ -25,7 +25,10 @@ import { connect } from 'react-redux';
 import * as Actions from '../actions';
 import { isNullOrEmpty, isEqual } from '../utils';
 import Spinner from 'react-native-loading-spinner-overlay';
-import { YouTubeStandaloneIOS } from 'react-native-youtube';
+import {
+  YouTubeStandaloneIOS,
+  YouTubeStandaloneAndroid
+} from 'react-native-youtube';
 import commonStyles from '../commons/styles';
 import { translateArrayToJSON } from '../utils/CompDataParser';
 import LiveMatchCard, {
@@ -50,6 +53,7 @@ import BannerHeader, {
   CONTENT_MARGIN_TOP,
   STATUS_BAR_HEIGHT
 } from '../components/BannerHeader';
+import { YOUTUBE_API_KEY } from '../config/keys';
 
 class Home extends React.Component {
   constructor(props) {
@@ -398,6 +402,13 @@ class Home extends React.Component {
                     YouTubeStandaloneIOS.playVideo(videoId)
                       .then(() => console.log('Standalone Player Exited'))
                       .catch(errorMessage => console.log(errorMessage));
+                  } else if (isEqual(Platform.OS, 'android')) {
+                    YouTubeStandaloneAndroid.playVideo({
+                      videoId,
+                      apiKey: YOUTUBE_API_KEY
+                    })
+                      .then(() => console.log('Standalone Player Exited'))
+                      .catch(errorMessage => console.log(errorMessage));
                   }
                 }}
                 showReadMore={true}
@@ -424,7 +435,7 @@ class Home extends React.Component {
           )}
           {this._renderSpinner()}
         </Content>
-        <AdBanner size="fullBanner" />
+        <AdBanner size='fullBanner' />
         <Footer activeButton={VIEW_HOME} {...this.props} />
       </Container>
     );
