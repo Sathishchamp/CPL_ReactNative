@@ -105,7 +105,7 @@ class More extends React.Component {
               }}
             />
             <MoreItem
-              iconImage={require('../../assets/images/more/podcasts.png')}
+              iconImage={require('../../assets/images/more/stats.png')}
               title='Stats'
               onPress={() => this.props.navigation.navigate(VIEW_STATS)}
             />
