@@ -8,6 +8,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import { translateArrayToJSON } from '../utils/CompDataParser';
 import { isEqual, isNullOrEmpty } from '../utils';
 import { SQUARE721, HELVETICA } from '../constants/fonts';
+import { BG_GREY } from '../config/colors';
 
 const SCREEN_W = Dimensions.get('window').width;
 const SCREEN_H = Dimensions.get('window').height;
@@ -211,7 +212,7 @@ const styles = StyleSheet.create({
     height: SCREEN_H * 0.35,
     width: SCREEN_W,
     flexDirection: 'column',
-    backgroundColor: '#d9d9d9'
+    backgroundColor: BG_GREY
   },
   statsTitleView: {
     flex: 1,
@@ -277,7 +278,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     borderBottomWidth: 1,
-    borderBottomColor: '#d9d9d9'
+    borderBottomColor: BG_GREY
   },
   statsScoreCategoryView: {
     flex: 1,

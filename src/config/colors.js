@@ -17,6 +17,7 @@ export const HOME_BG_COLOR = '#0d47a1';
 export const TITLE_BG_COLOR = '#001034';
 export const CARD_TEXT_COLOR = 'black';
 export const YOUTUBE_RED = '#c4302b';
+export const BG_GREY = '#d9d9d9';
 
 export const TAB_BG = '#2661b5';
 export const BG_KNIGHT_RIDERS = '#3a225d';
