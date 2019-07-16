@@ -365,7 +365,7 @@ class Home extends React.Component {
 
   _renderListTitle(title) {
     return (
-      <View style={{ backgroundColor: TITLE_BG_COLOR, padding: 4 }}>
+      <View style={{ backgroundColor: TITLE_BG_COLOR, paddingLeft: 4 }}>
         <Text style={styles.listTitleText}>{title}</Text>
       </View>
     );
@@ -458,7 +458,7 @@ export default connect(
 
 const styles = StyleSheet.create({
   listTitleText: {
-    margin: 10,
+    margin: 5,
     color: 'white',
     fontFamily: SQUARE721
   }

@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
   videoCover: {
     flex: 1,
     flexDirection: 'column',
-    margin: 15,
+    margin: 5,
     marginLeft: 8,
     marginRight: 8,
     backgroundColor: CARD_BG_COLOR,
