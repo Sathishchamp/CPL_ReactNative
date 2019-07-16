@@ -15,6 +15,7 @@ import IsStatsUpcomingReducer from './IsStatsUpcomingReducer';
 import AllStatsReducer from './AllStatsReducer';
 import ShowFixturesReducer from './ShowFixturesReducer';
 import ShowTicketsReducer from './ShowTicketsReducer';
+import PointsTableReducer from './PointsTableReducer';
 
 export default combineReducers({
   news: NewsReducer,
@@ -32,5 +33,6 @@ export default combineReducers({
   isStatsUpcoming: IsStatsUpcomingReducer,
   allStats: AllStatsReducer,
   showFixtures: ShowFixturesReducer,
-  showTickets: ShowTicketsReducer
+  showTickets: ShowTicketsReducer,
+  pointsTable: PointsTableReducer
 });

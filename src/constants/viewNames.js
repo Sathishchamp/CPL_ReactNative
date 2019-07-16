@@ -23,3 +23,4 @@ export const VIEW_STATS_PLAYER_DETAIL = 'statsPlayerDetail';
 export const VIEW_ARCHIVES = 'archives';
 export const VIEW_ARCHIVE_DETAILS = 'archiveDetails';
 export const VIEW_ARCHIVE_MATCH_CENTER = 'archiveMatchCenter';
+export const VIEW_POINTS_TABLE = 'pointsTable';

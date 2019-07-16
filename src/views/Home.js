@@ -195,9 +195,12 @@ class Home extends React.Component {
                 const liveMatchIndex = liveMatchData
                   .map(data => data['KKRFlag'])
                   .indexOf('1');
-                // liveMatchData.filter(fixture =>
-                //   isEqual(fixture['KKRFlag'], '1')
-                // );
+
+                // ! set points table data to redux state
+                this.props.setPointsTable(
+                  translateArrayToJSON(compData.LtPointTable)
+                );
+
                 resolve({
                   matchData: compData,
                   liveMatchData,
@@ -294,15 +297,12 @@ class Home extends React.Component {
     });
     if (isEqual(liveMatchData[liveMatchIndex].state, STATUS_LIVE)) {
       this._interval = setInterval(() => {
-        console.log('refreshing live data');
         APIService.getCompData(
           this.props.competitionUrl + '/Competition.json',
           (err, compData) => {
             if (!err) {
               const liveMatchData = translateArrayToJSON(compData.LtFixtures);
               this.props.setLiveMatchData(liveMatchData);
-              console.log('live data refresh complete');
-              console.log(liveMatchData);
             }
           }
         );
