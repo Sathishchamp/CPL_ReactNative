@@ -34,7 +34,8 @@ class Matches extends React.Component {
                 data={item}
                 onPress={teamId =>
                   this.props.navigation.navigate(VIEW_TEAM_PLAYERS, {
-                    teamId
+                    teamId,
+                    teamImage: item.TeamImage
                   })
                 }
                 backgroundColor={item.backgroundColor}
