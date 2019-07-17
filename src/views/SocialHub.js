@@ -1,14 +1,20 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
-import { Container, Content } from 'native-base';
+import { View, StyleSheet, Text, WebView } from 'react-native';
+import { Container, Tab, Tabs, TabHeading } from 'native-base';
 import commonStyles from '../commons/styles';
 import Spinner from 'react-native-loading-spinner-overlay';
+import { SQUARE721 } from '../constants/fonts';
+import { VIEW_BG_COLOR, TAB_BG } from '../config/colors';
+
+const URL_TWITTER = 'https://twitter.com/CPL?ref_src=twsrc';
+const URL_FACEBOOK = 'https://www.facebook.com/CarnivalT20/';
+const URL_INSTAGRAM = 'https://www.instagram.com/cplt20/';
 
 class Fixtures extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      spinner: false,
+      spinner: false
     };
   }
 
@@ -20,13 +26,33 @@ class Fixtures extends React.Component {
     );
   }
 
+  _withTab(title, content) {
+    return (
+      <Tab
+        tabStyle={{ backgroundColor: VIEW_BG_COLOR }}
+        activeTabStyle={{ backgroundColor: VIEW_BG_COLOR }}
+        heading={title}
+      >
+        {content}
+      </Tab>
+    );
+  }
+
+  _renderWebView(uri) {
+    return (
+      <WebView originWhitelist={['*']} source={{ uri }} style={{ flex: 1 }} />
+    );
+  }
+
   render() {
     return (
       <Container>
-        <Content style={commonStyles.content}>
-          <View />
-          {this._renderSpinner()}
-        </Content>
+        <Tabs>
+          {this._withTab('TWITTER', this._renderWebView(URL_TWITTER))}
+          {this._withTab('FACEBOOK', this._renderWebView(URL_FACEBOOK))}
+          {this._withTab('INSTAGRAM', this._renderWebView(URL_INSTAGRAM))}
+        </Tabs>
+        {this._renderSpinner()}
       </Container>
     );
   }
