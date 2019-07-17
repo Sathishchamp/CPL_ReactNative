@@ -5,23 +5,30 @@ import { AdMobBanner } from 'react-native-admob';
 class Banner extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      display: true
+    };
   }
 
   _bannerErrorHandler = err => {
     console.log('************');
     console.log(err);
+    if (err) {
+      this.setState({ display: false });
+    }
   };
 
   render() {
-    return (
-      <View>
+    if (this.state.display) {
+      return (
         <AdMobBanner
           adUnitID='/6428571/CPL-T20-APP-320x50'
           bannerSize={this.props.size}
           didFailToReceiveAdWithError={this._bannerErrorHandler}
         />
-      </View>
-    );
+      );
+    }
+    return <View />;
   }
 }
 
