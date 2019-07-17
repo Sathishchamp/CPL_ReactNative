@@ -27,4 +27,4 @@ export const BG_TRIDENTS = '#002666';
 export const BG_STARS = '#37a5d7';
 export const BG_PATRIOTS = '#c1202a';
 
-export const SPINNER_COLOR = '#c1202a';
+export const SPINNER_COLOR = '#ffffff';
