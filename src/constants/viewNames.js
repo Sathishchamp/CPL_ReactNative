@@ -24,3 +24,4 @@ export const VIEW_ARCHIVES = 'archives';
 export const VIEW_ARCHIVE_DETAILS = 'archiveDetails';
 export const VIEW_ARCHIVE_MATCH_CENTER = 'archiveMatchCenter';
 export const VIEW_POINTS_TABLE = 'pointsTable';
+export const VIEW_SOCIAL_HUB = 'socialHub';

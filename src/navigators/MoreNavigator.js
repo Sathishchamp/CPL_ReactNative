@@ -13,7 +13,8 @@ import {
   PODCASTS,
   ARCHIVES,
   MTATCH_CENTER,
-  POINTS_TABLE
+  POINTS_TABLE,
+  SOCIAL_HUB
 } from '../constants/strings';
 import commonStyles from '../commons/styles';
 import Results from '../views/Results';
@@ -26,6 +27,7 @@ import Archives from '../views/Archives';
 import ArchiveDetails from '../views/ArchiveDetails';
 import MatchCenter from '../views/MatchCenter';
 import PointsTable from '../views/PointsTable';
+import SocialHub from '../views/SocialHub';
 
 const MoreNavigator = createStackNavigator(
   {
@@ -149,6 +151,16 @@ const MoreNavigator = createStackNavigator(
       screen: PointsTable,
       navigationOptions: {
         title: POINTS_TABLE,
+        headerTitleStyle: commonStyles.headerTitleStyle,
+        headerTintColor: 'white',
+        headerBackTitle: null,
+        headerStyle: commonStyles.headerDefault
+      }
+    },
+    socialHub: {
+      screen: SocialHub,
+      navigationOptions: {
+        title: SOCIAL_HUB,
         headerTitleStyle: commonStyles.headerTitleStyle,
         headerTintColor: 'white',
         headerBackTitle: null,
