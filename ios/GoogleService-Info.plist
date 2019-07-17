@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>1006172487659-da8vgf10bgv7jbeot4oqu8egb7cqmjnb.apps.googleusercontent.com</string>
+	<string>940410343218-mtoarl98340i00j126dd8f0uq2h1g371.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.1006172487659-da8vgf10bgv7jbeot4oqu8egb7cqmjnb</string>
+	<string>com.googleusercontent.apps.940410343218-mtoarl98340i00j126dd8f0uq2h1g371</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCYHYw6OqV5DW7VN_7n_M051GnCVT6Z2lg</string>
+	<string>AIzaSyBpnQrlFBCYvqO2sj_Ljcz4_HnR94ouv9c</string>
 	<key>GCM_SENDER_ID</key>
-	<string>1006172487659</string>
+	<string>940410343218</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.justalab.cpl</string>
+	<string>kadamba.CPLT20</string>
 	<key>PROJECT_ID</key>
-	<string>cpl-dev</string>
+	<string>cpl-t20-aec7a</string>
 	<key>STORAGE_BUCKET</key>
-	<string>cpl-dev.appspot.com</string>
+	<string>cpl-t20-aec7a.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1006172487659:ios:9fad74c830ea9eb6</string>
+	<string>1:940410343218:ios:2693f425ecb6fbd9</string>
 	<key>DATABASE_URL</key>
-	<string>https://cpl-dev.firebaseio.com</string>
+	<string>https://cpl-t20-aec7a.firebaseio.com</string>
 </dict>
 </plist>
