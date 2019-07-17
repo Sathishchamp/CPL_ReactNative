@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AsyncStorage, Alert } from 'react-native';
+import { AsyncStorage, Alert, NetInfo } from 'react-native';
 import { Root } from 'native-base';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
@@ -11,11 +11,32 @@ console.disableYellowBox = true;
 
 class App extends Component {
   async componentDidMount() {
+    NetInfo.isConnected.addEventListener(
+      'connectionChange',
+      this._handleConnectionChange
+    );
+
+    NetInfo.isConnected.fetch().done(isConnected => {
+      // this.props.setNetworkConnStatus(isConnected);
+    });
+
     this.checkPermission();
     this.createNotificationListeners();
   }
 
+  _handleConnectionChange(isConnected) {
+    // this.props.setNetworkConnStatus(isConnected);
+    if (!isConnected) {
+      Alert.alert('No Internet!', 'Please connect to the internet.');
+    }
+  }
+
   componentWillUnmount() {
+    NetInfo.isConnected.removeEventListener(
+      'connectionChange',
+      this.handleConnectionChange
+    );
+
     this.notificationListener();
     this.notificationOpenedListener();
   }
