@@ -60,7 +60,7 @@ class NewsView extends React.PureComponent {
               originWhitelist={['*']}
               source={{ html: this.state.description }}
               style={{ flex: 1, fontSize: 14 }}
-              // scalesPageToFit={true}
+              scalesPageToFit={false}
             />
           </View>
         </Content>

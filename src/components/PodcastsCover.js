@@ -65,14 +65,14 @@ export default props => {
             <Icon
               name='play-circle'
               type='MaterialCommunityIcons'
-              style={styles.youtubeIcon}
+              style={styles.overlayIcon}
             />
           )}
           {isPlaying && (
             <Icon
               name='pause-circle'
               type='MaterialCommunityIcons'
-              style={styles.youtubeIcon}
+              style={styles.overlayIcon}
             />
           )}
         </ImageBackground>
@@ -146,12 +146,13 @@ const styles = StyleSheet.create({
     height: SCREEN_W * 0.35,
     width: SCREEN_W * 0.65
   },
-  youtubeIcon: {
+  overlayIcon: {
     flex: 1,
     color: CARD_TEXT_COLOR,
     alignSelf: 'center',
     fontSize: 60,
-    marginTop: SCREEN_W * 0.124
+    marginTop: SCREEN_W * 0.124,
+    color: CARD_BG_COLOR
   },
   readMoreMainView: {
     flex: 1,
