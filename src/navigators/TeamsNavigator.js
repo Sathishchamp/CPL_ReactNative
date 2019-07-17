@@ -5,6 +5,7 @@ import Teams from '../views/Teams';
 import TeamPlayers from '../views/TeamPlayers';
 import { TEAM_DETAILS } from '../constants/strings';
 import commonStyles from '../commons/styles';
+import BackButton from '../components/BackButton';
 
 const TeamsNavigator = createStackNavigator(
   {
@@ -21,7 +22,8 @@ const TeamsNavigator = createStackNavigator(
         headerTitleStyle: commonStyles.headerTitleStyle,
         headerTintColor: 'white',
         headerBackTitle: null,
-        headerStyle: commonStyles.headerDefault
+        headerStyle: commonStyles.headerDefault,
+        headerLeft: <BackButton />
       }
     }
   },

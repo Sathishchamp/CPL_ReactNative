@@ -28,6 +28,7 @@ import ArchiveDetails from '../views/ArchiveDetails';
 import MatchCenter from '../views/MatchCenter';
 import PointsTable from '../views/PointsTable';
 import SocialHub from '../views/SocialHub';
+import BackButton from '../components/BackButton';
 
 const MoreNavigator = createStackNavigator(
   {
@@ -44,7 +45,8 @@ const MoreNavigator = createStackNavigator(
         headerTitleStyle: commonStyles.headerTitleStyle,
         headerTintColor: 'white',
         headerBackTitle: null,
-        headerStyle: commonStyles.headerDefault
+        headerStyle: commonStyles.headerDefault,
+        headerLeft: <BackButton />
       }
     },
     tickets: {
@@ -54,7 +56,8 @@ const MoreNavigator = createStackNavigator(
         headerTitleStyle: commonStyles.headerTitleStyle,
         headerTintColor: 'white',
         headerBackTitle: null,
-        headerStyle: commonStyles.headerDefault
+        headerStyle: commonStyles.headerDefault,
+        headerLeft: <BackButton />
       }
     },
     sponsors: {
@@ -64,7 +67,8 @@ const MoreNavigator = createStackNavigator(
         headerTitleStyle: commonStyles.headerTitleStyle,
         headerTintColor: 'white',
         headerBackTitle: null,
-        headerStyle: commonStyles.headerDefault
+        headerStyle: commonStyles.headerDefault,
+        headerLeft: <BackButton />
       }
     },
     fixtures: {
@@ -74,7 +78,8 @@ const MoreNavigator = createStackNavigator(
         headerTitleStyle: commonStyles.headerTitleStyle,
         headerTintColor: 'white',
         headerBackTitle: null,
-        headerStyle: commonStyles.headerDefault
+        headerStyle: commonStyles.headerDefault,
+        headerLeft: <BackButton />
       }
     },
     stats: {
@@ -84,7 +89,8 @@ const MoreNavigator = createStackNavigator(
         headerTitleStyle: commonStyles.headerTitleStyle,
         headerTintColor: 'white',
         headerBackTitle: null,
-        headerStyle: commonStyles.headerDefault
+        headerStyle: commonStyles.headerDefault,
+        headerLeft: <BackButton />
       }
     },
     statsDetails: {
@@ -94,7 +100,8 @@ const MoreNavigator = createStackNavigator(
         headerTitleStyle: commonStyles.headerTitleStyle,
         headerTintColor: 'white',
         headerBackTitle: null,
-        headerStyle: commonStyles.headerDefault
+        headerStyle: commonStyles.headerDefault,
+        headerLeft: <BackButton />
       })
     },
     statsPlayerDetail: {
@@ -104,7 +111,8 @@ const MoreNavigator = createStackNavigator(
         headerTitleStyle: commonStyles.headerTitleStyle,
         headerTintColor: 'white',
         headerBackTitle: null,
-        headerStyle: commonStyles.headerDefault
+        headerStyle: commonStyles.headerDefault,
+        headerLeft: <BackButton />
       })
     },
     podcasts: {
@@ -114,7 +122,8 @@ const MoreNavigator = createStackNavigator(
         headerTitleStyle: commonStyles.headerTitleStyle,
         headerTintColor: 'white',
         headerBackTitle: null,
-        headerStyle: commonStyles.headerDefault
+        headerStyle: commonStyles.headerDefault,
+        headerLeft: <BackButton />
       }
     },
     archives: {
@@ -124,7 +133,8 @@ const MoreNavigator = createStackNavigator(
         headerTitleStyle: commonStyles.headerTitleStyle,
         headerTintColor: 'white',
         headerBackTitle: null,
-        headerStyle: commonStyles.headerDefault
+        headerStyle: commonStyles.headerDefault,
+        headerLeft: <BackButton />
       }
     },
     archiveDetails: {
@@ -134,7 +144,8 @@ const MoreNavigator = createStackNavigator(
         headerTitleStyle: commonStyles.headerTitleStyle,
         headerTintColor: 'white',
         headerBackTitle: null,
-        headerStyle: commonStyles.headerDefault
+        headerStyle: commonStyles.headerDefault,
+        headerLeft: <BackButton />
       })
     },
     archiveMatchCenter: {
@@ -144,7 +155,8 @@ const MoreNavigator = createStackNavigator(
         headerTitleStyle: commonStyles.headerTitleStyle,
         headerTintColor: 'white',
         headerBackTitle: null,
-        headerStyle: commonStyles.headerDefault
+        headerStyle: commonStyles.headerDefault,
+        headerLeft: <BackButton />
       }
     },
     pointsTable: {
@@ -154,7 +166,8 @@ const MoreNavigator = createStackNavigator(
         headerTitleStyle: commonStyles.headerTitleStyle,
         headerTintColor: 'white',
         headerBackTitle: null,
-        headerStyle: commonStyles.headerDefault
+        headerStyle: commonStyles.headerDefault,
+        headerLeft: <BackButton />
       }
     },
     socialHub: {
@@ -164,7 +177,8 @@ const MoreNavigator = createStackNavigator(
         headerTitleStyle: commonStyles.headerTitleStyle,
         headerTintColor: 'white',
         headerBackTitle: null,
-        headerStyle: commonStyles.headerDefault
+        headerStyle: commonStyles.headerDefault,
+        headerLeft: <BackButton />
       }
     }
   },
