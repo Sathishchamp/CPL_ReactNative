@@ -15,6 +15,7 @@ import commonStyles from '../commons/styles';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { translateArrayToJSON } from '../utils/CompDataParser';
 import FixtureItem from '../components/FixtureItem';
+import { SPINNER_COLOR } from '../config/colors';
 
 class Fixtures extends React.Component {
   constructor(props) {
@@ -60,7 +61,7 @@ class Fixtures extends React.Component {
 
   _renderSpinner() {
     return (
-      <Spinner visible={this.state.spinner} textStyle={{ color: 'white' }} />
+      <Spinner visible={this.state.spinner} color={SPINNER_COLOR} />
     );
   }
 

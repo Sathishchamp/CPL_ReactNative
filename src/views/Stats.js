@@ -30,7 +30,7 @@ import {
 } from '../constants/strings';
 import StatsMainPlayerItem from '../components/StatsMainPlayerItem';
 import { VIEW_STATS_DETAILS } from '../constants/viewNames';
-import { BG_GREY } from '../config/colors';
+import { BG_GREY, SPINNER_COLOR } from '../config/colors';
 
 class Stats extends React.Component {
   constructor(props) {
@@ -159,7 +159,7 @@ class Stats extends React.Component {
 
   _renderSpinner() {
     return (
-      <Spinner visible={this.state.spinner} textStyle={{ color: 'white' }} />
+      <Spinner visible={this.state.spinner} color={SPINNER_COLOR} />
     );
   }
 

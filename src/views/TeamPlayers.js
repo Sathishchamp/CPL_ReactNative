@@ -18,7 +18,8 @@ import {
   BG_AMAZON_WARRIORS,
   BG_TRIDENTS,
   BG_STARS,
-  BG_PATRIOTS
+  BG_PATRIOTS,
+  SPINNER_COLOR
 } from '../config/colors';
 import PlayerCard from '../components/PlayerCard';
 import { isEqual } from '../utils';
@@ -112,7 +113,7 @@ class TeamPlayers extends React.PureComponent {
 
   _renderSpinner() {
     return (
-      <Spinner visible={this.state.spinner} textStyle={{ color: 'white' }} />
+      <Spinner visible={this.state.spinner} color={SPINNER_COLOR} />
     );
   }
 

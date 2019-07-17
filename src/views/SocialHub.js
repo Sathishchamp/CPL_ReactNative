@@ -4,7 +4,7 @@ import { Container, Tab, Tabs, TabHeading } from 'native-base';
 import commonStyles from '../commons/styles';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { SQUARE721 } from '../constants/fonts';
-import { VIEW_BG_COLOR, TAB_BG } from '../config/colors';
+import { VIEW_BG_COLOR, TAB_BG, SPINNER_COLOR } from '../config/colors';
 
 const URL_TWITTER = 'https://twitter.com/CPL?ref_src=twsrc';
 const URL_FACEBOOK = 'https://www.facebook.com/CarnivalT20/';
@@ -22,7 +22,7 @@ class Fixtures extends React.Component {
 
   _renderSpinner() {
     return (
-      <Spinner visible={this.state.spinner} textStyle={{ color: 'white' }} />
+      <Spinner visible={this.state.spinner} color={SPINNER_COLOR} />
     );
   }
 

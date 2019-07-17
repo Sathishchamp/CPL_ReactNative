@@ -14,6 +14,7 @@ import Spinner from 'react-native-loading-spinner-overlay'
 import commonStyles from '../commons/styles';
 import {SUPPORT_JSON} from '../constants/strings.js';
 import { isNullOrEmpty } from '../utils'; 
+import { SPINNER_COLOR } from '../config/colors';
 const SCREEN_H = Dimensions.get('screen').height;
 
 class Sponsors extends React.PureComponent{
@@ -44,7 +45,7 @@ class Sponsors extends React.PureComponent{
     }
     _renderSpinner() {
         return (
-          <Spinner visible={this.state.loading} textStyle={{ color: 'white' }} />
+            <Spinner visible={this.state.spinner} color={SPINNER_COLOR} />
         );
       }
     render(){

@@ -45,7 +45,8 @@ import {
   BG_PATRIOTS,
   BG_TRIDENTS,
   TITLE_BG_COLOR,
-  HOME_BG_COLOR
+  HOME_BG_COLOR,
+  SPINNER_COLOR
 } from '../config/colors';
 import { SQUARE721 } from '../constants/fonts';
 import BannerHeader, {
@@ -314,7 +315,7 @@ class Home extends React.Component {
 
   _renderSpinner() {
     return (
-      <Spinner visible={this.state.spinner} textStyle={{ color: 'white' }} />
+      <Spinner visible={this.state.spinner} color={SPINNER_COLOR} />
     );
   }
 

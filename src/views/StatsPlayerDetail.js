@@ -8,7 +8,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import { translateArrayToJSON } from '../utils/CompDataParser';
 import { isEqual, isNullOrEmpty } from '../utils';
 import { SQUARE721, HELVETICA } from '../constants/fonts';
-import { BG_GREY } from '../config/colors';
+import { BG_GREY, SPINNER_COLOR } from '../config/colors';
 
 const SCREEN_W = Dimensions.get('window').width;
 const SCREEN_H = Dimensions.get('window').height;
@@ -62,7 +62,7 @@ class StatsPlayerDetail extends React.Component {
 
   _renderSpinner() {
     return (
-      <Spinner visible={this.state.spinner} textStyle={{ color: 'white' }} />
+      <Spinner visible={this.state.spinner} color={SPINNER_COLOR} />
     );
   }
 
