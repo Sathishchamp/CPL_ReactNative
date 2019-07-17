@@ -6,6 +6,7 @@ import commonStyles from '../commons/styles';
 import Home from '../views/Home';
 import NewsView from '../views/NewsView';
 import MatchCenter from '../views/MatchCenter';
+import BackButton from '../components/BackButton';
 
 const HomeNavigator = createStackNavigator(
   {
@@ -23,7 +24,8 @@ const HomeNavigator = createStackNavigator(
         headerTitleStyle: commonStyles.headerTitleStyle,
         headerTintColor: 'white',
         headerBackTitle: null,
-        headerStyle: commonStyles.headerDefault
+        headerStyle: commonStyles.headerDefault,
+        headerLeft: <BackButton />
       }
     },
     matchCenter: {
@@ -33,7 +35,8 @@ const HomeNavigator = createStackNavigator(
         headerTitleStyle: commonStyles.headerTitleStyle,
         headerTintColor: 'white',
         headerBackTitle: null,
-        headerStyle: commonStyles.headerDefault
+        headerStyle: commonStyles.headerDefault,
+        headerLeft: <BackButton />
       }
     }
   },
