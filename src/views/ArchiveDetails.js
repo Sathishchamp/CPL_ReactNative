@@ -8,6 +8,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import { translateArrayToJSON } from '../utils/CompDataParser';
 import MatchCard from '../components/LiveMatchCard';
 import { VIEW_ARCHIVE_MATCH_CENTER } from '../constants/viewNames';
+import { SPINNER_COLOR } from '../config/colors';
 
 class ArchiveDetails extends React.Component {
   constructor(props) {
@@ -43,7 +44,7 @@ class ArchiveDetails extends React.Component {
 
   _renderSpinner() {
     return (
-      <Spinner visible={this.state.spinner} textStyle={{ color: 'white' }} />
+      <Spinner visible={this.state.spinner} color={SPINNER_COLOR} />
     );
   }
 

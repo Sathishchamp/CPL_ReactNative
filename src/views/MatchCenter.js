@@ -15,7 +15,8 @@ import {
   TAB_BG,
   WHITE,
   BACKGROUND,
-  VIEW_BG_COLOR
+  VIEW_BG_COLOR,
+  SPINNER_COLOR
 } from '../config/colors';
 import { isEqual, isNullOrEmpty } from '../utils';
 import MatchInfoCard from '../components/MatchInfoCard';
@@ -849,7 +850,7 @@ class MatchCenter extends React.Component {
 
   _renderSpinner() {
     return (
-      <Spinner visible={this.state.spinner} textStyle={{ color: 'white' }} />
+      <Spinner visible={this.state.spinner} color={SPINNER_COLOR} />
     );
   }
 

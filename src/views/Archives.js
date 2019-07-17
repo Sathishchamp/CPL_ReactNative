@@ -13,6 +13,7 @@ import commonStyles from '../commons/styles';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { HELVETICA } from '../constants/fonts';
 import { VIEW_ARCHIVE_DETAILS } from '../constants/viewNames';
+import { SPINNER_COLOR } from '../config/colors';
 
 class Archives extends React.Component {
   constructor(props) {
@@ -41,7 +42,7 @@ class Archives extends React.Component {
 
   _renderSpinner() {
     return (
-      <Spinner visible={this.state.spinner} textStyle={{ color: 'white' }} />
+      <Spinner visible={this.state.spinner} color={SPINNER_COLOR} />
     );
   }
 

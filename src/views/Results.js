@@ -25,6 +25,7 @@ import {
 import { STATUS_BAR_HEIGHT } from '../components/BannerHeader';
 import ResultCard from '../components/ResultCard';
 import { VIEW_ARCHIVE_MATCH_CENTER } from '../constants/viewNames';
+import { SPINNER_COLOR } from '../config/colors';
 
 const SCREEN_H = Dimensions.get('screen').height;
 
@@ -63,7 +64,7 @@ class Results extends React.Component {
   }
   _renderSpinner() {
     return (
-      <Spinner visible={this.state.loading} textStyle={{ color: 'white' }} />
+      <Spinner visible={this.state.spinner} color={SPINNER_COLOR} />
     );
   }
   render() {
