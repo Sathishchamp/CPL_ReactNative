@@ -26,3 +26,4 @@ export const FIGURES = 'Figures';
 export const WICKETS = 'Wickets';
 export const ARCHIVES = 'Archives';
 export const POINTS_TABLE = 'Points Table';
+export const SOCIAL_HUB = 'SocialHub';

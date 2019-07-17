@@ -16,9 +16,10 @@ import {
   VIEW_STATS,
   VIEW_PODCASTS,
   VIEW_ARCHIVES,
-  VIEW_POINTS_TABLE
+  VIEW_POINTS_TABLE,
+  VIEW_SOCIAL_HUB
 } from '../constants/viewNames';
-import { MORE } from '../constants/strings';
+import { MORE, SOCIAL_HUB } from '../constants/strings';
 import commonStyles from '../commons/styles';
 import MoreItem from '../components/MoreItem';
 import { HOME_BG_COLOR } from '../config/colors';
@@ -120,8 +121,8 @@ class More extends React.Component {
           >
             <MoreItem
               iconImage={require('../../assets/images/more/social_hub.png')}
-              title='SocialHub'
-              onPress={() => {}}
+              title={SOCIAL_HUB}
+              onPress={() => this.props.navigation.navigate(VIEW_SOCIAL_HUB)}
             />
             <MoreItem
               iconImage={require('../../assets/images/more/sponsors.png')}
