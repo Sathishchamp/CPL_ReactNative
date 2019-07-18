@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Wed Jun 19 09:06:56 IST 2019
+#Thu Jul 18 17:07:26 IST 2019
 56.path=lib/armeabi-v7a/libfb.so
 5.base=/Users/macbookpro/ram/cpl/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
 42.base=/Users/macbookpro/ram/cpl/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
@@ -146,7 +146,7 @@ count=66
 48.base=/Users/macbookpro/ram/cpl/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
 28.path=lib/arm64-v8a/libjsc.so
 30.base=/Users/macbookpro/ram/cpl/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
-10.path=fonts/Square721BT-BoldExtended.ttf
+10.path=fonts/MaterialIcons.ttf
 58.base=/Users/macbookpro/ram/cpl/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
 13.baseType=DIRECTORY
 50.baseType=DIRECTORY
@@ -261,7 +261,7 @@ count=66
 5.baseType=DIRECTORY
 1.base=/Users/macbookpro/ram/cpl/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
 54.set=ASSET
-9.path=fonts/MaterialIcons.ttf
+9.path=fonts/Square721BT-BoldExtended.ttf
 46.path=lib/x86_64/libjsc.so
 5.set=NATIVE_RESOURCE
 43.set=NATIVE_RESOURCE

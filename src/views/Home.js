@@ -55,6 +55,7 @@ import BannerHeader, {
   STATUS_BAR_HEIGHT
 } from '../components/BannerHeader';
 import { YOUTUBE_API_KEY } from '../config/keys';
+import SplashScreen from 'react-native-splash-screen';
 
 class Home extends React.Component {
   constructor(props) {
@@ -77,6 +78,9 @@ class Home extends React.Component {
     }
     if (!isNullOrEmpty(liveMatchData)) {
       this.setState({ displayLiveCard: true });
+    }
+    if (Platform.OS === 'android') {
+      SplashScreen.hide();
     }
   }
 
@@ -314,9 +318,7 @@ class Home extends React.Component {
   };
 
   _renderSpinner() {
-    return (
-      <Spinner visible={this.state.spinner} color={SPINNER_COLOR} />
-    );
+    return <Spinner visible={this.state.spinner} color={SPINNER_COLOR} />;
   }
 
   _onRefresh() {

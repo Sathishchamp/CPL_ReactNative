@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="default_web_client_id" translatable="false">1006172487659-s1klbmcifsifggjoksr7j711hjnusl0e.apps.googleusercontent.com</string>
-    <string name="firebase_database_url" translatable="false">https://cpl-dev.firebaseio.com</string>
-    <string name="gcm_defaultSenderId" translatable="false">1006172487659</string>
-    <string name="google_api_key" translatable="false">AIzaSyB99TzVbmqJp5BWfxiKwNF5wEKMv37Vp5I</string>
-    <string name="google_app_id" translatable="false">1:1006172487659:android:7b82d330e1185f82</string>
-    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyB99TzVbmqJp5BWfxiKwNF5wEKMv37Vp5I</string>
-    <string name="google_storage_bucket" translatable="false">cpl-dev.appspot.com</string>
-    <string name="project_id" translatable="false">cpl-dev</string>
+    <string name="default_web_client_id" translatable="false">940410343218-hjo70c8u8gqbhqcstcu6v87c6a4gjub8.apps.googleusercontent.com</string>
+    <string name="firebase_database_url" translatable="false">https://cpl-t20-aec7a.firebaseio.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">940410343218</string>
+    <string name="google_api_key" translatable="false">AIzaSyAcoR0aEczATSt2ifsbjwxY0OVbfBrCURw</string>
+    <string name="google_app_id" translatable="false">1:940410343218:android:d398d8c33ba6a5c5</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyAcoR0aEczATSt2ifsbjwxY0OVbfBrCURw</string>
+    <string name="google_storage_bucket" translatable="false">cpl-t20-aec7a.appspot.com</string>
+    <string name="project_id" translatable="false">cpl-t20-aec7a</string>
 </resources>
