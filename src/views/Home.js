@@ -376,17 +376,23 @@ class Home extends React.Component {
 
   render() {
     const { spinner, displayLiveCard } = this.state;
+    const containerStyles = [commonStyles.content];
+    if (Platform.OS === 'ios') {
+      containerStyles.push({
+        marginTop: NAV_BAR_HEIGHT + STATUS_BAR_HEIGHT,
+        backgroundColor: HOME_BG_COLOR
+      });
+    } else if (Platform.OS === 'android') {
+      containerStyles.push({
+        marginTop: NAV_BAR_HEIGHT,
+        backgroundColor: HOME_BG_COLOR
+      });
+    }
     return (
       <Container>
         <BannerHeader />
         <Content
-          style={[
-            commonStyles.content,
-            {
-              marginTop: NAV_BAR_HEIGHT + STATUS_BAR_HEIGHT,
-              backgroundColor: HOME_BG_COLOR
-            }
-          ]}
+          style={containerStyles}
           refreshControl={
             <RefreshControl
               refreshing={this.state.refreshing}
