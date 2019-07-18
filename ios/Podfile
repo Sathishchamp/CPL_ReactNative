@@ -11,4 +11,6 @@ target 'cpl' do
   pod 'Firebase/Messaging'
   pod 'Google-Mobile-Ads-SDK'
 
+  pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
+
 end

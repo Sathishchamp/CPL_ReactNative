@@ -1,4 +1,4 @@
-com.cpl
+kadambatech.cpl
 anim abc_fade_in
 anim abc_fade_out
 anim abc_grow_fade_in_from_bottom
@@ -875,6 +875,7 @@ layout abc_select_dialog_material
 layout abc_tooltip
 layout dev_loading_view
 layout fps_view
+layout launch_screen
 layout notification_action
 layout notification_action_tombstone
 layout notification_media_action
@@ -1205,6 +1206,9 @@ style SpinnerDatePickerDialog
 style SpinnerDatePickerStyle
 style SpinnerTimePickerDialog
 style SpinnerTimePickerStyle
+style SplashScreen_Fullscreen
+style SplashScreen_SplashAnimation
+style SplashScreen_SplashTheme
 style TextAppearance_AppCompat
 style TextAppearance_AppCompat_Body1
 style TextAppearance_AppCompat_Body2

@@ -102,7 +102,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.cpl"
+        applicationId "kadambatech.cpl"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -138,6 +138,7 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-splash-screen')
     implementation project(':react-native-sound-player')
     implementation project(':react-native-admob')
     implementation project(':react-native-firebase')
