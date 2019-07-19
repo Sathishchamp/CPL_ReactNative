@@ -170,8 +170,8 @@ MERGED from [com.google.android.gms:play-services-measurement-base:16.0.0] /User
 	tools:targetApi
 		ADDED from /Users/macbookpro/ram/cpl/android/app/src/debug/AndroidManifest.xml:7:54-74
 	android:icon
-		ADDED from /Users/macbookpro/ram/cpl/android/app/src/main/AndroidManifest.xml:9:7-41
-		ADDED from /Users/macbookpro/ram/cpl/android/app/src/main/AndroidManifest.xml:9:7-41
+		ADDED from /Users/macbookpro/ram/cpl/android/app/src/main/AndroidManifest.xml:9:7-38
+		ADDED from /Users/macbookpro/ram/cpl/android/app/src/main/AndroidManifest.xml:9:7-38
 	android:allowBackup
 		ADDED from /Users/macbookpro/ram/cpl/android/app/src/main/AndroidManifest.xml:11:7-34
 		ADDED from /Users/macbookpro/ram/cpl/android/app/src/main/AndroidManifest.xml:11:7-34

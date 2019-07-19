@@ -27,7 +27,7 @@ export default props => {
       <View style={styles.banner}>
         <StatusBar barStyle="light-content" />
         <Image
-          source={require('../../assets/images/header.png')}
+          source={require('../../assets/images/header.jpg')}
           style={styles.bannerImage}
           resizeMode="stretch"
         />
