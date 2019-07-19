@@ -296,10 +296,6 @@ class Home extends React.Component {
 
   _initiateInterval = () => {
     const { liveMatchData, liveMatchIndex } = this.props;
-    this.matchCard.scrollToIndex({
-      animated: true,
-      index: liveMatchIndex
-    });
     if (isEqual(liveMatchData[liveMatchIndex].state, STATUS_LIVE)) {
       this._interval = setInterval(() => {
         APIService.getCompData(
@@ -353,15 +349,12 @@ class Home extends React.Component {
           index
         })}
         data={liveMatchData}
-        extraData={this.props}
+        extraData={this.props.liveMatchData}
         renderItem={({ item }) => this._renderLiveMatchCard(item)}
         keyExtractor={(item, index) => index}
         initialScrollIndex={liveMatchIndex}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
-        ref={ref => {
-          this.matchCard = ref;
-        }}
       />
     );
   }
