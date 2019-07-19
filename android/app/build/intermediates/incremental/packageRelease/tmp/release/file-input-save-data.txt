@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Fri Jul 19 12:41:28 IST 2019
+#Fri Jul 19 13:59:35 IST 2019
 56.path=lib/x86/libyoga.so
 5.base=/Users/macbookpro/ram/cpl/android/app/build/intermediates/transforms/mergeJniLibs/release/0
 42.base=/Users/macbookpro/ram/cpl/android/app/build/intermediates/transforms/mergeJniLibs/release/0
