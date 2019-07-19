@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "940410343218",
+    "firebase_url": "https://cpl-t20-aec7a.firebaseio.com",
+    "project_id": "cpl-t20-aec7a",
+    "storage_bucket": "cpl-t20-aec7a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:940410343218:android:d398d8c33ba6a5c5",
+        "android_client_info": {
+          "package_name": "kadambatech.cpl"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "940410343218-hjo70c8u8gqbhqcstcu6v87c6a4gjub8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcoR0aEczATSt2ifsbjwxY0OVbfBrCURw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "940410343218-hjo70c8u8gqbhqcstcu6v87c6a4gjub8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "940410343218-mtoarl98340i00j126dd8f0uq2h1g371.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "kadamba.CPLT20"
+              }
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-1447090540324389~5541115185"
+    }
+  ],
+  "configuration_version": "1"
+}

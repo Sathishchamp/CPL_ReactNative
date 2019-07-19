@@ -1,21 +1,32 @@
 import React, { PureComponent } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Image } from 'react-native';
 import { Footer, FooterTab, Button, Icon, Label } from 'native-base';
 import { WHITE, PRIMARY, ICON_ACTIVE, ICON_INACTIVE } from '../config/colors';
 import {
   VIEW_HOME,
-  VIEW_MATCHES,
   VIEW_NEWS,
   VIEW_VIDEOS,
   VIEW_MORE,
   VIEW_NAV_HOME,
-  VIEW_NAV_MATCHES,
   VIEW_NAV_NEWS,
   VIEW_NAV_VIDEOS,
-  VIEW_NAV_MORE
+  VIEW_NAV_MORE,
+  VIEW_TEAMS,
+  VIEW_NAV_TEAMS
 } from '../constants/viewNames';
 import { isEqual } from '../utils/index';
-import { HOME, MATCHES, NEWS, VIDEOS, MORE } from '../constants/strings';
+import { HOME, MATCHES, NEWS, VIDEOS, MORE, TEAMS } from '../constants/strings';
+
+const homeDark = require('../../assets/images/home/home_dark.png');
+const homeGray = require('../../assets/images/home/home_gray.png');
+const teamDark = require('../../assets/images/home/team_dark.png');
+const teamGray = require('../../assets/images/home/team_gray.png');
+const newsDark = require('../../assets/images/home/news_dark.png');
+const newsGray = require('../../assets/images/home/news_gray.png');
+const videosDark = require('../../assets/images/home/videos_dark.png');
+const videosGray = require('../../assets/images/home/videos_gray.png');
+const moreDark = require('../../assets/images/home/more_dark.png');
+const moreGray = require('../../assets/images/home/more_gray.png');
 
 export default class CustomFooter extends PureComponent {
   constructor(props) {
@@ -26,30 +37,28 @@ export default class CustomFooter extends PureComponent {
     const iconStyle = isEqual(this.props.activeButton, VIEW_HOME)
       ? styles.iconActiveStyle
       : styles.iconInActiveStyle;
+    const image = isEqual(this.props.activeButton, VIEW_HOME)
+      ? homeDark
+      : homeGray;
     return (
       <Button onPress={() => this.props.navigation.navigate(VIEW_NAV_HOME)}>
-        <Icon
-          name='home'
-          type='MaterialCommunityIcons'
-          style={[iconStyle, styles.iconSize]}
-        />
+        <Image source={image} style={styles.iconImage} resizeMode="contain" />
         <Label style={[styles.labelStyle, iconStyle]}>{HOME}</Label>
       </Button>
     );
   }
 
-  _renderMatchesButton() {
-    const iconStyle = isEqual(this.props.activeButton, VIEW_MATCHES)
+  _renderTeamsButton() {
+    const iconStyle = isEqual(this.props.activeButton, VIEW_TEAMS)
       ? styles.iconActiveStyle
       : styles.iconInActiveStyle;
+    const image = isEqual(this.props.activeButton, VIEW_TEAMS)
+      ? teamDark
+      : teamGray;
     return (
-      <Button onPress={() => this.props.navigation.navigate(VIEW_NAV_MATCHES)}>
-        <Icon
-          name='bar-graph'
-          type='Entypo'
-          style={[iconStyle, styles.iconSize]}
-        />
-        <Label style={[styles.labelStyle, iconStyle]}>{MATCHES}</Label>
+      <Button onPress={() => this.props.navigation.navigate(VIEW_NAV_TEAMS)}>
+        <Image source={image} style={styles.iconImage} resizeMode="contain" />
+        <Label style={[styles.labelStyle, iconStyle]}>{TEAMS}</Label>
       </Button>
     );
   }
@@ -58,9 +67,12 @@ export default class CustomFooter extends PureComponent {
     const iconStyle = isEqual(this.props.activeButton, VIEW_NEWS)
       ? styles.iconActiveStyle
       : styles.iconInActiveStyle;
+    const image = isEqual(this.props.activeButton, VIEW_NEWS)
+      ? newsDark
+      : newsGray;
     return (
       <Button onPress={() => this.props.navigation.navigate(VIEW_NAV_NEWS)}>
-        <Icon name='news' type='Entypo' style={[iconStyle, styles.iconSize]} />
+        <Image source={image} style={styles.iconImage} resizeMode="contain" />
         <Label style={[styles.labelStyle, iconStyle]}>{NEWS}</Label>
       </Button>
     );
@@ -70,9 +82,12 @@ export default class CustomFooter extends PureComponent {
     const iconStyle = isEqual(this.props.activeButton, VIEW_VIDEOS)
       ? styles.iconActiveStyle
       : styles.iconInActiveStyle;
+    const image = isEqual(this.props.activeButton, VIEW_VIDEOS)
+      ? videosDark
+      : videosGray;
     return (
       <Button onPress={() => this.props.navigation.navigate(VIEW_NAV_VIDEOS)}>
-        <Icon name='video' type='Entypo' style={[iconStyle, styles.iconSize]} />
+        <Image source={image} style={styles.iconImage} resizeMode="contain" />
         <Label style={[styles.labelStyle, iconStyle]}>{VIDEOS}</Label>
       </Button>
     );
@@ -82,13 +97,13 @@ export default class CustomFooter extends PureComponent {
     const iconStyle = isEqual(this.props.activeButton, VIEW_MORE)
       ? styles.iconActiveStyle
       : styles.iconInActiveStyle;
+
+    const image = isEqual(this.props.activeButton, VIEW_MORE)
+      ? moreDark
+      : moreGray;
     return (
       <Button onPress={() => this.props.navigation.navigate(VIEW_NAV_MORE)}>
-        <Icon
-          name='dots-vertical'
-          type='MaterialCommunityIcons'
-          style={[iconStyle, styles.iconSize]}
-        />
+        <Image source={image} style={styles.iconImage} resizeMode="contain" />
         <Label style={[styles.labelStyle, iconStyle]}>{MORE}</Label>
       </Button>
     );
@@ -99,7 +114,7 @@ export default class CustomFooter extends PureComponent {
       <Footer>
         <FooterTab style={styles.footerStyle}>
           {this._renderHomeButton()}
-          {this._renderMatchesButton()}
+          {this._renderTeamsButton()}
           {this._renderNewsButton()}
           {this._renderVideosButton()}
           {this._renderMoreButton()}
@@ -128,5 +143,9 @@ const styles = StyleSheet.create({
   },
   labelStyle: {
     fontSize: 11
+  },
+  iconImage: {
+    height: 25,
+    width: 25
   }
 });

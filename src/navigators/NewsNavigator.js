@@ -6,6 +6,7 @@ import NewsView from '../views/NewsView';
 import { NEWS } from '../constants/strings';
 import { PRIMARY } from '../config/colors';
 import commonStyles from '../commons/styles';
+import BackButton from '../components/BackButton'
 
 const NewsNavigator = createStackNavigator(
   {
@@ -22,7 +23,8 @@ const NewsNavigator = createStackNavigator(
         headerTitleStyle: commonStyles.headerTitleStyle,
         headerTintColor: 'white',
         headerBackTitle: null,
-        headerStyle: commonStyles.headerDefault
+        headerStyle: commonStyles.headerDefault,
+        headerLeft: <BackButton />
       }
     }
   },
