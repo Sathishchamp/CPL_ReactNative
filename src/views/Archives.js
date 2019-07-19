@@ -5,7 +5,8 @@ import {
   Text,
   FlatList,
   TouchableOpacity,
-  Image
+  Image,
+  Platform
 } from 'react-native';
 import { Container, Content } from 'native-base';
 import APIService from '../services/APIService';
@@ -35,15 +36,46 @@ class Archives extends React.Component {
 
   _fetchData() {
     APIService.getArchives(data => {
-      console.log(data);
-      this.setState({ spinner: false, archives: data.yearConfig });
+      if (Platform.OS === 'ios') {
+        console.log('ios year config');
+        console.log(data.yearConfig);
+        this.setState({ spinner: false, archives: data.yearConfig });
+      } else if (Platform.OS === 'android') {
+        console.log('android year config');
+        const yearConfig = [
+          {
+            year: 2013,
+            competitionId: 285
+          },
+          {
+            year: 2014,
+            competitionId: 379
+          },
+          {
+            year: 2015,
+            competitionId: 456
+          },
+          {
+            year: 2016,
+            competitionId: 541
+          },
+          {
+            year: 2017,
+            competitionId: 620
+          },
+          {
+            year: 2018,
+            competitionId: 718
+          }
+        ];
+        console.log(yearConfig);
+        this.setState({ spinner: false, archives: yearConfig });
+      }
     });
   }
 
   _renderSpinner() {
-    return (
-      <Spinner visible={this.state.spinner} color={SPINNER_COLOR} />
-    );
+    return <Spinner visible={this.state.spinner} color={SPINNER_COLOR} />;
   }
 
   _renderArchivesItem(item) {
