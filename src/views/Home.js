@@ -6,7 +6,9 @@ import {
   Platform,
   Text,
   FlatList,
-  Alert
+  Alert,
+  ImageBackground,
+  StatusBar
 } from 'react-native';
 import { Container, Content } from 'native-base';
 import Footer from '../components/Footer';
@@ -31,10 +33,11 @@ import {
 } from 'react-native-youtube';
 import commonStyles from '../commons/styles';
 import { translateArrayToJSON } from '../utils/CompDataParser';
-import LiveMatchCard, {
+import HomeMatchCard, {
   MATCH_CARD_WIDTH,
-  SCREEN_W
-} from '../components/LiveMatchCard';
+  SCREEN_W,
+  SCREEN_H
+} from '../components/HomeMatchCard';
 import AdBanner from '../ads/Banner';
 import { STATUS_LIVE, STATUS_YET_TO_BEGIN } from '../constants/matchStatus';
 import {
@@ -321,10 +324,10 @@ class Home extends React.Component {
     this.setState({ refreshing: true }, () => this._fetchData());
   }
 
-  _renderLiveMatchCard(item) {
+  _renderHomeMatchCard(item) {
     const { matchState } = this.state;
     return (
-      <LiveMatchCard
+      <HomeMatchCard
         data={item}
         showRR={false}
         disableNavigation={isEqual(item.state, STATUS_YET_TO_BEGIN)}
@@ -335,12 +338,14 @@ class Home extends React.Component {
           })
         }
         compactCard={true}
+        fullCard={true}
       />
     );
   }
 
-  _renderLiveMatchCardList() {
+  _renderHomeMatchCardList() {
     const { liveMatchData, liveMatchIndex } = this.props;
+    console.log(liveMatchData);
     return (
       <FlatList
         getItemLayout={(data, index) => ({
@@ -350,7 +355,7 @@ class Home extends React.Component {
         })}
         data={liveMatchData}
         extraData={this.props.liveMatchData}
-        renderItem={({ item }) => this._renderLiveMatchCard(item)}
+        renderItem={({ item }) => this._renderHomeMatchCard(item)}
         keyExtractor={(item, index) => index}
         initialScrollIndex={liveMatchIndex}
         horizontal={true}
@@ -372,18 +377,20 @@ class Home extends React.Component {
     const containerStyles = [commonStyles.content];
     if (Platform.OS === 'ios') {
       containerStyles.push({
-        marginTop: NAV_BAR_HEIGHT + STATUS_BAR_HEIGHT,
+        // marginTop: NAV_BAR_HEIGHT + STATUS_BAR_HEIGHT,
+        marginTop: STATUS_BAR_HEIGHT,
         backgroundColor: HOME_BG_COLOR
       });
     } else if (Platform.OS === 'android') {
       containerStyles.push({
-        marginTop: NAV_BAR_HEIGHT,
+        // marginTop: NAV_BAR_HEIGHT,
         backgroundColor: HOME_BG_COLOR
       });
     }
     return (
       <Container>
-        <BannerHeader />
+        {/* <BannerHeader /> */}
+        <StatusBar barStyle="dark-content" />
         <Content
           style={containerStyles}
           refreshControl={
@@ -393,7 +400,16 @@ class Home extends React.Component {
             />
           }
         >
-          {!spinner && displayLiveCard && this._renderLiveMatchCardList()}
+          {!spinner && displayLiveCard && (
+            <ImageBackground
+              style={{ height: SCREEN_H * 0.4, flexDirection: 'column' }}
+              source={require('../../assets/images/matchcard_bg.jpg')}
+              resizeMode="stretch"
+            >
+              <View style={{ flex: 1 }} />
+              <View style={{ flex: 1 }}>{this._renderHomeMatchCardList()}</View>
+            </ImageBackground>
+          )}
           {!spinner && (
             <View>
               {this._renderListTitle('Videos')}
@@ -438,7 +454,7 @@ class Home extends React.Component {
           )}
           {this._renderSpinner()}
         </Content>
-        <AdBanner size='fullBanner' />
+        <AdBanner size="fullBanner" />
         <Footer activeButton={VIEW_HOME} {...this.props} />
       </Container>
     );
