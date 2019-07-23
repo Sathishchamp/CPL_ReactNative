@@ -72,7 +72,6 @@ export default props => {
   return (
     <TouchableWithoutFeedback
       onPress={() => props.onCardPress(matchId)}
-      disabled={fullCard || disableNavigation}
       style={{ flex: 1 }}
     >
       <View style={cardStyle}>
