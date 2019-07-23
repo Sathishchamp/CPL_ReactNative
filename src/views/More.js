@@ -43,11 +43,11 @@ class More extends React.Component {
 
     return (
       <Container>
-        <BannerHeader title={MORE} />
+        <BannerHeader />
         <Content
           style={{
             backgroundColor: HOME_BG_COLOR,
-            marginTop: CONTENT_MARGIN_TOP
+            marginTop: NAV_BAR_HEIGHT
           }}
         >
           <View
