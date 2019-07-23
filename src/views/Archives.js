@@ -39,7 +39,7 @@ class Archives extends React.Component {
       if (Platform.OS === 'ios') {
         console.log('ios year config');
         console.log(data.yearConfig);
-        this.setState({ spinner: false, archives: data.yearConfig });
+        this.setState({ spinner: false, archives: data.yearConfig.reverse() });
       } else if (Platform.OS === 'android') {
         console.log('android year config');
         const yearConfig = [
@@ -67,9 +67,9 @@ class Archives extends React.Component {
             year: 2018,
             competitionId: 718
           }
-        ];
+        ]
         console.log(yearConfig);
-        this.setState({ spinner: false, archives: yearConfig });
+        this.setState({ spinner: false, archives: yearConfig.reverse() });
       }
     });
   }
