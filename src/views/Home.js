@@ -366,7 +366,7 @@ class Home extends React.Component {
 
   _renderListTitle(title) {
     return (
-      <View style={{ backgroundColor: TITLE_BG_COLOR, paddingLeft: 4 }}>
+      <View style={{ backgroundColor: TITLE_BG_COLOR, paddingLeft: 4 ,alignItems:'center'}}>
         <Text style={styles.listTitleText}>{title}</Text>
       </View>
     );
