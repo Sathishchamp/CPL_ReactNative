@@ -78,7 +78,7 @@ class Stats extends React.Component {
             key: 'LtHighest_CategoryAve'
           };
           const catches = {
-            title: CATCHES,
+            title: 'MOST CATCHES',
             color: '#003366',
             player: LtAllStats.LtHighest_CategoryCatches[0],
             key: 'LtHighest_CategoryCatches'
@@ -90,19 +90,19 @@ class Stats extends React.Component {
             key: 'LtHighest_CategoryEcon'
           };
           const individual = {
-            title: INDIVIDUAL,
+            title: 'HIGHEST SCORE',
             color: '#ff6600',
             player: LtAllStats.LtHighest_CategoryInd[0],
             key: 'LtHighest_CategoryInd'
           };
           const runOut = {
-            title: RUNOUT,
-            color: '#ffff00',
+            title: 'MOST RUNOUTS',
+            color: '#e6e600',
             player: LtAllStats.LtHighest_CategoryRunOut[0],
             key: 'LtHighest_CategoryRunOut'
           };
           const runs = {
-            title: RUNS,
+            title: 'MOST RUNS',
             color: '#800000',
             player: LtAllStats.LtHighest_CategoryRuns[0],
             key: 'LtHighest_CategoryRuns'
@@ -114,25 +114,25 @@ class Stats extends React.Component {
             key: 'LtHighest_CategorySR'
           };
           const sixes = {
-            title: SIXES,
+            title: 'MOST SIXES',
             color: '#e6e600',
             player: LtAllStats.LtHighest_CategorySix[0],
             key: 'LtHighest_CategorySix'
           };
           const stumping = {
-            title: STUMPING,
+            title: 'MOST STUMPINGS',
             color: '#333300',
             player: LtAllStats.LtHighest_CategoryStumping[0],
             key: 'LtHighest_CategoryStumping'
           };
           const figures = {
-            title: FIGURES,
+            title: 'BEST BOWLING FIGURES',
             color: '#003366',
             player: LtAllStats.LtHighest_Categoryfig[0],
             key: 'LtHighest_Categoryfig'
           };
           const wickets = {
-            title: WICKETS,
+            title: 'MOST WICKETS',
             color: '#009900',
             player: LtAllStats.LtHighest_Categorywkts[0],
             key: 'LtHighest_Categorywkts'
