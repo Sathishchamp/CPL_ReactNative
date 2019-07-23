@@ -55,7 +55,7 @@ export default props => {
             <Text style={styles.teamNameText}>{teamb}</Text>
           </View>
           <View style={styles.locationTextView}>
-            <Text style={styles.locationText}>{venue}</Text>
+            <Text style={styles.locationText} numberOfLines={1}>{venue}</Text>
           </View>
         </View>
       </View>
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
   },
   locationText: {
     fontFamily: HELVETICA,
-    fontSize: 16
+    fontSize: 14
   },
   teamImage: {
     height: 60,
