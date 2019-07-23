@@ -438,7 +438,7 @@ class Home extends React.Component {
               {this._renderListTitle('Top Stories')}
 
               <NewsCoverList
-                data={this.props.news.slice(0, 7)}
+                data={this.props.news.slice(0, 30)}
                 onItemPress={description => {
                   this.props.navigation.navigate(VIEW_HOME_NEWS_VIEW, {
                     description
