@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, Platform } from 'react-native';
 import { Container, Content } from 'native-base';
 import BannerHeader, {
   NAV_BAR_HEIGHT,
-  CONTENT_MARGIN_TOP
+  CONTENT_MARGIN_TOP,
+  STATUS_BAR_HEIGHT
 } from '../components/BannerHeader';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -40,14 +41,17 @@ class More extends React.Component {
   }
   render() {
     const { showFixtures, showTickets } = this.props;
-
+    const marginTop =
+      Platform.OS === 'ios'
+        ? NAV_BAR_HEIGHT + STATUS_BAR_HEIGHT
+        : NAV_BAR_HEIGHT;
     return (
       <Container>
         <BannerHeader />
         <Content
           style={{
             backgroundColor: HOME_BG_COLOR,
-            marginTop: NAV_BAR_HEIGHT
+            marginTop
           }}
         >
           <View
@@ -58,13 +62,13 @@ class More extends React.Component {
           >
             <MoreItem
               iconImage={require('../../assets/images/more/archives.png')}
-              title='Archives'
+              title="Archives"
               onPress={() => this.props.navigation.navigate(VIEW_ARCHIVES)}
             />
             {showFixtures && (
               <MoreItem
                 iconImage={require('../../assets/images/more/fixtures.png')}
-                title='Fixtures'
+                title="Fixtures"
                 onPress={() => {
                   this.props.navigation.navigate(VIEW_FIXTURES);
                 }}
@@ -72,14 +76,14 @@ class More extends React.Component {
             )}
             <MoreItem
               iconImage={require('../../assets/images/more/results.png')}
-              title='Results'
+              title="Results"
               onPress={() => {
                 this._redirectToResults();
               }}
             />
             <MoreItem
               iconImage={require('../../assets/images/more/points_table.png')}
-              title='Points Table'
+              title="Points Table"
               onPress={() => this.props.navigation.navigate(VIEW_POINTS_TABLE)}
             />
           </View>
@@ -93,7 +97,7 @@ class More extends React.Component {
             {showTickets && (
               <MoreItem
                 iconImage={require('../../assets/images/more/ticket.png')}
-                title='Tickets'
+                title="Tickets"
                 onPress={() => {
                   this._redirectToTickets();
                 }}
@@ -101,14 +105,14 @@ class More extends React.Component {
             )}
             <MoreItem
               iconImage={require('../../assets/images/more/podcasts.png')}
-              title='Podcasts'
+              title="Podcasts"
               onPress={() => {
                 this._redirectToPodcasts();
               }}
             />
             <MoreItem
               iconImage={require('../../assets/images/more/stats.png')}
-              title='Stats'
+              title="Stats"
               onPress={() => this.props.navigation.navigate(VIEW_STATS)}
             />
           </View>
@@ -126,7 +130,7 @@ class More extends React.Component {
             />
             <MoreItem
               iconImage={require('../../assets/images/more/sponsors.png')}
-              title='Sponsors'
+              title="Sponsors"
               onPress={() => {
                 this._redirectToSponsors();
               }}
