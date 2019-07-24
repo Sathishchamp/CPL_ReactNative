@@ -15,7 +15,8 @@ import commonStyles from '../commons/styles';
 import { SUPPORT_JSON } from '../constants/strings.js';
 import { isNullOrEmpty } from '../utils';
 import { SPINNER_COLOR } from '../config/colors';
-const SCREEN_H = Dimensions.get('screen').height;
+
+const { width, height } = Dimensions.get('screen');
 
 class Sponsors extends React.PureComponent {
   constructor(props) {
@@ -49,12 +50,10 @@ class Sponsors extends React.PureComponent {
       <Container>
         <Content style={commonStyles.content}>
           {this._renderSpinner()}
-          <View style={{ flex: 1, height: SCREEN_H }}>
-            <WebView
-              originWhitelist={['*']}
+          <View style={{ flex: 1, height, width }}>
+            <Image
               source={{ uri: this.state.sponsors }}
-              style={{ flex: 1 }}
-              
+              style={{ height, width }}
             />
           </View>
         </Content>
