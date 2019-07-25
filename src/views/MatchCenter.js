@@ -187,17 +187,21 @@ class MatchCenter extends React.Component {
 
   _fetchPrematch(competitionId, matchId) {
     return new Promise((resolve, reject) => {
-      APIService.getScores(competitionId, matchId, 'prematch', data => {
-        const teamList = translateArrayToJSON(data.prematch.TeamList);
-        const matchDetails = translateArrayToJSON(
-          data.prematch.matchdetails
-        )[0];
-        const teamAPlayers = teamList
-          .filter(item => isEqual(item.teamname, matchDetails.teama))
-          .map(item => item.player);
-        const teamBPlayers = teamList
-          .filter(item => isEqual(item.teamname, matchDetails.teamb))
-          .map(item => item.player);
+      let teamList = [];
+      let matchDetails = [];
+      let teamAPlayers = [];
+      let teamBPlayers = [];
+      APIService.getScores(competitionId, matchId, 'prematch', (err, data) => {
+        if (!err) {
+          teamList = translateArrayToJSON(data.prematch.TeamList);
+          matchDetails = translateArrayToJSON(data.prematch.matchdetails)[0];
+          teamAPlayers = teamList
+            .filter(item => isEqual(item.teamname, matchDetails.teama))
+            .map(item => item.player);
+          teamBPlayers = teamList
+            .filter(item => isEqual(item.teamname, matchDetails.teamb))
+            .map(item => item.player);
+        }
         resolve({ teamList, matchDetails, teamAPlayers, teamBPlayers });
       });
     });
@@ -213,146 +217,156 @@ class MatchCenter extends React.Component {
         isEqual(matchState, STATUS_COMPLETED) ||
         isEqual(matchState, STATUS_CANCELLED)
       ) {
-        APIService.getScores(competitionId, matchId, 'scores', data => {
-          const { scorecard } = data;
+        APIService.getScores(competitionId, matchId, 'scores', (err, data) => {
+          if (!err) {
+            const { scorecard } = data;
 
-          console.log(scorecard);
+            console.log(scorecard);
 
-          const batsmanScores = translateArrayToJSON(
-            scorecard.currentscores.batsman
-          );
-          const bowlerScores = translateArrayToJSON(
-            scorecard.currentscores.bowler
-          );
-          const lastWicket = translateArrayToJSON(
-            scorecard.currentscores.lastwicket
-          );
+            const batsmanScores = translateArrayToJSON(
+              scorecard.currentscores.batsman
+            );
+            const bowlerScores = translateArrayToJSON(
+              scorecard.currentscores.bowler
+            );
+            const lastWicket = translateArrayToJSON(
+              scorecard.currentscores.lastwicket
+            );
 
-          const timelineCommentary = translateArrayToJSON(scorecard.commentary);
+            const timelineCommentary = translateArrayToJSON(
+              scorecard.commentary
+            );
 
-          let teamABattingScores = [];
-          let teamBBattingScores = [];
-          let teamAExtras = '';
-          let teamBExtras = '';
-          let teamAFallofWickets = '';
-          let teamBFallofWickets = '';
-          let teamABowlingData = [];
-          let teamBBowlingData = [];
-          let teamAInningsId = '';
-          let teamBInningsId = '';
+            let teamABattingScores = [];
+            let teamBBattingScores = [];
+            let teamAExtras = '';
+            let teamBExtras = '';
+            let teamAFallofWickets = '';
+            let teamBFallofWickets = '';
+            let teamABowlingData = [];
+            let teamBBowlingData = [];
+            let teamAInningsId = '';
+            let teamBInningsId = '';
 
-          if (
-            !isEqual(scorecard.innings.innings1, undefined) &&
-            !isEqual(scorecard.innings.innings1.batteam, undefined)
-          ) {
-            //check with innings1
             if (
-              isEqual(teama, scorecard.innings.innings1.batteam.batteamName)
+              !isEqual(scorecard.innings.innings1, undefined) &&
+              !isEqual(scorecard.innings.innings1.batteam, undefined)
             ) {
-              teamABattingScores = translateArrayToJSON(
-                scorecard.innings.innings1.batteam.player
-              );
+              //check with innings1
+              if (
+                isEqual(teama, scorecard.innings.innings1.batteam.batteamName)
+              ) {
+                teamABattingScores = translateArrayToJSON(
+                  scorecard.innings.innings1.batteam.player
+                );
 
-              teamAExtras = translateArrayToJSON(
-                scorecard.innings.innings1.extras
-              );
-              teamAExtras = teamAExtras[0].Extras + teamAExtras[0].Total;
+                teamAExtras = translateArrayToJSON(
+                  scorecard.innings.innings1.extras
+                );
+                teamAExtras = teamAExtras[0].Extras + teamAExtras[0].Total;
 
-              teamAFallofWickets = scorecard.innings.innings1.fallofwicketsstr;
+                teamAFallofWickets =
+                  scorecard.innings.innings1.fallofwicketsstr;
 
-              teamABowlingData = translateArrayToJSON(
-                scorecard.innings.innings1.bowlteam.player
-              );
+                teamABowlingData = translateArrayToJSON(
+                  scorecard.innings.innings1.bowlteam.player
+                );
 
-              teamAInningsId = '1';
+                teamAInningsId = '1';
+              }
+              if (
+                isEqual(teamb, scorecard.innings.innings1.batteam.batteamName)
+              ) {
+                teamBBattingScores = translateArrayToJSON(
+                  scorecard.innings.innings1.batteam.player
+                );
+
+                teamBExtras = translateArrayToJSON(
+                  scorecard.innings.innings1.extras
+                );
+                teamBExtras = teamBExtras[0].Extras + teamBExtras[0].Total;
+
+                teamBFallofWickets =
+                  scorecard.innings.innings1.fallofwicketsstr;
+
+                teamBBowlingData = translateArrayToJSON(
+                  scorecard.innings.innings1.bowlteam.player
+                );
+
+                teamBInningsId = '1';
+              }
             }
+
+            //if innings2 is present
             if (
-              isEqual(teamb, scorecard.innings.innings1.batteam.batteamName)
+              !isEqual(scorecard.innings.innings2, undefined) &&
+              !isEqual(scorecard.innings.innings2.batteam, undefined)
             ) {
-              teamBBattingScores = translateArrayToJSON(
-                scorecard.innings.innings1.batteam.player
-              );
+              //check with innings2
+              if (
+                isEqual(teama, scorecard.innings.innings2.batteam.batteamName)
+              ) {
+                teamABattingScores = translateArrayToJSON(
+                  scorecard.innings.innings2.batteam.player
+                );
 
-              teamBExtras = translateArrayToJSON(
-                scorecard.innings.innings1.extras
-              );
-              teamBExtras = teamBExtras[0].Extras + teamBExtras[0].Total;
+                teamAExtras = translateArrayToJSON(
+                  scorecard.innings.innings2.extras
+                );
+                teamAExtras = teamAExtras[0].Extras + teamAExtras[0].Total;
 
-              teamBFallofWickets = scorecard.innings.innings1.fallofwicketsstr;
+                teamAFallofWickets =
+                  scorecard.innings.innings2.fallofwicketsstr;
 
-              teamBBowlingData = translateArrayToJSON(
-                scorecard.innings.innings1.bowlteam.player
-              );
+                teamABowlingData = translateArrayToJSON(
+                  scorecard.innings.innings2.bowlteam.player
+                );
 
-              teamBInningsId = '1';
+                teamAInningsId = '2';
+              }
+              if (
+                isEqual(teamb, scorecard.innings.innings2.batteam.batteamName)
+              ) {
+                teamBBattingScores = translateArrayToJSON(
+                  scorecard.innings.innings2.batteam.player
+                );
+
+                teamBExtras = translateArrayToJSON(
+                  scorecard.innings.innings2.extras
+                );
+                teamBExtras = teamBExtras[0].Extras + teamBExtras[0].Total;
+
+                teamBFallofWickets =
+                  scorecard.innings.innings2.fallofwicketsstr;
+
+                teamBBowlingData = translateArrayToJSON(
+                  scorecard.innings.innings2.bowlteam.player
+                );
+
+                teamBInningsId = '2';
+              }
             }
+
+            resolve({
+              teamABattingScores,
+              teamBBattingScores,
+              teamAFallofWickets,
+              teamBFallofWickets,
+              teamAExtras,
+              teamBExtras,
+              teamABowlingData,
+              teamBBowlingData,
+              teamAInningsId,
+              teamBInningsId,
+              batsmanScores,
+              bowlerScores,
+              lastWicket,
+              timelineCommentary,
+              matchStarted: true
+            });
+          } else {
+            reject();
           }
-
-          //if innings2 is present
-          if (
-            !isEqual(scorecard.innings.innings2, undefined) &&
-            !isEqual(scorecard.innings.innings2.batteam, undefined)
-          ) {
-            //check with innings2
-            if (
-              isEqual(teama, scorecard.innings.innings2.batteam.batteamName)
-            ) {
-              teamABattingScores = translateArrayToJSON(
-                scorecard.innings.innings2.batteam.player
-              );
-
-              teamAExtras = translateArrayToJSON(
-                scorecard.innings.innings2.extras
-              );
-              teamAExtras = teamAExtras[0].Extras + teamAExtras[0].Total;
-
-              teamAFallofWickets = scorecard.innings.innings2.fallofwicketsstr;
-
-              teamABowlingData = translateArrayToJSON(
-                scorecard.innings.innings2.bowlteam.player
-              );
-
-              teamAInningsId = '2';
-            }
-            if (
-              isEqual(teamb, scorecard.innings.innings2.batteam.batteamName)
-            ) {
-              teamBBattingScores = translateArrayToJSON(
-                scorecard.innings.innings2.batteam.player
-              );
-
-              teamBExtras = translateArrayToJSON(
-                scorecard.innings.innings2.extras
-              );
-              teamBExtras = teamBExtras[0].Extras + teamBExtras[0].Total;
-
-              teamBFallofWickets = scorecard.innings.innings2.fallofwicketsstr;
-
-              teamBBowlingData = translateArrayToJSON(
-                scorecard.innings.innings2.bowlteam.player
-              );
-
-              teamBInningsId = '2';
-            }
-          }
-
-          resolve({
-            teamABattingScores,
-            teamBBattingScores,
-            teamAFallofWickets,
-            teamBFallofWickets,
-            teamAExtras,
-            teamBExtras,
-            teamABowlingData,
-            teamBBowlingData,
-            teamAInningsId,
-            teamBInningsId,
-            batsmanScores,
-            bowlerScores,
-            lastWicket,
-            timelineCommentary,
-            matchStarted: true
-          });
         });
       } else {
         resolve({
@@ -374,9 +388,18 @@ class MatchCenter extends React.Component {
 
   _fetchFullCommentary(competitionId, matchId) {
     return new Promise((resolve, reject) => {
-      APIService.getScores(competitionId, matchId, 'fullcommentary', data => {
-        resolve(translateArrayToJSON(data));
-      });
+      APIService.getScores(
+        competitionId,
+        matchId,
+        'fullcommentary',
+        (err, data) => {
+          if (!err) {
+            resolve(translateArrayToJSON(data));
+          } else {
+            resolve([]);
+          }
+        }
+      );
     });
   }
 
@@ -849,9 +872,7 @@ class MatchCenter extends React.Component {
   }
 
   _renderSpinner() {
-    return (
-      <Spinner visible={this.state.spinner} color={SPINNER_COLOR} />
-    );
+    return <Spinner visible={this.state.spinner} color={SPINNER_COLOR} />;
   }
 
   render() {
