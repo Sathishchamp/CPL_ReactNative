@@ -74,7 +74,7 @@ class News extends React.Component {
           }
         >
           <NewsCoverList
-            data={this.props.news}
+            data={this.props.news.slice(0, 29)}
             onItemPress={description => {
               this.props.navigation.navigate(VIEW_NEWS_NEWS_VIEW, {
                 description
