@@ -358,6 +358,7 @@ class Home extends React.Component {
         renderItem={({ item }) => this._renderHomeMatchCard(item)}
         keyExtractor={(item, index) => index}
         initialScrollIndex={liveMatchIndex}
+        pagingEnabled={true}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
       />
@@ -438,7 +439,7 @@ class Home extends React.Component {
               {this._renderListTitle('Top Stories')}
 
               <NewsCoverList
-                data={this.props.news.slice(0, 30)}
+                data={this.props.news.slice(0, 20)}
                 onItemPress={description => {
                   this.props.navigation.navigate(VIEW_HOME_NEWS_VIEW, {
                     description
