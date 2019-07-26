@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
   },
   titleText: {
     color: 'white',
-    fontSize: 11,
+    fontSize: 10,
     fontFamily: SQUARE721
   },
   rowText: {

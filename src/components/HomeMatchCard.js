@@ -73,6 +73,7 @@ export default props => {
     <TouchableWithoutFeedback
       onPress={() => props.onCardPress(matchId)}
       style={{ flex: 1 }}
+      disabled={disableNavigation}
     >
       <View style={cardStyle}>
         <View style={styles.firstRow}>
@@ -88,7 +89,7 @@ export default props => {
             <Image
               source={{ uri: teamaimage }}
               style={styles.teamImage}
-              resizeMode="contain"
+              resizeMode='contain'
             />
           </View>
           {showTeamAScores && (
@@ -139,7 +140,7 @@ export default props => {
             <Image
               source={{ uri: teambimage }}
               style={styles.teamImage}
-              resizeMode="contain"
+              resizeMode='contain'
             />
           </View>
         </View>

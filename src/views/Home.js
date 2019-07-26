@@ -358,6 +358,7 @@ class Home extends React.Component {
         renderItem={({ item }) => this._renderHomeMatchCard(item)}
         keyExtractor={(item, index) => index}
         initialScrollIndex={liveMatchIndex}
+        pagingEnabled={true}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
       />
@@ -366,7 +367,13 @@ class Home extends React.Component {
 
   _renderListTitle(title) {
     return (
-      <View style={{ backgroundColor: TITLE_BG_COLOR, paddingLeft: 4 ,alignItems:'center'}}>
+      <View
+        style={{
+          backgroundColor: TITLE_BG_COLOR,
+          paddingLeft: 4,
+          alignItems: 'center'
+        }}
+      >
         <Text style={styles.listTitleText}>{title}</Text>
       </View>
     );
@@ -390,7 +397,7 @@ class Home extends React.Component {
     return (
       <Container>
         {/* <BannerHeader /> */}
-        <StatusBar barStyle="dark-content" />
+        <StatusBar barStyle='dark-content' />
         <Content
           style={containerStyles}
           refreshControl={
@@ -404,7 +411,7 @@ class Home extends React.Component {
             <ImageBackground
               style={{ height: SCREEN_H * 0.4, flexDirection: 'column' }}
               source={require('../../assets/images/matchcard_bg.jpg')}
-              resizeMode="stretch"
+              resizeMode='stretch'
             >
               <View style={{ flex: 1 }} />
               <View style={{ flex: 1 }}>{this._renderHomeMatchCardList()}</View>
@@ -438,7 +445,7 @@ class Home extends React.Component {
               {this._renderListTitle('Top Stories')}
 
               <NewsCoverList
-                data={this.props.news.slice(0, 30)}
+                data={this.props.news.slice(0, 20)}
                 onItemPress={description => {
                   this.props.navigation.navigate(VIEW_HOME_NEWS_VIEW, {
                     description
@@ -454,7 +461,7 @@ class Home extends React.Component {
           )}
           {this._renderSpinner()}
         </Content>
-        <AdBanner size="fullBanner" />
+        <AdBanner size='fullBanner' />
         <Footer activeButton={VIEW_HOME} {...this.props} />
       </Container>
     );

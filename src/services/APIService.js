@@ -73,8 +73,11 @@ export default (APIService = {
     );
     axios
       .get(SCORES_URL + '/' + compId + '/' + matchId + `/${json}.json`)
-      .then(res => callback(res.data))
-      .catch(err => console.log(err));
+      .then(res => callback(null, res.data))
+      .catch(err => {
+        callback(err, null);
+        console.log(err);
+      });
   },
 
   getTickets(url, callback) {
