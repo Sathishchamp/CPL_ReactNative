@@ -46,11 +46,14 @@ class NewsView extends React.PureComponent {
             <Image
               source={{ uri: this.state.imageUrl }}
               style={{ width: SCREEN_W, height: SCREEN_W * 0.5 }}
-              resizeMode="cover"
+              resizeMode='cover'
             />
           </View>
           <View style={{}}>
-            <AdBanner size="mediumRectangle" />
+            <AdBanner
+              size='mediumRectangle'
+              adUnitID='ca-app-pub-4121406740932347/6388662881'
+            />
           </View>
           <View style={{ flex: 1, height: SCREEN_H }}>
             {/* <Text style={{ color: WHITE, textAlign: 'justify' }}>

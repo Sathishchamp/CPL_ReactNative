@@ -461,7 +461,10 @@ class Home extends React.Component {
           )}
           {this._renderSpinner()}
         </Content>
-        <AdBanner size='fullBanner' />
+        <AdBanner
+          size='fullBanner'
+          adUnitID='ca-app-pub-4121406740932347/2010434179'
+        />
         <Footer activeButton={VIEW_HOME} {...this.props} />
       </Container>
     );
