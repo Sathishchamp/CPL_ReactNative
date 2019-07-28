@@ -4,58 +4,7 @@
             "outputFile": "/Users/macbookpro/ram/cpl/android/app/build/intermediates/incremental/mergeReleaseResources/merged.dir/values-mk/values-mk.xml",
             "map": [
                 {
-                    "source": "/Users/macbookpro/.gradle/caches/transforms-2/files-2.1/a31c0537da15c950165ca1df9845362d/res/values-mk/values-mk.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,213,317,425,511,616,735,818,900,997,1096,1193,1293,1400,1499,1600,1696,1793,1884,1971,2077,2184,2285,2392,2503,2607,2763,2861",
-                        "endColumns": "107,103,107,85,104,118,82,81,96,98,96,99,106,98,100,95,96,90,86,105,106,100,106,110,103,155,97,83",
-                        "endOffsets": "208,312,420,506,611,730,813,895,992,1091,1188,1288,1395,1494,1595,1691,1788,1879,1966,2072,2179,2280,2387,2498,2602,2758,2856,2940"
-                    },
-                    "to": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,55",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,213,317,425,511,616,735,818,900,997,1096,1193,1293,1400,1499,1600,1696,1793,1884,1971,2077,2184,2285,2392,2503,2607,2763,6340",
-                        "endColumns": "107,103,107,85,104,118,82,81,96,98,96,99,106,98,100,95,96,90,86,105,106,100,106,110,103,155,97,83",
-                        "endOffsets": "208,312,420,506,611,730,813,895,992,1091,1188,1288,1395,1494,1595,1691,1788,1879,1966,2072,2179,2280,2387,2498,2602,2758,2856,6419"
-                    }
-                },
-                {
-                    "source": "/Users/macbookpro/.gradle/caches/transforms-2/files-2.1/693d0552f16459250dd460fbf6e6c440/res/values-mk/values.xml",
-                    "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "247",
-                        "endColumns": "195",
-                        "endOffsets": "442"
-                    },
-                    "to": {
-                        "startLines": "37",
-                        "startColumns": "4",
-                        "startOffsets": "4038",
-                        "endColumns": "195",
-                        "endOffsets": "4229"
-                    }
-                },
-                {
-                    "source": "/Users/macbookpro/.gradle/caches/transforms-2/files-2.1/62c2e47113ad023cb8dc65d884699499/res/values-mk/values.xml",
-                    "from": {
-                        "startLines": "4,5,6,7,8,9,10",
-                        "startColumns": "0,0,0,0,0,0,0",
-                        "startOffsets": "197,272,403,468,531,616,733",
-                        "endColumns": "74,130,64,62,84,116,78",
-                        "endOffsets": "271,402,467,530,615,732,811"
-                    },
-                    "to": {
-                        "startLines": "48,49,50,51,52,53,54",
-                        "startColumns": "4,4,4,4,4,4,4",
-                        "startOffsets": "5697,5776,5911,5980,6047,6136,6257",
-                        "endColumns": "78,134,68,66,88,120,82",
-                        "endOffsets": "5771,5906,5975,6042,6131,6252,6335"
-                    }
-                },
-                {
-                    "source": "/Users/macbookpro/.gradle/caches/transforms-2/files-2.1/da05a9ffd0729b84fe734a82a180f3ac/res/values-mk/values.xml",
+                    "source": "/Users/macbookpro/.gradle/caches/transforms-2/files-2.1/b5aaec605e4dbb60ce4dad56e70c08b2/res/values-mk/values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
@@ -72,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "/Users/macbookpro/.gradle/caches/transforms-2/files-2.1/c640d2ffdb3a70856ecc3759b85cc16b/res/values-mk/values-mk.xml",
+                    "source": "/Users/macbookpro/.gradle/caches/transforms-2/files-2.1/4aaf0f68a15cf29691094e6289eb6763/res/values-mk/values-mk.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -89,7 +38,41 @@
                     }
                 },
                 {
-                    "source": "/Users/macbookpro/.gradle/caches/transforms-2/files-2.1/6ef803bdb7d7db7ccf7b31691c158d3c/res/values-mk/values.xml",
+                    "source": "/Users/macbookpro/.gradle/caches/transforms-2/files-2.1/48ce93eef7b3d25bc898367d4ef0d8df/res/values-mk/values.xml",
+                    "from": {
+                        "startLines": "4,5,6,7,8,9,10",
+                        "startColumns": "0,0,0,0,0,0,0",
+                        "startOffsets": "197,272,403,468,531,616,733",
+                        "endColumns": "74,130,64,62,84,116,78",
+                        "endOffsets": "271,402,467,530,615,732,811"
+                    },
+                    "to": {
+                        "startLines": "48,49,50,51,52,53,54",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "5697,5776,5911,5980,6047,6136,6257",
+                        "endColumns": "78,134,68,66,88,120,82",
+                        "endOffsets": "5771,5906,5975,6042,6131,6252,6335"
+                    }
+                },
+                {
+                    "source": "/Users/macbookpro/.gradle/caches/transforms-2/files-2.1/f04e593c86774f06e685c5bdcf9958af/res/values-mk/values-mk.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,213,317,425,511,616,735,818,900,997,1096,1193,1293,1400,1499,1600,1696,1793,1884,1971,2077,2184,2285,2392,2503,2607,2763,2861",
+                        "endColumns": "107,103,107,85,104,118,82,81,96,98,96,99,106,98,100,95,96,90,86,105,106,100,106,110,103,155,97,83",
+                        "endOffsets": "208,312,420,506,611,730,813,895,992,1091,1188,1288,1395,1494,1595,1691,1788,1879,1966,2072,2179,2280,2387,2498,2602,2758,2856,2940"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,55",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,213,317,425,511,616,735,818,900,997,1096,1193,1293,1400,1499,1600,1696,1793,1884,1971,2077,2184,2285,2392,2503,2607,2763,6340",
+                        "endColumns": "107,103,107,85,104,118,82,81,96,98,96,99,106,98,100,95,96,90,86,105,106,100,106,110,103,155,97,83",
+                        "endOffsets": "208,312,420,506,611,730,813,895,992,1091,1188,1288,1395,1494,1595,1691,1788,1879,1966,2072,2179,2280,2387,2498,2602,2758,2856,6419"
+                    }
+                },
+                {
+                    "source": "/Users/macbookpro/.gradle/caches/transforms-2/files-2.1/86c81e025f43b9c80f6c0eed9d8e70df/res/values-mk/values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -103,6 +86,23 @@
                         "startOffsets": "2861,2970,3163,3298,3410,3614,3749,3899,4234,4450,4559,4756,4891,5103,5292,5391,5485",
                         "endColumns": "108,192,134,111,203,134,149,138,215,108,196,134,211,188,98,93,107",
                         "endOffsets": "2965,3158,3293,3405,3609,3744,3894,4033,4445,4554,4751,4886,5098,5287,5386,5480,5588"
+                    }
+                },
+                {
+                    "source": "/Users/macbookpro/.gradle/caches/transforms-2/files-2.1/13f058d1a8ec7d526b82e88d0a5ef0d5/res/values-mk/values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "247",
+                        "endColumns": "195",
+                        "endOffsets": "442"
+                    },
+                    "to": {
+                        "startLines": "37",
+                        "startColumns": "4",
+                        "startOffsets": "4038",
+                        "endColumns": "195",
+                        "endOffsets": "4229"
                     }
                 }
             ]

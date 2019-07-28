@@ -146,11 +146,12 @@ dependencies {
     implementation project(':react-native-gesture-handler')
     implementation project(':react-native-vector-icons')
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
+//    implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation 'com.google.firebase:firebase-core:16.0.1'
     implementation "com.google.firebase:firebase-messaging:17.3.2"
+    implementation 'com.google.android.gms:play-services-ads:+'
 }
 
 // Run this once to be able to run the application with BUCK

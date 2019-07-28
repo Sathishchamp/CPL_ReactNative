@@ -368,6 +368,10 @@ color bright_foreground_inverse_material_dark
 color bright_foreground_inverse_material_light
 color bright_foreground_material_dark
 color bright_foreground_material_light
+color browser_actions_bg_grey
+color browser_actions_divider_color
+color browser_actions_text_color
+color browser_actions_title_color
 color button_material_dark
 color button_material_light
 color catalyst_redbox_background
@@ -504,6 +508,8 @@ dimen abc_text_size_subhead_material
 dimen abc_text_size_subtitle_material_toolbar
 dimen abc_text_size_title_material
 dimen abc_text_size_title_material_toolbar
+dimen browser_actions_context_menu_max_width
+dimen browser_actions_context_menu_min_padding
 dimen compat_button_inset_horizontal_material
 dimen compat_button_inset_vertical_material
 dimen compat_button_padding_horizontal_material
@@ -644,6 +650,7 @@ drawable assets_images_home_team_dark
 drawable assets_images_home_team_gray
 drawable assets_images_home_videos_dark
 drawable assets_images_home_videos_gray
+drawable assets_images_matchcard_bg
 drawable assets_images_more
 drawable assets_images_more_archives
 drawable assets_images_more_fixtures
@@ -732,6 +739,11 @@ id auto
 id beginning
 id blocking
 id bottom
+id browser_actions_header_text
+id browser_actions_menu_item_icon
+id browser_actions_menu_item_text
+id browser_actions_menu_items
+id browser_actions_menu_view
 id buttonPanel
 id cancel_action
 id catalyst_redbox_title
@@ -899,6 +911,8 @@ layout abc_search_dropdown_item_icons_2line
 layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
+layout browser_actions_context_menu_page
+layout browser_actions_context_menu_row
 layout dev_loading_view
 layout fps_view
 layout launch_screen
