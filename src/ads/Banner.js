@@ -22,7 +22,7 @@ class Banner extends React.Component {
     if (this.state.display) {
       return (
         <AdMobBanner
-          adUnitID='/6428571/CPL-T20-APP-320x50'
+          adUnitID={this.props.adUnitID}
           bannerSize={this.props.size}
           didFailToReceiveAdWithError={this._bannerErrorHandler}
         />

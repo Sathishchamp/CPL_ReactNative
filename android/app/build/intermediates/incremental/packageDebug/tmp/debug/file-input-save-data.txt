@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Fri Jul 19 13:21:07 IST 2019
+#Sun Jul 28 13:10:14 IST 2019
 56.path=fonts/rubicon-icon-font.ttf
 5.base=/Users/macbookpro/ram/cpl/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
 42.base=/Users/macbookpro/ram/cpl/android/app/build/intermediates/transforms/mergeJniLibs/debug/0
