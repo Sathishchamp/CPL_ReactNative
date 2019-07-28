@@ -39,7 +39,7 @@
   [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
   [RNFirebaseNotifications configure];
   [FIRApp configure];
-  [GADMobileAds configureWithApplicationID:@"ca-app-pub-7186654998335495~6440539946"];
+  [GADMobileAds configureWithApplicationID:@"ca-app-pub-4121406740932347~2940372463"];
   
   return YES;
 }
