@@ -5,7 +5,8 @@ import {
   Dimensions,
   StyleSheet,
   Text,
-  WebView
+  WebView,
+  Platform
 } from 'react-native';
 import { Container, Content } from 'native-base';
 import commonStyles from '../commons/styles';
@@ -52,7 +53,11 @@ class NewsView extends React.PureComponent {
           <View style={{}}>
             <AdBanner
               size='mediumRectangle'
-              adUnitID='ca-app-pub-4121406740932347/6388662881'
+              adUnitID={
+                Platform.OS === 'ios'
+                  ? 'ca-app-pub-4121406740932347/3216646584'
+                  : 'ca-app-pub-4121406740932347/6388662881'
+              }
             />
           </View>
           <View style={{ flex: 1, height: SCREEN_H }}>
